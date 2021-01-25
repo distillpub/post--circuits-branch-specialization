@@ -78,309 +78,222 @@
   </style>
 
   <d-title>
-    <h1>Visualizing Weights</h1>
+    <h1>Branch Specialization</h1>
   </d-title>
 
   <d-article>
 
     <h2 style="display: none;">Introduction</h2>
 
-    <p>The problem of understanding a neural network is a little bit like reverse engineering a large compiled binary of a computer program. In this analogy, the weights of the neural network are the compiled assembly instructions. At the end of the day, the weights are the fundamental thing you want to understand: how does this sequence of convolutions and matrix multiplications give rise to model behavior?</p>
+    <p>
+      If we think of interpretability as a kind of “anatomy of neural networks”, most of the circuits thread has involved studying tiny little veins &ndash; looking at the small-scale, at individual neurons and how they connect. However, there are many natural questions that the small-scale approach doesn't address.
+    </p>
 
-    <p>Trying to understand artificial neural networks also has a lot in common with neuroscientists, who try to understand biological neural networks. As you may know, a major endeavor in modern neuroscience is trying to map the “connectome” of biological neural networks: which neurons connect to which. But that will only tell neuroscientists which weights are non-zero. Getting the weights &ndash; knowing whether a connection excites or inhibits, and by how much &ndash; would be a significant further step. One imagines neuroscientists would give a great deal to have the access to weights that those of us studying artificial neural networks get for free.</p>
+    <p>
+      In contrast, biological anatomy also has abstractions for dealing with larger-scale structures: individual organs like the heart, or entire organ systems like the respiratory system. And so we wonder: is there a “respiratory system” or “heart” or “brain region” of an artificial neural network? Do neural networks have any emergent structures that we could study that are larger-scale than circuits?
+    </p>
 
-    <p>And so, it’s rather surprising how little attention we actually give to looking at the weights of neural networks. There are a few exceptions to this, of course. It’s quite common for researchers to show pictures of the first layer weights in vision models (these are directly connected to RGB channels, so they’re easy to understand as images). In some work, especially historically, we see researchers reason about the weights of toy neural networks by hand. And we quite often see researchers discuss aggregate statistics of weights. But actually looking at the weights of a neural network other than the first layer is quite uncommon &ndash; to the best of our knowledge, mapping weights between hidden layers to meaningful algorithms is novel to the circuits project.</p>
+    <p>
+      This article describes <i>branch specialization</i>, one of three larger “structural phenomena” we’ve been able observe in neural networks. (The other two, equivariance and weight banding, have separate dedicated articles. Branch specialization occurs when neural network layers are split up into branches. The neurons and circuits tend to self-organize, clumping related functions into the each branch and forming larger functional units &ndash; a kind of “neural network brain region.” We find evidence that these structures implicitly exist in neural networks without branches, and that branches are simply reifying structures that otherwise exist.
+    </p>
 
-    <p><a href="https://colab.research.google.com/drive/13UZ02rmNirhQ2WI6QSFH8MphZHeyPdA_" class="colab-reproduction colab-reproduction-first" target="_blank">Follow along in a <img src="images/colab.svg" class="colab-reproduction-logo"/> notebook &rarr;</a></p>
+    <p>
+      AlexNet[] is famous as a jump in computer vision, arguably starting the deep learning revolution. But buried in the details of the paper is a fascinating, rarely-discussed detail.
+    </p>
 
-    <h2>What's the difference between visualizing activations, weights, and attributions?</h2>
-
-    <p>In this article, we’re focusing on visualizing weights. But people often visualize activations, attributions, gradients, and much more. How should we think about the meaning of visualizing these different objects?</p>
-
-    <ul>
-      <li>
-        <b>Activations:</b> We generally think of these as being “what” the network saw. If understanding a neural network is like reverse compiling a computer program, the neurons are the variables, and the activations are the values of those variables.
-      </li>
-      <li>
-        <b>Weights:</b> We generally think of these as being “how” the neural network computes one layer from the previous one. In the reverse engineering analogy, these are compiled assembly instructions.
-      </li>
-      <li>
-        <b>Attributions:</b> Attributions try to tell us the extent to which one neuron influenced a later neuron.<d-cite bibtex-key="yosinski2015understanding,zeiler2014visualizing"></d-cite>We often think of this as “why” the neuron fired. We need to be careful with attributions, because they’re a human-defined object on top of a neural network rather than a fundamental object. They aren’t always well defined, and people mean different things by them. (They are very well defined if you are only operating across adjacent layers!)
-      </li>
-    </ul>
-
-    <h2>Why it’s non-trivial to study weights in hidden layers</h2>
-
-    <p>It seems to us that there are three main barriers to making sense of the weights in neural networks, which may have contributed to researchers tending to not directly inspect them:</p>
-
-    <ul>
-      <li>
-        <b>Lack of Contextualization:</b> Researchers often visualize weights in the first layer, because they are linked to RGB values that we understand. That connection makes weights in the first layer meaningful. But weights between hidden layers are meaningless by default: knowing nothing about either the source or the destination, how can we make sense of them?
-      </li>
-      <li>
-        <b>Indirect Interaction:</b> Sometimes, the meaningful weight interactions are between neurons which aren’t literally adjacent in a neural network. For example, in a residual network, the output of one neuron can pass through the additive residual stream and linearly interact with a neuron much later in the network. In other cases, neurons may interact through intermediate neurons without significant nonlinear interactions. How can we efficiently reason about these interactions?
-      </li>
-      <li>
-        <b>Dimensionality and Scale:</b> Neural networks have lots of neurons. Those neurons connect to lots of other neurons. There’s a lot of data to display! How can we reduce it to a human-scale amount of information?
-      </li>
-    </ul>
-
-    <p>Many of the methods we’ll use to address these problems were previously explored in <a href="https://distill.pub/2018/building-blocks/">Building Blocks</a> in the context of understanding activation vectors<d-cite bibtex-key="olah2018the"></d-cite>. The goal of this article is to show how similar ideas can be applied to weights instead of activations. Of course, we’ve already implicitly used these methods in various circuit articles<d-cite bibtex-key="olah2020zoom,olah2020an,cammarata2020curve"></d-cite>, but in those articles the methods have been of secondary interest to the results. It seems useful to give some dedicated discussion to the methods.</p>
-
-    <h2 id="one-simple-trick">Aside: One Simple Trick</h2>
-
-    <p>Interpretability methods often fail to take off because they’re hard to use. So before diving into sophisticated approaches, we wanted to offer a simple, easy to apply method.</p>
-
-    <p>In a convolutional network, the input weights for a given neuron have shape <code>[width, height, input_channels]</code>. Unless this is the first convolutional layer, this probably can’t be easily visualized because <code>input_channels</code> is large. (If this is the first convolutional layer, visualize it as is!) However, one can use dimensionality reduction to collapse <code>input_channels</code> down to 3 dimensions. We find one-sided NMF especially effective for this.</p>
+    <p>
+      The first two layers of AlexNet are split into two branches which can't communicate until they rejoin after the second layer. This structure was used to maximize the efficiency of training the model on two GPUs, but authors noticed something very curious happened as a result. The neurons in the first layer organized themselves into two groups: black-and-white Gabor filters formed on one branch and low-frequency color detectors formed on the other branch.
+    </p>
 
     <figure id="figure-1">
-      <img src="images/screenshot_1.png" style="max-height: 220px; width: auto;" />
-      <figcaption class="figcaption l-body">
-        <div class="colab-preface">
-          <a href="#figure-1" class="figure-number">1</a>:
-          NMF of input weights in InceptionV1 <code>mixed4d_5x5</code>, for a selection of ten neurons. The red, green, and blue channels on each grid indicate the weights for each of the 3 NMF factors.
-        </div>
-
-        <a href="https://colab.research.google.com/drive/13UZ02rmNirhQ2WI6QSFH8MphZHeyPdA_#scrollTo=RHj5ZKx9Y1jX" class="colab-reproduction colab-reproduction-inline" target="_blank">Reproduce in a <img src="images/colab.svg" class="colab-reproduction-logo"/> notebook</a>
-      </figcaption>
-    </figure>
-
-    <p>This visualization doesn’t tell you very much about what your weights are doing in the context of the larger model, but it does show you that they are learning nice spatial structures. This can be an easy sanity check that your neurons are learning, and a first step towards understanding your neuron&rsquo;s behavior. We’ll also see later that this general approach of factoring weights can be extended into a powerful tool for studying neurons.</p>
-
-    <p>Despite this lack of contextualization, one-sided NMF can be a great technique for investigating multiple channels at a glance. One thing you may quickly discover using this method is that, in models with global average pooling at the end of their convolutional layers, the last few layers will have all their weights be horizontal bands.</p>
-
-    <figure id="figure-2">
-      <img src="images/screenshot_2.png" style="max-height: 220px; width: auto;" />
+      {diagrams/Figure_1}
       <figcaption class="figcaption l-body">
         <p>
-          <a href="#figure-2" class="figure-number">2</a>:
-          Horizontally-banded weights in InceptionV1 <code>mixed5b_5x5</code>, for a selection of eight neurons. As in Figure 1, the red, green, and blue channels on each grid indicate the weights for each of the 3 NMF factors.
-      </p>
+          <a href="#figure-1" class="figure-number">1</a>. CAPTION.
+        </p>
       </figcaption>
     </figure>
 
-    <p>We call this phenomenon <i>weight banding</i>, and a detailed article by Petrov et al. is forthcoming (draft available on request). One-sided NMF allows for quickly testing and validating hypotheses about phenomena such as weight banding.</p>
+    <p>
+      Although the first layer of AlexNet is the only example of branch specialization we're aware of in the literature, it seems to be quite common. We find that branch specialization happens in later hidden layers, not just the first layer. It occurs in both low-level and high-level features. It occurs in a wide range of models, including places you might not expect it &ndash; for example, residual blocks in resnets can functionally be branches and specialize. Finally, branch specialization appears to surface as a structural phenomenon even in vanilla convolutional nets, even without any particular structure causing it.
+    </p>
 
-    <h2>Contextualizing Weights with Feature Visualization</h2>
+    <p>
+      Is there a large-scale structure to how neural networks operate? How are features and circuits organized within the model? Does network architecture influence the features and circuits that form? Branch specialization hints at an exciting story related to all of these questions.
+    </p>
 
-    <p>Of course, looking at weights in a vacuum isn’t very interesting. In order to really understand what’s going on, we need to <i>contextualize</i> weights in the broader context of the network<d-cite bibtex-key="olah2018the"></d-cite>. The challenge of contextualization is a recurring challenge in understanding neural networks: we can easily observe every activation, every weight, and every gradient; the challenge lies in determining what those values represent.</p>
+    <h2>What is a branch?</h2>
 
-    <p>Recall that the weights between two convolutional layers are a four dimensional array of the shape:</p>
+    <p>
+      Many neural network architectures have <i>branches</i>, sequences of layers which temporarily don't have access to information which is still passed to later layers.
+    </p>
 
-    <p><code>[relative x position, relative y position,
-    input channels, output channels]</code></p>
+    <figure id="figure-2">
+      {diagrams/Figure_2}
+      <figcaption class="figcaption l-body">
+        <p>
+          <a href="#figure-2" class="figure-number">2</a>. CAPTION.
+        </p>
+      </figcaption>
+    </figure>
 
-    <p>If we fix the input channel and the output channel, we get a 2D array we can present with traditional data visualization. Let’s assume we know which neuron we’re interested in understanding, so we have the output channel. We can pick the input channels with high magnitude weights to our output channel.</p>
+    <p>
+      In the past, models with explicitly-labeled branches were popular (such as AlexNet and the Inception family of networks). In more recent years, these have become less common, but residual networks &ndash; which can be seen as implicitly having branches in their residual blocks &ndash; have become very common. We also sometimes see branched architectures develop automatically in AutoML approaches, where the network architecture is learned.
+    </p>
 
-    <p>But what does the input represent? What about the output?</p>
-
-    <p>The key trick is that techniques like feature visualization<d-cite bibtex-key="olah2017feature,nguyen2016multifaceted,karpathy2015visualizing,erhan2009visualizing"></d-cite> (or deeper investigations of neurons) can help us understand what the input and output neurons represent, contextualizing the graph. Feature visualizations are especially attractive because they’re automatic, and produce a single image which is often very informative about the neuron. As a result, we often represent neurons as feature visualizations in weight diagrams.</p>
+    <p>
+      The implicit branching of residual networks has some important nuances. At first glance, every layer is a two-way branch. But because the branches are combined together by addition, we can actually rewrite the model to reveal that the residual blocks can be understood as branches in parallel:
+    </p>
 
     <figure id="figure-3">
       {diagrams/Figure_3}
       <figcaption class="figcaption l-body">
-        <div class="colab-preface">
-          <a href="#figure-3" class="figure-number">3</a>: Contextualizing weights.
-        </div>
-
-        <a href="https://colab.research.google.com/drive/13UZ02rmNirhQ2WI6QSFH8MphZHeyPdA_#scrollTo=PoMQF4UtPcAJ" class="colab-reproduction colab-reproduction-inline" target="_blank">Reproduce in a <img src="images/colab.svg" class="colab-reproduction-logo"/> notebook</a>
+        <p>
+          <a href="#figure-3" class="figure-number">3</a>. CAPTION.
+        </p>
       </figcaption>
     </figure>
 
-    <p>This approach is the weight analogue of using feature visualizations to contextualize activation vectors in <a href="https://distill.pub/2018/building-blocks/">Building Blocks</a> (see the section titled “Making Sense of Hidden Layers”).<d-cite bibtex-key="olah2018the"></d-cite></p>
+    <p>
+      We typically see residual blocks specialize in very deep residual networks (e.g. ResNet-52). One hypothesis for why is that, in these models, the exact depth of a layer doesn't matter and the branching aspect becomes more important than the sequential aspect.
+    </p>
 
-    <p>While we aren’t experts, it seems like this might be similar to reverse engineering a normal compiled computer program. Since you can’t hold everything in your head at once, you need to start assigning variable names to the values stored in registers to keep track of them. Feature visualizations are essentially automatic variable names for neurons, which are roughly analogous to those registers or variables.</p>
+    <p>
+      One of the conceptual weaknesses of normal branching models is that although branches can save parameters, it still requires a lot of parameters to mix values between branches. However, if you buy the branch interpretation of residual networks, you can see them as a strategy to sidestep this: residual networks intermix branches (e.g. block sparse weights) with low-rank connections (projecting all the blocks into the same sum and then back up). This seems like a really elegant way to handle branching. More practically, it suggests that analysis of residual networks might be well-served by paying close attention to the units in the blocks, and might expect the residual stream to be unusally polysemantic.
+    </p>
 
-    <h3>Small Multiples</h3>
+    <h2>Why does branch specialization occur?</h2>
 
-    <p>Of course, neurons have multiple inputs, and it can be helpful to show the weights to several inputs at a time as a <a href="https://en.wikipedia.org/wiki/Small_multiple">small multiple</a>:</p>
+    <p>
+      Branch specialization is defined by features organizing between branches. In a normal layer, features are organized randomly: a given feature is just as likely to be any neuron in a layer. But in a branched layer, we often see features of a given type cluster to one branch. The branch has specialized on that type of feature.
+    </p>
+
+    <p>
+      How does this happen? Our intuition is that there's a positive feedback loop during training.
+    </p>
 
     <figure id="figure-4">
       {diagrams/Figure_4}
       <figcaption class="figcaption l-body">
-        <div class="colab-preface">
-          <a href="#figure-4" class="figure-number">4</a>: Small multiple weights for <a href="https://microscope.openai.com/models/inceptionv1/mixed3b_0/342"><code>mixed3b</code> 342</a>.
-        </div>
-
-        <a href="https://colab.research.google.com/drive/13UZ02rmNirhQ2WI6QSFH8MphZHeyPdA_#scrollTo=PoMQF4UtPcAJ" class="colab-reproduction colab-reproduction-inline" target="_blank">Reproduce in a <img src="images/colab.svg" class="colab-reproduction-logo"/> notebook</a>
+        <p>
+          <a href="#figure-4" class="figure-number">4</a>. CAPTION.
+        </p>
       </figcaption>
     </figure>
 
-    <p>And if we have two families of related neurons interacting, it can sometimes even be helpful to show the weights between all of them as a grid of small multiples:</p>
+    <p>
+      Another way to think about this is that if you need to cut a neural network into pieces that have limited ability to communicate with each other, it makes sense to organize similar features close together, because they probably need to share more information.
+    </p>
+
+    <h2>Branch specialization beyond the first layer</h2>
+
+    <p>
+      So far, the only concrete example we've shown of branch specialization is the first and second layer of AlexNet. What about later layers? AlexNet also splits its later layers into branches, after all. This seems to be unexplored, since studying features after the first few layers is much harder.
+    </p>
+
+    <p>
+      Unfortunately, branch specialization in the later layers of AlexNet is very subtle. Instead of one overall split, it's more like there's dozens of small clusters of neurons, each cluster being assigned to a branch. It's hard to be confident that one isn't just seeing patterns in noise.
+    </p>
+
+    <p>
+      But other models have very clear branch specialization in later layers. This tends to happen when a branch constitutes only a very small fraction of a layer, either because there are many branches or because one is much smaller than others. In these cases, the branch can specialize on a very small subset of the features that exist in a layer and reveal a clear pattern.
+    </p>
+
+    <p>
+      For example, most of InceptionV1's layers have a branched structure. The branches have varying numbers of units, and varying convolution sizes. The 5x5 branch is the smallest branch, and also has the largest convolution size. It's often very specialized:
+    </p>
+
+    <ul>
+      <li>
+        <code>mixed3a_5x5</code>:
+        The 5x5 branch of mixed3a, a relatively early layer, is specialized on color detection. For example, all 9 of the black-and-white vs. color detectors are in this branch, despite it only being 32 of this layer's 256 neurons. The probability of that happening by chance is less than 1/10<sup>8</sup>.
+      </li>
+      <li>
+        <code>mixed3b_5x5</code>:
+        This branch contains all 30 of the curve-related features for this layer (all curves, double curves, circles, spirals, S-shaped features, and more), despite only being 96 of the 480 neurons in this layer. The probability of that happening by chance is less than 1/10<sup>20</sup>. Many of the other neurons in this branch are boundary detectors, which often partly rely on curves if they are detecting curve boundaries.
+      </li>
+      <li>
+        <code>mixed4a_5x5</code>:
+        This branch appears to be specialized in complex shapes and 3D geometry detectors. We don't have enough of a full taxonomy of this layer to allow for a quantitative assessment.
+      </li>
+    </ul>
+
+    <p>
+      It's worth noting one confounding factor which might be influencing the specialization. The 5x5 branches are the smallest branches, but also have larger convolutions (5x5 instead of 3x3 or 1x1) than their neighbors.<d-footnote>There is something which suggests that the branching plays an essential role: mixed3a and mixed3b are adjacent layers which contain relatively similar features and are at the same scale. If it was only about convolution size, why don't we see any curves in the <code>mixed3a_5x5</code> branch or color in the <code>mixed3b_5x5</code> branch?</d-footnote>
+    </p>
+
+    <h2>Why is branch specialization consistent?</h2>
+
+    <p>
+      Perhaps the most surprising thing about branch specialization is that the same branch specializations seem to occur again and again, across different architectures and tasks.
+    </p>
+
+    <p>
+      For example, the branch specialization we observed in AlexNet &ndash; the first layer specializing into a black-and-white Gabor branch vs. a low-frequency color branch &ndash; is a surprisingly robust phenomenon. It occurs consistently if you retrain AlexNet. It also occurs if you train other architectures with the first few layers split into two branches. It even occurs if you train those models on other natural image datasets, like Places instead of ImageNet. Anecdotally, we also seem to see other types of branch specialization recur. For example, finding branches that seem to specialize in curve detection seems to be quite common (although InceptionV1's <code>mixed3b_5x5</code> is the only one we've carefully characterized).
+    </p>
+
+    <p>
+      So, why do the same branch specializations occur again and again?
+    </p>
+
+    <p>
+      One hypothesis seems very tempting. Notice that many of the same features seem to form in branched models as form in normal, non-branched models. For example, the first layer of both branched and non-branched models contain Gabor filters and color features. If the same features exist, presumably the same weights exist between them.
+    </p>
+
+    <p>
+      Could it be that branching is just surfacing a structure that already exists? Perhaps there's two different subgraphs between the weights of the first and second conv layer in a normal model, with relatively small weights between them, and that when you train a branched model these two subgraphs latch onto the branches.
+    </p>
+
+    <p>
+      To test this, let's look at models which have non-branched first and second convolutional layers. Let's take the weights between them and perform a singular value decomposition (SVD) on the absolute values of the weights. This will show us the main factors of variation in which neurons connect to different neurons in the next layer (irrespective of whether those connections are excitatory or inhibitory).
+    </p>
+
+    <p>
+      Sure enough, the singular vector (the largest factor of variation) of the first two convolutional layers of InceptionV1 is color.
+    </p>
 
     <figure id="figure-5">
       {diagrams/Figure_5}
       <figcaption class="figcaption l-body">
         <p>
-          <a href="#figure-5" class="figure-number">5</a>: Small multiple weights for a variety of <a href="https://distill.pub/2020/circuits/curve-detectors/">curve detectors</a>.<d-cite bibtex-key="cammarata2020curve"></d-cite>
-      </p>
+          <a href="#figure-5" class="figure-number">5</a>. CAPTION.
+        </p>
       </figcaption>
     </figure>
 
-    <h2>Advanced Approaches to Contextualization with Feature Visualization</h2>
+    <p>
+      We also see that the second factor appears to be frequency. This suggests an interesting prediction: perhaps if we were to split the layer into more than two branches, we'd also observe spcialization in frequency in addition to color.
+    </p>
 
-    <p>Although we most often use feature visualization to visualize neurons, we can visualize any direction (linear combination of neurons). This opens up a very wide space of possibilities for visualizing weights, of which we’ll explore a couple particularly useful ones.</p>
-
-    <h3>Visualizing Spatial Position Weights</h3>
-
-    <p>Recall that the weights for a single neuron have shape <code>[width, height, input_channels]</code>. In the previous section we split up <code>input_channels</code> and visualized each <code>[width, height]</code> matrix. But an alternative approach is to think of there as being a vector over input neurons at each spatial position, and to apply feature visualization to each of those vectors. You can think of this as telling us what the weights in that position are collectively looking for.</p>
+    <p>
+      This seems like it may be true. For example, here we see a high-frequency black-and-white branch, a mid-frequency mostly black-and-white branch, a mid-frequency color branch, and a low-frequency color branch.
+    </p>
 
     <figure id="figure-6">
-      <img src="images/screenshot_6.png" style="height: 190px; width: auto;"/>
-      <figcaption class="figcaption l-body">
-        <div class="colab-preface">
-          <a href="#figure-6" class="figure-number">6</a>. <b>Left:</b> Feature visualization of a car neuron. <b>Right:</b> Feature visualizations of the vector over input neurons at each spatial position of the car neuron's weights. As we see, the car neuron broadly responds to window features above wheel features.
-        </div>
-        <a href="https://colab.research.google.com/drive/13UZ02rmNirhQ2WI6QSFH8MphZHeyPdA_#scrollTo=K8URGsjLmuUj" class="colab-reproduction colab-reproduction-inline" target="_blank">Reproduce in a <img src="images/colab.svg" class="colab-reproduction-logo"/> notebook</a>
-      </figcaption>
-    </figure>
-
-    <p>This visualization is the weight analogue of the <a href="https://distill.pub/2018/building-blocks/#ActivationVecVis">“Activation Grid” visualization</a> from Building Blocks. It can be a nice, high density way to get an overview of what the weights for one neuron are doing. However, it will be unable to capture cases where one position responds to multiple very different things, as in a multi-faceted or polysemantic neuron.</p>
-
-    <h3>Visualizing Weight Factors</h3>
-
-    <p>Feature visualization can also be applied to factorizations of the weights, which we briefly discussed earlier. This is the weight analogue to the “Neuron Groups” visualization from Building Blocks.</p>
-
-    <p>This can be especially helpful when you have a group of neurons like high-low frequency detectors or black and white vs color detectors that look are all mostly looking for a small number of factors. For example, a large number of high-low frequency detectors can be significantly understood as combining just two factors &ndash; a high frequency factor and a low-frequency factor &ndash; in different patterns.</p>
-
-    <figure id="figure-7">
-      <%= require('./diagrams/upstream-nmf.ejs')() %>
-      <figcaption class="figcaption l-body">
-        <div class="colab-preface">
-          <a href="#figure-7" class="figure-number">7</a>:
-
-          NMF factorization on the weights (<span class="legend-label support">excitatory</span> and <span
-                  class="legend-label inhibit">inhibitory</span>) connecting six high-low frequency detectors in InceptionV1 to the
-          the layer <code>conv2d2</code>.
-        </div>
-        <a href="https://colab.research.google.com/drive/13UZ02rmNirhQ2WI6QSFH8MphZHeyPdA_#scrollTo=Z5Y7dAQZZAEf" class="colab-reproduction colab-reproduction-inline" target="_blank">Reproduce in a <img src="images/colab.svg" class="colab-reproduction-logo"/> notebook</a>
-      </figcaption>
-    </figure>
-
-    <p>These factors can then be decomposed into individual neurons for more detailed understanding.</p>
-
-    <figure id="figure-8">
-      <%= require('./diagrams/upstream-neurons.ejs')() %>
-      <figcaption class="figcaption l-body">
-        <div class="colab-preface">
-          <a href="#figure-8" class="figure-number">8</a>: Neurons (by their feature visualizations) that contribute to the two NMF factors from <a href="#figure-7">Figure 7</a>, plus the weighted amount they contribute to
-          each factor.
-        </div>
-        <a href="https://colab.research.google.com/drive/13UZ02rmNirhQ2WI6QSFH8MphZHeyPdA_#scrollTo=Z5Y7dAQZZAEf" class="colab-reproduction colab-reproduction-inline" target="_blank">Reproduce in a <img src="images/colab.svg" class="colab-reproduction-logo"/> notebook</a>
-      </figcaption>
-    </figure>
-
-    <h2>Dealing with Indirect Interactions</h2>
-
-    <p>As we mentioned earlier, sometimes the meaningful weight interactions are between neurons which aren’t literally adjacent in a neural network, or where the weights aren’t directly represented in a single weight tensor. A few examples:</p>
-
-    <ul>
-      <li>In a residual network, the output of one neuron can pass through the additive residual stream and linearly interact with a neuron much later in the network.</li>
-      <li>In a separable convolution, weights are stored as two or more factors, and need to be expanded to link neurons.</li>
-      <li>In a bottleneck architecture, neurons in the bottleneck may primarily be a low-rank projection of neurons from the previous layer.</li>
-      <li>The behavior of an intermediate layer simply doesn’t introduce much non-linear behavior, leaving two neurons in non-adjacent layers with a significant linear interaction.</li>
-    </ul>
-
-    <p>As a result, we often work with “expanded weights” &ndash; that is, the result of multiplying adjacent weight matrices, potentially ignoring non-linearities. We generally implement expanded weights by taking gradients through our model, ignoring or replacing all non-linear operations with the closest linear one.</p>
-
-    <p>These expanded weights have the following properties:</p>
-
-    <ul>
-      <li>If two layers interact <b>linearly</b>, the expanded weights will give the true linear map, even if the model doesn’t explicitly represent the weights in a single weight matrix.</li>
-      <li>If two layers interact <b>non-linearly</b>, the expanded weights can be seen as the expected value of the gradient up to a constant factor, under the assumption that all neurons have an equal (and independent) probability of firing.</li>
-    </ul>
-
-    <p>They also have one additional benefit, which is more of an implementation detail: because they’re implemented in terms of gradients, you don’t need to know how the weights are represented. For example, in TensorFlow, you don’t need to know which variable object represents the weights. This can be a significant convenience when you’re working with unfamiliar models!</p>
-
-    <h3>Benefits of Expanded Weights</h3>
-
-    <p>Multiplying out the weights like this can sometimes help us see a simpler underlying structure. For example, <a href="https://microscope.openai.com/models/inceptionv1/mixed3b_0/208"><code>mixed3b</code> 208</a> is a black and white center detector. It’s built by combining a bunch of black and white vs color detectors together.</p>
-
-    <figure id="figure-9">
-      {diagrams/Figure_9}
+      {diagrams/Figure_6}
       <figcaption class="figcaption l-body">
         <p>
-          <a href="#figure-9" class="figure-number">9</a>. <code>mixed3b</code> 208 along with five neurons from <code>mixed3a</code> that contribute the <a href="https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_208.html">strongest weights</a> to it.
+          <a href="#figure-6" class="figure-number">6</a>. CAPTION.
         </p>
       </figcaption>
     </figure>
 
-    <p>Expanding out the weights allows us to see an important aggregate effect of these connections: together, they look for the absence of color in the center one layer further back.</p>
+    <h2>Parallels to neuroscience</h2>
 
-    <figure id="figure-10">
-      {diagrams/Figure_10}
-      <figcaption class="figcaption l-body">
-        <p>
-          <a href="#figure-10" class="figure-number">10</a>. Top eighteen <a href="https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_208.html">expanded weights</a> from <code>conv2d2</code> to <a href="https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_208.html"><code>mixed3b</code> 208</a>, organized in two rows according to weight factorization.
-        </p>
-      </figcaption>
-    </figure>
 
-    <p>A particularly important use of this method &ndash; which we’ve been implicitly using in earlier examples &ndash; is to jump over “bottleneck layers.” Bottleneck layers are layers of the network which squeeze the number of channels down to a much smaller number, typically in a branch, making large spatial convolutions cheaper. The <a href="https://microscope.openai.com/models/inceptionv1/mixed3a_5x5_bottleneck_0?models.op.feature_vis.type=channel&models.op.technique=feature_vis">bottleneck layers</a> of InceptionV1 are one example. Since so much information is compressed, these layers are often polysemantic, and it can often be more helpful to jump over them and understand the connection to the wider layer before them.</p>
+    <p>
+      We've shown that branch specialization is one example of a large-scale structure to how neural networks operate, an example of a structural phenomenon. It happens in a variety of situations and neural network architectures, and it happens with <i>consistency</i> &ndash; certain motifs of specialization, such as color, frequency, and curves, happen consistently across different architectures and tasks.
+    </p>
 
-    <h3>Cases where expanded weights are misleading</h3>
-
-    <p>Expanded weights can, of course, be misleading when non-linear structure is important. A good example of this is <a href="https://distill.pub/2020/circuits/early-vision/#group_mixed3b_boundary">boundary detectors</a>. Recall that boundary detectors usually detect both low-to-high and high-to-low frequency transitions:</p>
-
-    <figure id="figure-11">
-      {diagrams/Figure_11}
-      <figcaption class="figcaption l-body">
-        <p>
-          <a href="#figure-11" class="figure-number">11</a>. Boundary detectors such as <a href="https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_345.html"><code>mixed3b</code> 345</a> detect both low-to-high and high-to-low frequency transitions.
-        </p>
-      </figcaption>
-    </figure>
-
-    <p>Since high-low frequency detectors are usually excited by high-frequency patterns on one side and inhibited on the other (and vice versa for low frequency), detecting both directions means that the expanded weights cancel out! As a result, expanded weights appear to show that boundary detectors are neither excited or inhibited by high frequency detectors two layers back, when in fact they are <i>both</i> excited and also inhibited by high frequency, depending on the context, and it’s just that those two different cases cancel out.</p>
-
-    <figure id="figure-12">
-      {diagrams/Figure_11B}
-      <figcaption class="figcaption l-body">
-        <p>
-          <a href="#figure-12" class="figure-number">12</a>.
-
-          Neurons two layers back (such as <a href="https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/conv2d2_89.html"><code>conv2d2</code> 89</a>) may have a strong influence on the high-low frequency detectors that contribute to <code>mixed3b</code> 345 (top), but that influence washes out when we look at the expanded weights (bottom) directly between <code>conv2d2</code> 89 and <code>mixed3b</code> 345.
-        </p>
-      </figcaption>
-    </figure>
-
-    <p>More sophisticated techniques for describing multi-layer interactions can help us understand cases like this. For example, one can determine what the “best case” excitation interaction between two neurons is (that is, the maximum achievable gradient between them). Or you can look at the gradient for a particular example. Or you can factor the gradient over many examples to determine major possible cases. These are all useful techniques, but we’ll leave them for a future article to discuss.</p>
-
-    <h3>Qualitative properties</h3>
-
-    <p>One qualitative property of expanding weights across many layers deserves mention before we end our discussion of them. Expanded weights often get this kind of “electron orbital”-like smooth spatial structures:</p>
-
-    <figure id="figure-13">
-      {diagrams/Figure_13}
-      <figcaption class="figcaption l-body">
-        <p>
-          <a href="#figure-13" class="figure-number">13</a>. Smooth spatial structure of some expanded weights from <a href="https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_268.html"><code>mixed3b</code> 268</a> to <code>conv2d1</code>.
-
-          Although the exact structures present may vary from neuron to neuron, this example is not cherry-picked: this smoothness is typical of most multiple-layer expanded weights.
-        </p>
-      </figcaption>
-    </figure>
-
-    <p>It’s not clear how to interpret this, but it’s suggestive of rich spatial structure on the scale of multiple layers.</p>
-
-    <h2>Dimensionality and Scale</h2>
-
-    <p>So far, we’ve addressed the challenges of contextualization and indirection interactions. But we’ve only given a bit of attention to our third challenge of dimensionality and scale. Neural networks contain many neurons and each one connects to many others, creating a huge amount of weights. How do we pick which connections between neurons to look at?</p>
-
-    <p>For the purposes of this article, we’ll put the question of which neurons we want to study outside of our scope, and only discuss the problem of picking which connections to study. (We may be trying to comprehensively study a model, in which case we want to study all neurons. But we might also, for example, be trying to study neurons we’ve determined related to some narrower aspect of model behavior.)</p>
-
-    <p>Generally, we chose to look at the largest weights, as we did at the beginning of the section on contextualization. Unfortunately, there tends to be a long tail of small weights, and at some point it generally gets impractical to look at these. How much of the story is really hiding in these small weights? We don’t know, but polysemantic neurons suggest there could be a very important and subtle story hiding here! There’s some hope that sparse neural networks might make this much better, by getting rid of small weights, but whether such conclusions can be drawn about non-sparse networks is presently speculative.</p>
-
-    <p>An alternative strategy that we’ve brushed on a few times is to reduce your weights into a few components and then study those factors (for example, with NMF). Often, a very small number of components can explain much of the variance. In fact, sometimes a small number of factors can explain the weights of an entire set of neurons! Prominent examples  of this are high-low frequency detectors (as we saw earlier) and black and white vs color detectors.</p>
-
-    <p>However, this approach also has downsides. Firstly, these components can be harder to understand and even polysemantic. For example, if you apply the basic version of this method to a boundary detector, one component will contain both high-to-low and low-to-high frequency detectors which will make it hard to analyze. Secondly, your factors no longer align with activation functions, which makes analysis much messier. Finally, because you will be reasoning about every neuron in a different basis, it is difficult to build a bigger picture view of the model unless you convert your components back to neurons.</p>
-
+    <p>
+      Harkening back to our comparison with anatomy, although we hesitate to claim explicit parallels to neuroscience, it's tempting to draw analogies between branch specialization and the existence of regions of the brain focused on particular tasks. The visual cortex, the auditory cortex, the anatomical homunculus[], Broca's area and Wernicke's area  – these are all examples of brain areas with such consistent specialization across wide populations of people that neuroscientists and psychologists have been able to characterize their function as well as to notice remarkably consistent symptoms, such as those of Wernicke's aphasia, when those areas are damaged.
+    </p>
   </d-article>
 
   <d-appendix>
     <h3>Author Contributions</h3>
 
-    <p>This article grew out of a document that Chris wrote in order to act as an explanation for our techniques for visualizing weights.</p>
+    <!-- <p>This article grew out of a document that Chris wrote in order to act as an explanation for our techniques for visualizing weights.</p>
 
     <p>
       <b>Research.</b> The necessity of visualizing weights is a problem we encounter frequently, and our techniques have been refined across many investigations of features and circuits, so it is difficult to fully separate out all contributions towards improving those techniques.
@@ -394,14 +307,14 @@
 
     <p>
       <b>Writing and Diagrams.</b> Chris wrote the article and developed the designs for its original figures. Chelsea ported the article to Distill, upgraded the diagrams for the new format, edited some text, and developed Figure 12, and Chris provided feedback on the ported article.
-    </p>
+    </p> -->
 
     <h3>Acknowledgments</h3>
 
-    <p>
+    <!-- <p>
       We are grateful to participants of #circuits in the Distill slack for their pre-draft comments and engagement with these concepts, including Kenneth Co, Humza Iqbal, and Vincent Tjeng. We are also grateful to Daniel Filan, Humza Iqbal, Stefan Sietzen, and Vincent Tjeng for remarks on a draft.
     </p>
-
+ -->
     <d-footnote-list></d-footnote-list>
     <d-citation-list></d-citation-list>
   </d-appendix>
