@@ -34,6 +34,17 @@ d-title > figure:last-child {
 	margin-bottom: 1.5em;
 }
 
+figure > svg text, figure > svg tspan {
+  font-family: "Roboto", Arial, sans-serif;
+  font-size: 27.5px;
+  --font: normal 27.5px sans-serif;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+figure > svg text[font-weight=bold], figure > svg text[font-weight=bold] tspan {
+  font-size: 26px;
+}
+
 a.section-number::before {
 	content: "Section ";
 }
