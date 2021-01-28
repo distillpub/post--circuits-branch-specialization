@@ -105,17 +105,17 @@
       The first two layers of AlexNet are split into two branches which can't communicate until they rejoin after the second layer. This structure was used to maximize the efficiency of training the model on two GPUs, but authors noticed something very curious happened as a result. The neurons in the first layer organized themselves into two groups: black-and-white Gabor filters formed on one branch and low-frequency color detectors formed on the other branch.
     </p>
 
-    <figure id="figure-1">
+    <figure id="figure-1" style="grid-column-start: page-start; grid-column-end: page-end;">
       <img src="images/Figure_1.png" style="max-width: 100%; width: auto;" />
-      <figcaption class="figcaption l-body">
+    </figure>
+      <figcaption class="figcaption l-body" style="grid-column-start: 4; grid-column-end: 12; margin-bottom: 1em;">
         <p>
-          <a href="#figure-1" class="figure-number">1</a>. CAPTION.
+          <a href="#figure-1" class="figure-number">1</a>. Branch specialization in the first two layers of AlexNet.
         </p>
       </figcaption>
-    </figure>
 
     <p>
-      Although the first layer of AlexNet is the only example of branch specialization we're aware of in the literature, it seems to be quite common. We find that branch specialization happens in later hidden layers, not just the first layer. It occurs in both low-level and high-level features. It occurs in a wide range of models, including places you might not expect it &ndash; for example, residual blocks in resnets can functionally be branches and specialize. Finally, branch specialization appears to surface as a structural phenomenon even in vanilla convolutional nets, even without any particular structure causing it.
+      Although the first layer of AlexNet is the only example of branch specialization we're aware of in the literature, it seems to be quite common. We find that branch specialization happens in later hidden layers, not just the first layer. It occurs in both low-level and high-level features. It occurs in a wide range of models, including places you might not expect it &ndash; for example, residual blocks in resnets can functionally be branches and specialize. Finally, branch specialization appears to surface as a structural phenomenon even in plain convolutional nets, even without any particular structure causing it.
     </p>
 
     <p>
@@ -133,9 +133,9 @@
 <g id="Figure_2" --disabled-clip-path="url(#clip0)">
 <rect width="1377" height="788" fill="white" class='pixelated' />
 <g id="Group 75">
-<g id="InceptionV1 has nine sets four way branches called &#226;&#128;&#156;Inception blocks.&#226;&#128;&#157;">
+<g id="InceptionV1 has nine sets of four-way branches called &#226;&#128;&#156;Inception blocks.&#226;&#128;&#157;">
 <text fill="#676767" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="27.5" font-weight="bold" letter-spacing="0em"><tspan x="0" y="273.399">InceptionV1</tspan></text>
-<text fill="#676767" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="27.5" letter-spacing="0em"><tspan x="149.504" y="273.399"> has </tspan><tspan x="0" y="305.399">nine sets four way </tspan><tspan x="0" y="337.399">branches called </tspan><tspan x="0" y="369.399">&#x201c;Inception blocks.&#x201d;</tspan></text>
+<text fill="#676767" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="27.5" letter-spacing="0em"><tspan x="149.504" y="273.399"> has </tspan><tspan x="0" y="305.399">nine sets of four-way </tspan><tspan x="0" y="337.399">branches called </tspan><tspan x="0" y="369.399">&#x201c;Inception blocks.&#x201d;</tspan></text>
 </g>
 <path id="Vector 109" d="M341 237L341 501" stroke="#B0B0B0"/>
 <g id="Group 73">
@@ -281,8 +281,8 @@
 </g>
 </g>
 <g id="Group 76">
-<g id="AlexNet has several two way branches.">
-<text fill="#676767" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="27.5" letter-spacing="0em"><tspan x="98.2642" y="27.3994"> has several </tspan><tspan x="0" y="59.3994">two way branches.</tspan></text>
+<g id="AlexNet has several two-way branches.">
+<text fill="#676767" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="27.5" letter-spacing="0em"><tspan x="98.2642" y="27.3994"> has several </tspan><tspan x="0" y="59.3994">two-way branches.</tspan></text>
 <text fill="#676767" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="27.5" font-weight="bold" letter-spacing="0em"><tspan x="0" y="27.3994">AlexNet</tspan></text>
 </g>
 <path id="Vector 108" d="M341.5 12V176.5" stroke="#B0B0B0"/>
@@ -393,13 +393,13 @@
 <clipPath id="clip0">
 <rect width="1377" height="788" fill="white" class='pixelated' />
 </clipPath>
-<image id="imageFigure_20" data-name="imageFigure_2.png" width="92" height="176" xlink:href="generated_images/ad173885555a1b.png" class='pixelated' />
+<image id="imageFigure_20" data-name="imageFigure_2.png" width="92" height="176" xlink:href="generated_images/3f3b74d6266fed.png" class='pixelated' />
 </defs>
 </svg>
 
       <figcaption class="figcaption l-body">
         <p>
-          <a href="#figure-2" class="figure-number">2</a>. CAPTION.
+          <a href="#figure-2" class="figure-number">2</a>. Examples of branches in various types of neural network architectures.
         </p>
       </figcaption>
     </figure>
@@ -454,7 +454,7 @@
 </g>
 </g>
 <g id="Group 77">
-<text id="... but we can also conceptualize them as, to some extent, being parallel branches due to the skip coonnections. This means that residual blocks can potentially specialize." fill="#676767" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="27.5" letter-spacing="0em"><tspan x="933" y="268.399">... but we can also conceptualize </tspan><tspan x="933" y="300.399">them as, to some extent, being </tspan><tspan x="933" y="332.399">parallel branches due to the skip </tspan><tspan x="933" y="364.399">coonnections. This means that </tspan><tspan x="933" y="396.399">residual blocks can potentially </tspan><tspan x="933" y="428.399">specialize.</tspan></text>
+<text id="... but we can also conceptualize them as, to some extent, being parallel branches due to the skip connections. This means that residual blocks can potentially specialize." fill="#676767" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="27.5" letter-spacing="0em"><tspan x="933" y="268.399">... but we can also conceptualize </tspan><tspan x="933" y="300.399">them as, to some extent, being </tspan><tspan x="933" y="332.399">parallel branches due to the skip </tspan><tspan x="933" y="364.399">connections. This means that </tspan><tspan x="933" y="396.399">residual blocks can potentially </tspan><tspan x="933" y="428.399">specialize.</tspan></text>
 <g id="Group 28">
 <path id="Vector 88_4" d="M16.3636 279C138.945 279 582.172 279 678.655 279C791.612 279 775.554 368.291 810.545 387" stroke="#B0B0B0" stroke-width="5"/>
 <path id="Vector 97" opacity="0.25" d="M219.273 281.182C241.133 281.182 249.267 296.454 271.636 296.454" stroke="#B0B0B0" stroke-width="5"/>
@@ -478,7 +478,7 @@
 
       <figcaption class="figcaption l-body">
         <p>
-          <a href="#figure-3" class="figure-number">3</a>. CAPTION.
+          <a href="#figure-3" class="figure-number">3</a>.
         </p>
       </figcaption>
     </figure>
@@ -536,7 +536,7 @@
 
       <figcaption class="figcaption l-body">
         <p>
-          <a href="#figure-4" class="figure-number">4</a>. CAPTION.
+          <a href="#figure-4" class="figure-number">4</a>.
         </p>
       </figcaption>
     </figure>
@@ -565,153 +565,153 @@
 
 
     <figure id="figure-5">
-      <svg width="1782" height="1706" viewBox="0 0 1782 1706" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"id="diagram-Figure_5"style='width: 100%; height: auto;'>
-<rect width="1782" height="1706" fill="white" class='pixelated' />
-<rect x="82" y="20" width="1600" height="366.857" fill="url(#patternFigure_50)" class='pixelated' />
-<rect x="471.714" y="206.286" width="40" height="68.5714" rx="6" fill="#B1068B" class='pixelated' />
-<path d="M491.143 274.857V433.714H136.857" stroke="#B1068B" stroke-width="2" class='pixelated' />
-<rect x="1045.43" y="206.286" width="40" height="68.5714" rx="6" fill="#3DB106" class='pixelated' />
-<path d="M1060.95 274.857V433.714H1415.71" stroke="#3DB106" stroke-width="2" class='pixelated' />
-<rect x="722" y="206.286" width="40" height="68.5714" rx="6" fill="#0692B1" class='pixelated' />
-<path d="M741.429 274.857V433.714H957.429" stroke="#0692B1" stroke-width="2" class='pixelated' />
-<path d="M741.429 274.857V433.714H603.143" stroke="#0692B1" stroke-width="2" class='pixelated' />
-<rect x="296.857" y="1192" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_51)" class='pixelated' />
-<rect x="763.143" y="1192.29" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_52)" class='pixelated' />
-<rect x="336.857" y="1192" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_53)" class='pixelated' />
-<rect x="643.143" y="1192.29" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_54)" class='pixelated' />
-<rect x="296.857" y="1243.43" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_55)" class='pixelated' />
-<rect x="763.143" y="1232.29" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_56)" class='pixelated' />
-<rect x="176.857" y="1243.43" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_57)" class='pixelated' />
-<rect x="643.143" y="1232.29" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_58)" class='pixelated' />
-<rect x="176.857" y="1323.43" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_59)" class='pixelated' />
-<rect x="643.143" y="1312.29" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_510)" class='pixelated' />
-<rect x="763.143" y="1403.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_511)" class='pixelated' />
-<rect x="643.143" y="1403.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_512)" class='pixelated' />
-<rect x="763.143" y="1483.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_513)" class='pixelated' />
-<rect x="643.143" y="1483.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_514)" class='pixelated' />
-<rect x="296.857" y="1283.43" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_515)" class='pixelated' />
-<rect x="763.143" y="1272.29" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_516)" class='pixelated' />
-<rect x="176.857" y="1283.43" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_517)" class='pixelated' />
-<rect x="643.143" y="1272.29" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_518)" class='pixelated' />
-<rect x="763.143" y="1363.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_519)" class='pixelated' />
-<rect x="416.857" y="1192" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_520)" class='pixelated' />
-<rect x="643.143" y="1363.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_521)" class='pixelated' />
-<rect x="763.143" y="1443.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_522)" class='pixelated' />
-<rect x="643.143" y="1443.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_523)" class='pixelated' />
-<rect x="763.143" y="1523.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_524)" class='pixelated' />
-<rect x="643.143" y="1523.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_525)" class='pixelated' />
-<rect x="136.857" y="1192" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_526)" class='pixelated' />
-<rect x="803.143" y="1192.29" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_527)" class='pixelated' />
-<rect x="256.857" y="1192" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_528)" class='pixelated' />
-<rect x="683.143" y="1192.29" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_529)" class='pixelated' />
-<rect x="336.857" y="1243.43" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_530)" class='pixelated' />
-<rect x="803.143" y="1232.29" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_531)" class='pixelated' />
-<rect x="216.857" y="1243.43" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_532)" class='pixelated' />
-<rect x="683.143" y="1232.29" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_533)" class='pixelated' />
-<rect x="456.857" y="1192" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_534)" class='pixelated' />
-<rect x="683.143" y="1312.29" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_535)" class='pixelated' />
-<rect x="803.143" y="1403.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_536)" class='pixelated' />
-<rect x="683.143" y="1403.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_537)" class='pixelated' />
-<rect x="803.143" y="1483.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_538)" class='pixelated' />
-<rect x="683.143" y="1483.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_539)" class='pixelated' />
-<rect x="336.857" y="1283.43" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_540)" class='pixelated' />
-<rect x="803.143" y="1272.29" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_541)" class='pixelated' />
-<rect x="216.857" y="1283.43" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_542)" class='pixelated' />
-<rect x="683.143" y="1272.29" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_543)" class='pixelated' />
-<rect x="803.143" y="1363.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_544)" class='pixelated' />
-<rect x="683.143" y="1363.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_545)" class='pixelated' />
-<rect x="803.143" y="1443.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_546)" class='pixelated' />
-<rect x="683.143" y="1443.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_547)" class='pixelated' />
-<rect x="803.143" y="1523.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_548)" class='pixelated' />
-<rect x="683.143" y="1523.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_549)" class='pixelated' />
-<rect x="843.143" y="1192.29" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_550)" class='pixelated' />
-<rect x="376.857" y="1243.43" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_551)" class='pixelated' />
-<rect x="843.143" y="1232.29" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_552)" class='pixelated' />
-<rect x="843.143" y="1403.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_553)" class='pixelated' />
-<rect x="843.143" y="1483.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_554)" class='pixelated' />
-<rect x="376.857" y="1283.43" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_555)" class='pixelated' />
-<rect x="843.143" y="1272.29" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_556)" class='pixelated' />
-<rect x="843.143" y="1363.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_557)" class='pixelated' />
-<rect x="843.143" y="1443.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_558)" class='pixelated' />
-<rect x="843.143" y="1523.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_559)" class='pixelated' />
-<rect x="216.857" y="1323.43" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_560)" class='pixelated' />
-<rect x="883.143" y="1192.29" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_561)" class='pixelated' />
-<rect x="416.857" y="1243.43" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_562)" class='pixelated' />
-<rect x="883.143" y="1232.29" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_563)" class='pixelated' />
-<rect x="883.143" y="1403.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_564)" class='pixelated' />
-<rect x="883.143" y="1483.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_565)" class='pixelated' />
-<rect x="416.857" y="1283.43" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_566)" class='pixelated' />
-<rect x="883.143" y="1272.29" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_567)" class='pixelated' />
-<rect x="883.143" y="1363.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_568)" class='pixelated' />
-<rect x="883.143" y="1443.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_569)" class='pixelated' />
-<rect x="883.143" y="1523.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_570)" class='pixelated' />
-<rect x="456.857" y="1283.43" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_571)" class='pixelated' />
-<rect x="923.143" y="1192.29" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_572)" class='pixelated' />
-<rect x="216.857" y="1192" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_573)" class='pixelated' />
-<rect x="723.143" y="1192.29" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_574)" class='pixelated' />
-<rect x="176.857" y="1192" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_575)" class='pixelated' />
-<rect x="603.143" y="1192.29" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_576)" class='pixelated' />
-<rect x="456.857" y="1243.43" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_577)" class='pixelated' />
-<rect x="923.143" y="1232.29" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_578)" class='pixelated' />
-<rect x="923.143" y="1403.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_579)" class='pixelated' />
-<rect x="923.143" y="1483.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_580)" class='pixelated' />
-<rect x="256.857" y="1243.43" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_581)" class='pixelated' />
-<rect x="723.143" y="1232.29" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_582)" class='pixelated' />
-<rect x="136.857" y="1243.43" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_583)" class='pixelated' />
-<rect x="603.143" y="1232.29" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_584)" class='pixelated' />
-<rect x="136.857" y="1323.43" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_585)" class='pixelated' />
-<rect x="603.143" y="1312.29" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_586)" class='pixelated' />
-<rect x="723.143" y="1403.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_587)" class='pixelated' />
-<rect x="603.143" y="1403.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_588)" class='pixelated' />
-<rect x="723.143" y="1483.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_589)" class='pixelated' />
-<rect x="603.143" y="1483.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_590)" class='pixelated' />
-<rect x="136.857" y="1374.86" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_591)" class='pixelated' />
-<rect x="176.857" y="1374.86" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_592)" class='pixelated' />
-<rect x="923.143" y="1272.29" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_593)" class='pixelated' />
-<rect x="923.143" y="1363.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_594)" class='pixelated' />
-<rect x="923.143" y="1443.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_595)" class='pixelated' />
-<rect x="923.143" y="1523.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_596)" class='pixelated' />
-<rect x="256.857" y="1283.43" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_597)" class='pixelated' />
-<rect x="723.143" y="1272.29" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_598)" class='pixelated' />
-<rect x="136.857" y="1283.43" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_599)" class='pixelated' />
-<rect x="603.143" y="1272.29" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_5100)" class='pixelated' />
-<rect x="723.143" y="1363.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_5101)" class='pixelated' />
-<rect x="376.857" y="1192" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_5102)" class='pixelated' />
-<rect x="603.143" y="1363.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_5103)" class='pixelated' />
-<rect x="723.143" y="1443.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_5104)" class='pixelated' />
-<rect x="603.143" y="1443.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_5105)" class='pixelated' />
-<rect x="723.143" y="1523.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_5106)" class='pixelated' />
-<rect x="603.143" y="1523.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_5107)" class='pixelated' />
-<rect x="763.143" y="1563.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_5108)" class='pixelated' />
-<rect x="643.143" y="1563.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_5109)" class='pixelated' />
-<rect x="763.143" y="1603.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_5110)" class='pixelated' />
-<rect x="643.143" y="1603.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_5111)" class='pixelated' />
-<rect x="803.143" y="1563.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_5112)" class='pixelated' />
-<rect x="683.143" y="1563.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_5113)" class='pixelated' />
-<rect x="803.143" y="1603.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_5114)" class='pixelated' />
-<rect x="683.143" y="1603.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_5115)" class='pixelated' />
-<rect x="843.143" y="1563.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_5116)" class='pixelated' />
-<rect x="843.143" y="1603.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_5117)" class='pixelated' />
-<rect x="603.143" y="1643.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_5118)" class='pixelated' />
-<rect x="643.143" y="1643.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_5119)" class='pixelated' />
-<rect x="683.143" y="1643.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_5120)" class='pixelated' />
-<rect x="883.143" y="1563.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_5121)" class='pixelated' />
-<rect x="883.143" y="1603.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_5122)" class='pixelated' />
-<rect x="923.143" y="1563.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_5123)" class='pixelated' />
-<rect x="723.143" y="1563.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_5124)" class='pixelated' />
-<rect x="603.143" y="1563.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_5125)" class='pixelated' />
-<rect x="923.143" y="1603.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_5126)" class='pixelated' />
-<rect x="723.143" y="1603.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_5127)" class='pixelated' />
-<rect x="603.143" y="1603.71" width="34.2857" height="34.2857" rx="4" fill="url(#patternFigure_5128)" class='pixelated' />
-<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="30" letter-spacing="0em"><tspan x="315.477" y="478.754">: The 5x5 </tspan><tspan x="137" y="513.754">branch of mixed3a, a </tspan><tspan x="137" y="548.754">relatively early layer, is </tspan><tspan x="137" y="583.754">specialized on color </tspan><tspan x="137" y="618.754">detection. For example, all 9 </tspan><tspan x="137" y="653.754">of the black and white vs </tspan><tspan x="137" y="688.754">color detectors are in this </tspan><tspan x="137" y="723.754">branch, despite it only being </tspan><tspan x="137" y="758.754">32 of this layer&#39;s 256 neurons.&#10;</tspan><tspan x="137" y="793.754">&#10;</tspan><tspan x="137" y="828.754">The probability of that </tspan><tspan x="137" y="863.754">happening by chance is less </tspan><tspan x="137" y="898.754">than 1/10^8.&#10;</tspan><tspan x="137" y="933.754">&#10;</tspan><tspan x="137" y="968.754">More broadly, 30 of the 32 </tspan><tspan x="137" y="1003.75">neurons in this layer seem to </tspan><tspan x="137" y="1038.75">be color detectors of some </tspan><tspan x="137" y="1073.75">kind, although other </tspan><tspan x="137" y="1108.75">additional detectors also </tspan><tspan x="137" y="1143.75">exist in other branches.</tspan></text>
-<text fill="#B1068B" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="30" font-weight="bold" letter-spacing="0em"><tspan x="137" y="478.754">mixed3a_5x5</tspan></text>
-<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="30" letter-spacing="0em"><tspan x="790.764" y="478.754"> This branch </tspan><tspan x="603" y="513.754">contains all 30 of the </tspan><tspan x="603" y="548.754">curve-related features for </tspan><tspan x="603" y="583.754">this layer (all curves, </tspan><tspan x="603" y="618.754">double curves, circles, </tspan><tspan x="603" y="653.754">spirals, S-shape and more </tspan><tspan x="603" y="688.754">features, etc) despite only </tspan><tspan x="603" y="723.754">being 96 of the 480 </tspan><tspan x="603" y="758.754">neurons in this layer.&#x2028;</tspan><tspan x="603" y="793.754">&#x2028;</tspan><tspan x="603" y="828.754">The probability of that </tspan><tspan x="603" y="863.754">happening by chance is </tspan><tspan x="603" y="898.754">less than 1/10^20.&#10;</tspan><tspan x="603" y="933.754">&#10;</tspan><tspan x="603" y="968.754">Many of the other neurons </tspan><tspan x="603" y="1003.75">in this branch are </tspan><tspan x="603" y="1038.75">boundary detectors, which </tspan><tspan x="603" y="1073.75">often partly rely on curves </tspan><tspan x="603" y="1108.75">if they are detecting curve </tspan><tspan x="603" y="1143.75">boundaries.</tspan></text>
-<text fill="#0692B1" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="30" font-weight="bold" letter-spacing="0em"><tspan x="603" y="478.754">mixed3b_5x5:</tspan></text>
-<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="30" letter-spacing="0em"><tspan x="1247.94" y="478.754"> This branch </tspan><tspan x="1061" y="513.754">appears to be specialized </tspan><tspan x="1061" y="548.754">in complex shapes and 3D </tspan><tspan x="1061" y="583.754">geometry detectors. We </tspan><tspan x="1061" y="618.754">don&#x2019;t have a full taxonomy </tspan><tspan x="1061" y="653.754">of this layer to allow for a </tspan><tspan x="1061" y="688.754">quantitative assessment.</tspan></text>
-<text fill="#3DB106" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="30" font-weight="bold" letter-spacing="0em"><tspan x="1061" y="478.754">mixed4a_5x5:</tspan></text>
+      <svg width="1782" height="1882" viewBox="0 0 1782 1882" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"id="diagram-Figure_5"style='width: 100%; height: auto;'>
+<rect width="1782" height="1882" fill="white" class='pixelated' />
+<rect width="1780" height="469.012" fill="url(#patternFigure_50)" class='pixelated' />
+<rect x="498.234" y="238.159" width="51.1384" height="87.6658" rx="6" fill="#B1068B" class='pixelated' />
+<path d="M523.073 325.825V528.917H70.1327" stroke="#B1068B" stroke-width="2" class='pixelated' />
+<rect x="1231.71" y="238.159" width="51.1384" height="87.6658" rx="6" fill="#3DB106" class='pixelated' />
+<path d="M1251.55 325.825V528.917H1705.1" stroke="#3DB106" stroke-width="2" class='pixelated' />
+<rect x="818.215" y="238.159" width="51.1384" height="87.6658" rx="6" fill="#0692B1" class='pixelated' />
+<path d="M843.053 325.825V528.917H1119.2" stroke="#0692B1" stroke-width="2" class='pixelated' />
+<path d="M843.053 325.825V528.917H666.26" stroke="#0692B1" stroke-width="2" class='pixelated' />
+<rect x="274.686" y="1211.2" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_51)" class='pixelated' />
+<rect x="870.814" y="1211.57" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_52)" class='pixelated' />
+<rect x="325.825" y="1211.2" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_53)" class='pixelated' />
+<rect x="717.399" y="1211.57" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_54)" class='pixelated' />
+<rect x="274.686" y="1276.95" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_55)" class='pixelated' />
+<rect x="870.814" y="1262.71" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_56)" class='pixelated' />
+<rect x="121.271" y="1276.95" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_57)" class='pixelated' />
+<rect x="717.399" y="1262.71" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_58)" class='pixelated' />
+<rect x="121.271" y="1379.23" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_59)" class='pixelated' />
+<rect x="717.399" y="1364.98" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_510)" class='pixelated' />
+<rect x="870.814" y="1481.87" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_511)" class='pixelated' />
+<rect x="717.399" y="1481.87" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_512)" class='pixelated' />
+<rect x="870.814" y="1584.15" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_513)" class='pixelated' />
+<rect x="717.399" y="1584.15" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_514)" class='pixelated' />
+<rect x="274.686" y="1328.09" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_515)" class='pixelated' />
+<rect x="870.814" y="1313.84" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_516)" class='pixelated' />
+<rect x="121.271" y="1328.09" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_517)" class='pixelated' />
+<rect x="717.399" y="1313.84" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_518)" class='pixelated' />
+<rect x="870.814" y="1430.73" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_519)" class='pixelated' />
+<rect x="428.102" y="1211.2" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_520)" class='pixelated' />
+<rect x="717.399" y="1430.73" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_521)" class='pixelated' />
+<rect x="870.814" y="1533.01" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_522)" class='pixelated' />
+<rect x="717.399" y="1533.01" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_523)" class='pixelated' />
+<rect x="870.814" y="1635.28" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_524)" class='pixelated' />
+<rect x="717.399" y="1635.28" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_525)" class='pixelated' />
+<rect x="70.1327" y="1211.2" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_526)" class='pixelated' />
+<rect x="921.952" y="1211.57" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_527)" class='pixelated' />
+<rect x="223.548" y="1211.2" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_528)" class='pixelated' />
+<rect x="768.537" y="1211.57" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_529)" class='pixelated' />
+<rect x="325.825" y="1276.95" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_530)" class='pixelated' />
+<rect x="921.952" y="1262.71" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_531)" class='pixelated' />
+<rect x="172.409" y="1276.95" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_532)" class='pixelated' />
+<rect x="768.537" y="1262.71" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_533)" class='pixelated' />
+<rect x="479.24" y="1211.2" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_534)" class='pixelated' />
+<rect x="768.537" y="1364.98" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_535)" class='pixelated' />
+<rect x="921.952" y="1481.87" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_536)" class='pixelated' />
+<rect x="768.537" y="1481.87" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_537)" class='pixelated' />
+<rect x="921.952" y="1584.15" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_538)" class='pixelated' />
+<rect x="768.537" y="1584.15" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_539)" class='pixelated' />
+<rect x="325.825" y="1328.09" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_540)" class='pixelated' />
+<rect x="921.952" y="1313.84" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_541)" class='pixelated' />
+<rect x="172.409" y="1328.09" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_542)" class='pixelated' />
+<rect x="768.537" y="1313.84" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_543)" class='pixelated' />
+<rect x="921.952" y="1430.73" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_544)" class='pixelated' />
+<rect x="768.537" y="1430.73" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_545)" class='pixelated' />
+<rect x="921.952" y="1533.01" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_546)" class='pixelated' />
+<rect x="768.537" y="1533.01" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_547)" class='pixelated' />
+<rect x="921.952" y="1635.28" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_548)" class='pixelated' />
+<rect x="768.537" y="1635.28" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_549)" class='pixelated' />
+<rect x="973.091" y="1211.57" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_550)" class='pixelated' />
+<rect x="376.963" y="1276.95" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_551)" class='pixelated' />
+<rect x="973.091" y="1262.71" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_552)" class='pixelated' />
+<rect x="973.091" y="1481.87" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_553)" class='pixelated' />
+<rect x="973.091" y="1584.15" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_554)" class='pixelated' />
+<rect x="376.963" y="1328.09" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_555)" class='pixelated' />
+<rect x="973.091" y="1313.84" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_556)" class='pixelated' />
+<rect x="973.091" y="1430.73" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_557)" class='pixelated' />
+<rect x="973.091" y="1533.01" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_558)" class='pixelated' />
+<rect x="973.091" y="1635.28" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_559)" class='pixelated' />
+<rect x="172.409" y="1379.23" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_560)" class='pixelated' />
+<rect x="1024.23" y="1211.57" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_561)" class='pixelated' />
+<rect x="428.102" y="1276.95" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_562)" class='pixelated' />
+<rect x="1024.23" y="1262.71" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_563)" class='pixelated' />
+<rect x="1024.23" y="1481.87" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_564)" class='pixelated' />
+<rect x="1024.23" y="1584.15" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_565)" class='pixelated' />
+<rect x="428.102" y="1328.09" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_566)" class='pixelated' />
+<rect x="1024.23" y="1313.84" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_567)" class='pixelated' />
+<rect x="1024.23" y="1430.73" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_568)" class='pixelated' />
+<rect x="1024.23" y="1533.01" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_569)" class='pixelated' />
+<rect x="1024.23" y="1635.28" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_570)" class='pixelated' />
+<rect x="479.24" y="1328.09" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_571)" class='pixelated' />
+<rect x="1075.37" y="1211.57" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_572)" class='pixelated' />
+<rect x="172.409" y="1211.2" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_573)" class='pixelated' />
+<rect x="819.676" y="1211.57" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_574)" class='pixelated' />
+<rect x="121.271" y="1211.2" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_575)" class='pixelated' />
+<rect x="666.26" y="1211.57" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_576)" class='pixelated' />
+<rect x="479.24" y="1276.95" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_577)" class='pixelated' />
+<rect x="1075.37" y="1262.71" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_578)" class='pixelated' />
+<rect x="1075.37" y="1481.87" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_579)" class='pixelated' />
+<rect x="1075.37" y="1584.15" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_580)" class='pixelated' />
+<rect x="223.548" y="1276.95" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_581)" class='pixelated' />
+<rect x="819.676" y="1262.71" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_582)" class='pixelated' />
+<rect x="70.1327" y="1276.95" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_583)" class='pixelated' />
+<rect x="666.26" y="1262.71" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_584)" class='pixelated' />
+<rect x="70.1327" y="1379.23" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_585)" class='pixelated' />
+<rect x="666.26" y="1364.98" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_586)" class='pixelated' />
+<rect x="819.676" y="1481.87" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_587)" class='pixelated' />
+<rect x="666.26" y="1481.87" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_588)" class='pixelated' />
+<rect x="819.676" y="1584.15" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_589)" class='pixelated' />
+<rect x="666.26" y="1584.15" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_590)" class='pixelated' />
+<rect x="70.1327" y="1444.98" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_591)" class='pixelated' />
+<rect x="121.271" y="1444.98" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_592)" class='pixelated' />
+<rect x="1075.37" y="1313.84" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_593)" class='pixelated' />
+<rect x="1075.37" y="1430.73" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_594)" class='pixelated' />
+<rect x="1075.37" y="1533.01" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_595)" class='pixelated' />
+<rect x="1075.37" y="1635.28" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_596)" class='pixelated' />
+<rect x="223.548" y="1328.09" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_597)" class='pixelated' />
+<rect x="819.676" y="1313.84" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_598)" class='pixelated' />
+<rect x="70.1327" y="1328.09" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_599)" class='pixelated' />
+<rect x="666.26" y="1313.84" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5100)" class='pixelated' />
+<rect x="819.676" y="1430.73" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5101)" class='pixelated' />
+<rect x="376.963" y="1211.2" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5102)" class='pixelated' />
+<rect x="666.26" y="1430.73" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5103)" class='pixelated' />
+<rect x="819.676" y="1533.01" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5104)" class='pixelated' />
+<rect x="666.26" y="1533.01" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5105)" class='pixelated' />
+<rect x="819.676" y="1635.28" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5106)" class='pixelated' />
+<rect x="666.26" y="1635.28" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5107)" class='pixelated' />
+<rect x="870.814" y="1686.42" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5108)" class='pixelated' />
+<rect x="717.399" y="1686.42" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5109)" class='pixelated' />
+<rect x="870.814" y="1737.56" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5110)" class='pixelated' />
+<rect x="717.399" y="1737.56" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5111)" class='pixelated' />
+<rect x="921.952" y="1686.42" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5112)" class='pixelated' />
+<rect x="768.537" y="1686.42" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5113)" class='pixelated' />
+<rect x="921.952" y="1737.56" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5114)" class='pixelated' />
+<rect x="768.537" y="1737.56" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5115)" class='pixelated' />
+<rect x="973.091" y="1686.42" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5116)" class='pixelated' />
+<rect x="973.091" y="1737.56" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5117)" class='pixelated' />
+<rect x="666.26" y="1788.7" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5118)" class='pixelated' />
+<rect x="717.399" y="1788.7" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5119)" class='pixelated' />
+<rect x="768.537" y="1788.7" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5120)" class='pixelated' />
+<rect x="1024.23" y="1686.42" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5121)" class='pixelated' />
+<rect x="1024.23" y="1737.56" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5122)" class='pixelated' />
+<rect x="1075.37" y="1686.42" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5123)" class='pixelated' />
+<rect x="819.676" y="1686.42" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5124)" class='pixelated' />
+<rect x="666.26" y="1686.42" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5125)" class='pixelated' />
+<rect x="1075.37" y="1737.56" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5126)" class='pixelated' />
+<rect x="819.676" y="1737.56" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5127)" class='pixelated' />
+<rect x="666.26" y="1737.56" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5128)" class='pixelated' />
+<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="32" letter-spacing="0em"><tspan x="269.406" y="580.938">The 5x5 branch of </tspan><tspan x="70" y="618.938">mixed3a, a relatively early layer, is </tspan><tspan x="70" y="656.938">specialized on color detection. For </tspan><tspan x="70" y="694.938">example, all 9 of the black and </tspan><tspan x="70" y="732.938">white vs color detectors are in this </tspan><tspan x="70" y="770.938">branch, despite it only being 32 of </tspan><tspan x="70" y="808.938">this layer&#39;s 256 neurons.&#10;</tspan><tspan x="70" y="846.938">&#10;</tspan><tspan x="70" y="884.938">The probability of that happening </tspan><tspan x="70" y="922.938">by chance is less than 1/10^8.&#10;</tspan><tspan x="70" y="960.938">&#10;</tspan><tspan x="70" y="998.938">More broadly, 30 of the 32 neurons </tspan><tspan x="70" y="1036.94">in this layer seem to be color </tspan><tspan x="70" y="1074.94">detectors of some kind, although </tspan><tspan x="70" y="1112.94">other additional detectors also </tspan><tspan x="70" y="1150.94">exist in other branches.</tspan></text>
+<text fill="#B1068B" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="32" font-weight="bold" letter-spacing="0em"><tspan x="70" y="580.938">mixed3a_5x5:</tspan></text>
+<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="32" letter-spacing="0em"><tspan x="866.281" y="580.938">This branch contains </tspan><tspan x="666" y="618.938">all 30 of the curve-related features </tspan><tspan x="666" y="656.938">for this layer (all curves, double </tspan><tspan x="666" y="694.938">curves, circles, spirals, S-shape and </tspan><tspan x="666" y="732.938">more features, etc) despite only </tspan><tspan x="666" y="770.938">being 96 of the 480 neurons in this </tspan><tspan x="666" y="808.938">layer.&#x2028;</tspan><tspan x="666" y="846.938">&#x2028;</tspan><tspan x="666" y="884.938">The probability of that happening </tspan><tspan x="666" y="922.938">by chance is less than 1/10^20.&#10;</tspan><tspan x="666" y="960.938">&#10;</tspan><tspan x="666" y="998.938">Many of the other neurons in this </tspan><tspan x="666" y="1036.94">branch are boundary detectors, </tspan><tspan x="666" y="1074.94">which often partly rely on curves if </tspan><tspan x="666" y="1112.94">they are detecting curve </tspan><tspan x="666" y="1150.94">boundaries.</tspan></text>
+<text fill="#0692B1" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="32" font-weight="bold" letter-spacing="0em"><tspan x="666" y="580.938">mixed3b_5x5:</tspan></text>
+<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="32" letter-spacing="0em"><tspan x="1451.41" y="580.938">This branch appears </tspan><tspan x="1252" y="618.938">to be specialized in complex </tspan><tspan x="1252" y="656.938">shapes and 3D geometry </tspan><tspan x="1252" y="694.938">detectors. We don&#x2019;t have a full </tspan><tspan x="1252" y="732.938">taxonomy of this layer to allow for </tspan><tspan x="1252" y="770.938">a quantitative assessment.</tspan></text>
+<text fill="#3DB106" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="32" font-weight="bold" letter-spacing="0em"><tspan x="1252" y="580.938">mixed4a_5x5:</tspan></text>
 <defs>
 <pattern id="patternFigure_50" patternContentUnits="objectBoundingBox" width="1" height="1">
-<use xlink:href="#imageFigure_50" transform="translate(-0.129286 -0.00566788) scale(0.000828097 0.00308334)" class='pixelated' />
+<use xlink:href="#imageFigure_50" transform="translate(-0.148572 -0.00566788) scale(0.000951631 0.00308334)" class='pixelated' />
 </pattern>
 <pattern id="patternFigure_51" patternContentUnits="objectBoundingBox" width="1" height="1">
 <use xlink:href="#imageFigure_51" transform="scale(0.00446429)" class='pixelated' />
@@ -1097,135 +1097,135 @@
 <pattern id="patternFigure_5128" patternContentUnits="objectBoundingBox" width="1" height="1">
 <use xlink:href="#imageFigure_5128" transform="scale(0.00446429)" class='pixelated' />
 </pattern>
-<image id="imageFigure_50" width="2410" height="328" xlink:href="generated_images/54dc4c079c73aa.png" class='pixelated' />
-<image id="imageFigure_51" width="224" height="224" xlink:href="generated_images/bbe93801253a60.png" class='pixelated' />
-<image id="imageFigure_52" width="224" height="224" xlink:href="generated_images/750543f53f8288.png" class='pixelated' />
-<image id="imageFigure_53" width="224" height="224" xlink:href="generated_images/666cc1f8fe5b38.png" class='pixelated' />
-<image id="imageFigure_54" width="224" height="224" xlink:href="generated_images/53869c06c30b85.png" class='pixelated' />
-<image id="imageFigure_55" width="224" height="224" xlink:href="generated_images/ed1abe0d73e413.png" class='pixelated' />
-<image id="imageFigure_56" width="224" height="224" xlink:href="generated_images/37cb34db850ebeb.png" class='pixelated' />
-<image id="imageFigure_57" width="224" height="224" xlink:href="generated_images/aef0a19b9cb5db.png" class='pixelated' />
-<image id="imageFigure_58" width="224" height="224" xlink:href="generated_images/a52772e68228777.png" class='pixelated' />
-<image id="imageFigure_59" width="224" height="224" xlink:href="generated_images/208441bc3fc52a.png" class='pixelated' />
-<image id="imageFigure_510" width="224" height="224" xlink:href="generated_images/cf3bc00abfcbb74.png" class='pixelated' />
-<image id="imageFigure_511" width="224" height="224" xlink:href="generated_images/b896f75c1de0f9.png" class='pixelated' />
-<image id="imageFigure_512" width="224" height="224" xlink:href="generated_images/e9300b5dc21339.png" class='pixelated' />
-<image id="imageFigure_513" width="224" height="224" xlink:href="generated_images/37ec4e1c8f06972.png" class='pixelated' />
-<image id="imageFigure_514" width="224" height="224" xlink:href="generated_images/93de43ac4d4bd.png" class='pixelated' />
-<image id="imageFigure_515" width="224" height="224" xlink:href="generated_images/b1d9f88f6bbfc54.png" class='pixelated' />
-<image id="imageFigure_516" width="224" height="224" xlink:href="generated_images/6968378af97aad0.png" class='pixelated' />
-<image id="imageFigure_517" width="224" height="224" xlink:href="generated_images/490376b2f8c8ca5.png" class='pixelated' />
-<image id="imageFigure_518" width="224" height="224" xlink:href="generated_images/6b1ff974ee0e5db.png" class='pixelated' />
-<image id="imageFigure_519" width="224" height="224" xlink:href="generated_images/8f262abcbfc623c.png" class='pixelated' />
-<image id="imageFigure_520" width="224" height="224" xlink:href="generated_images/163da76c8a04b4.png" class='pixelated' />
-<image id="imageFigure_521" width="224" height="224" xlink:href="generated_images/97d3cd9b87c603.png" class='pixelated' />
-<image id="imageFigure_522" width="224" height="224" xlink:href="generated_images/efdd6b31623c9a6.png" class='pixelated' />
-<image id="imageFigure_523" width="224" height="224" xlink:href="generated_images/850e410ef7ac7d4.png" class='pixelated' />
-<image id="imageFigure_524" width="224" height="224" xlink:href="generated_images/f97adb828b15696.png" class='pixelated' />
-<image id="imageFigure_525" width="224" height="224" xlink:href="generated_images/edab2242feefb2.png" class='pixelated' />
-<image id="imageFigure_526" width="224" height="224" xlink:href="generated_images/d99cc41bc231f72.png" class='pixelated' />
-<image id="imageFigure_527" width="224" height="224" xlink:href="generated_images/336215729a0d7f3.png" class='pixelated' />
-<image id="imageFigure_528" width="224" height="224" xlink:href="generated_images/9c77316c19bedc.png" class='pixelated' />
-<image id="imageFigure_529" width="224" height="224" xlink:href="generated_images/a8e7c995b43c687.png" class='pixelated' />
-<image id="imageFigure_530" width="224" height="224" xlink:href="generated_images/33e59d4e6b03da3.png" class='pixelated' />
-<image id="imageFigure_531" width="224" height="224" xlink:href="generated_images/8ab8f7e1966b945.png" class='pixelated' />
-<image id="imageFigure_532" width="224" height="224" xlink:href="generated_images/0ab5ed808d96d8.png" class='pixelated' />
-<image id="imageFigure_533" width="224" height="224" xlink:href="generated_images/438b38cf06f150.png" class='pixelated' />
-<image id="imageFigure_534" width="224" height="224" xlink:href="generated_images/3697b70a9ae835.png" class='pixelated' />
-<image id="imageFigure_535" width="224" height="224" xlink:href="generated_images/c5bfd1e1104e55.png" class='pixelated' />
-<image id="imageFigure_536" width="224" height="224" xlink:href="generated_images/e3de9288a9ad2e7.png" class='pixelated' />
-<image id="imageFigure_537" width="224" height="224" xlink:href="generated_images/99e9114a1fd7640.png" class='pixelated' />
-<image id="imageFigure_538" width="224" height="224" xlink:href="generated_images/1824a26dab632b.png" class='pixelated' />
-<image id="imageFigure_539" width="224" height="224" xlink:href="generated_images/88a52d5eb20136.png" class='pixelated' />
-<image id="imageFigure_540" width="224" height="224" xlink:href="generated_images/d4819a4568adf2.png" class='pixelated' />
-<image id="imageFigure_541" width="224" height="224" xlink:href="generated_images/2c0e470a29516fc.png" class='pixelated' />
-<image id="imageFigure_542" width="224" height="224" xlink:href="generated_images/96c7ea7e1ffc30c.png" class='pixelated' />
-<image id="imageFigure_543" width="224" height="224" xlink:href="generated_images/628d7360a991f5.png" class='pixelated' />
-<image id="imageFigure_544" width="224" height="224" xlink:href="generated_images/ed40dcb5e62cf3.png" class='pixelated' />
-<image id="imageFigure_545" width="224" height="224" xlink:href="generated_images/7d6b2fe1da79ad2.png" class='pixelated' />
-<image id="imageFigure_546" width="224" height="224" xlink:href="generated_images/cb8452904095bf1.png" class='pixelated' />
-<image id="imageFigure_547" width="224" height="224" xlink:href="generated_images/77ae3d50e33dd49.png" class='pixelated' />
-<image id="imageFigure_548" width="224" height="224" xlink:href="generated_images/c3f6854b4e2ae08.png" class='pixelated' />
-<image id="imageFigure_549" width="224" height="224" xlink:href="generated_images/2ccf84d22d123e.png" class='pixelated' />
-<image id="imageFigure_550" width="224" height="224" xlink:href="generated_images/67648e2593d5fe.png" class='pixelated' />
-<image id="imageFigure_551" width="224" height="224" xlink:href="generated_images/3b89885a6a1723.png" class='pixelated' />
-<image id="imageFigure_552" width="224" height="224" xlink:href="generated_images/4859ce2bbae8297.png" class='pixelated' />
-<image id="imageFigure_553" width="224" height="224" xlink:href="generated_images/39c9c03a8a6039a.png" class='pixelated' />
-<image id="imageFigure_554" width="224" height="224" xlink:href="generated_images/432ca663b46943.png" class='pixelated' />
-<image id="imageFigure_555" width="224" height="224" xlink:href="generated_images/0c8bece6016802f.png" class='pixelated' />
-<image id="imageFigure_556" width="224" height="224" xlink:href="generated_images/3011dcb6b78c7e.png" class='pixelated' />
-<image id="imageFigure_557" width="224" height="224" xlink:href="generated_images/0f9a93fef19397.png" class='pixelated' />
-<image id="imageFigure_558" width="224" height="224" xlink:href="generated_images/51f2efb438996b7.png" class='pixelated' />
-<image id="imageFigure_559" width="224" height="224" xlink:href="generated_images/975d5ae9fa61aa.png" class='pixelated' />
-<image id="imageFigure_560" width="224" height="224" xlink:href="generated_images/169bcdce538755.png" class='pixelated' />
-<image id="imageFigure_561" width="224" height="224" xlink:href="generated_images/d6d65d613c7f7f2.png" class='pixelated' />
-<image id="imageFigure_562" width="224" height="224" xlink:href="generated_images/d1704fea2216ddc.png" class='pixelated' />
-<image id="imageFigure_563" width="224" height="224" xlink:href="generated_images/d921fa53564f47.png" class='pixelated' />
-<image id="imageFigure_564" width="224" height="224" xlink:href="generated_images/80b38a436dddd.png" class='pixelated' />
-<image id="imageFigure_565" width="224" height="224" xlink:href="generated_images/63e09ab42adbd1.png" class='pixelated' />
-<image id="imageFigure_566" width="224" height="224" xlink:href="generated_images/eb138074729c52.png" class='pixelated' />
-<image id="imageFigure_567" width="224" height="224" xlink:href="generated_images/1a99926f0948f7.png" class='pixelated' />
-<image id="imageFigure_568" width="224" height="224" xlink:href="generated_images/ef5ac3438de5ad2.png" class='pixelated' />
-<image id="imageFigure_569" width="224" height="224" xlink:href="generated_images/b16b209846ae7d8.png" class='pixelated' />
-<image id="imageFigure_570" width="224" height="224" xlink:href="generated_images/b8e0ee9728b987.png" class='pixelated' />
-<image id="imageFigure_571" width="224" height="224" xlink:href="generated_images/9131bb2af417bd.png" class='pixelated' />
-<image id="imageFigure_572" width="224" height="224" xlink:href="generated_images/b86daf7f0f20993.png" class='pixelated' />
-<image id="imageFigure_573" width="224" height="224" xlink:href="generated_images/d94ca18cf513b1e.png" class='pixelated' />
-<image id="imageFigure_574" width="224" height="224" xlink:href="generated_images/07751024722d8ce.png" class='pixelated' />
-<image id="imageFigure_575" width="224" height="224" xlink:href="generated_images/2bfe41fc7ce1b3.png" class='pixelated' />
-<image id="imageFigure_576" width="224" height="224" xlink:href="generated_images/28e3bc63982f10.png" class='pixelated' />
-<image id="imageFigure_577" width="224" height="224" xlink:href="generated_images/042a439bafd20f0.png" class='pixelated' />
-<image id="imageFigure_578" width="224" height="224" xlink:href="generated_images/6d287bc42e51979.png" class='pixelated' />
-<image id="imageFigure_579" width="224" height="224" xlink:href="generated_images/8d254217dca2136.png" class='pixelated' />
-<image id="imageFigure_580" width="224" height="224" xlink:href="generated_images/ac4c57821b5428.png" class='pixelated' />
-<image id="imageFigure_581" width="224" height="224" xlink:href="generated_images/5c77442b461b863.png" class='pixelated' />
-<image id="imageFigure_582" width="224" height="224" xlink:href="generated_images/5b38c9315710f4.png" class='pixelated' />
-<image id="imageFigure_583" width="224" height="224" xlink:href="generated_images/215803a14944470.png" class='pixelated' />
-<image id="imageFigure_584" width="224" height="224" xlink:href="generated_images/4daa42be47f5a5.png" class='pixelated' />
-<image id="imageFigure_585" width="224" height="224" xlink:href="generated_images/6813a90ac8b40c.png" class='pixelated' />
-<image id="imageFigure_586" width="224" height="224" xlink:href="generated_images/e89366c0e67940c.png" class='pixelated' />
-<image id="imageFigure_587" width="224" height="224" xlink:href="generated_images/6de048e26e08e0.png" class='pixelated' />
-<image id="imageFigure_588" width="224" height="224" xlink:href="generated_images/102b770b8813114.png" class='pixelated' />
-<image id="imageFigure_589" width="224" height="224" xlink:href="generated_images/ddcb60a3d76aa66.png" class='pixelated' />
-<image id="imageFigure_590" width="224" height="224" xlink:href="generated_images/6eaaa6d5c86e21.png" class='pixelated' />
-<image id="imageFigure_591" width="224" height="224" xlink:href="generated_images/0f6391e1ae1c602.png" class='pixelated' />
-<image id="imageFigure_592" width="442" height="440" xlink:href="generated_images/bc1369266fb116.png" class='pixelated' />
-<image id="imageFigure_593" width="224" height="224" xlink:href="generated_images/34318f4ca13a92.png" class='pixelated' />
-<image id="imageFigure_594" width="224" height="224" xlink:href="generated_images/d452d0b138a6d8.png" class='pixelated' />
-<image id="imageFigure_595" width="224" height="224" xlink:href="generated_images/d30dbfb0e89a65.png" class='pixelated' />
-<image id="imageFigure_596" width="224" height="224" xlink:href="generated_images/daf77f06b317f1.png" class='pixelated' />
-<image id="imageFigure_597" width="224" height="224" xlink:href="generated_images/cdb4d8fb57154.png" class='pixelated' />
-<image id="imageFigure_598" width="224" height="224" xlink:href="generated_images/c79fc668c54647.png" class='pixelated' />
-<image id="imageFigure_599" width="224" height="224" xlink:href="generated_images/7c742b17f7666a.png" class='pixelated' />
-<image id="imageFigure_5100" width="224" height="224" xlink:href="generated_images/02f34b75203857.png" class='pixelated' />
-<image id="imageFigure_5101" width="224" height="224" xlink:href="generated_images/432bcfa3584f6fb.png" class='pixelated' />
-<image id="imageFigure_5102" width="224" height="224" xlink:href="generated_images/8b3797800626db5.png" class='pixelated' />
-<image id="imageFigure_5103" width="224" height="224" xlink:href="generated_images/2189724672724.png" class='pixelated' />
-<image id="imageFigure_5104" width="224" height="224" xlink:href="generated_images/cb4c3b324157da.png" class='pixelated' />
-<image id="imageFigure_5105" width="224" height="224" xlink:href="generated_images/d223274f402f85c.png" class='pixelated' />
-<image id="imageFigure_5106" width="224" height="224" xlink:href="generated_images/eb3332b190d9c60.png" class='pixelated' />
-<image id="imageFigure_5107" width="224" height="224" xlink:href="generated_images/eda960d85ca8a6.png" class='pixelated' />
-<image id="imageFigure_5108" width="224" height="224" xlink:href="generated_images/486fd157dc1075.png" class='pixelated' />
-<image id="imageFigure_5109" width="224" height="224" xlink:href="generated_images/d98b40890abdc.png" class='pixelated' />
-<image id="imageFigure_5110" width="224" height="224" xlink:href="generated_images/e45e63367543fbe.png" class='pixelated' />
-<image id="imageFigure_5111" width="224" height="224" xlink:href="generated_images/b448b9ea99136c.png" class='pixelated' />
-<image id="imageFigure_5112" width="224" height="224" xlink:href="generated_images/ccbac2a6dcfd5ae.png" class='pixelated' />
-<image id="imageFigure_5113" width="224" height="224" xlink:href="generated_images/0c8cfcc7aa3644.png" class='pixelated' />
-<image id="imageFigure_5114" width="224" height="224" xlink:href="generated_images/02f8769cddde612.png" class='pixelated' />
-<image id="imageFigure_5115" width="224" height="224" xlink:href="generated_images/a472dfa1fce2ac4.png" class='pixelated' />
-<image id="imageFigure_5116" width="224" height="224" xlink:href="generated_images/2ac7d3b5a2031e1.png" class='pixelated' />
-<image id="imageFigure_5117" width="224" height="224" xlink:href="generated_images/c194c7b025292f.png" class='pixelated' />
-<image id="imageFigure_5118" width="224" height="224" xlink:href="generated_images/0f09af5ead5589.png" class='pixelated' />
-<image id="imageFigure_5119" width="224" height="224" xlink:href="generated_images/49539077b2a4b3.png" class='pixelated' />
-<image id="imageFigure_5120" width="224" height="224" xlink:href="generated_images/77427f40c0d01f.png" class='pixelated' />
-<image id="imageFigure_5121" width="224" height="224" xlink:href="generated_images/17b3cb86fdac4cd.png" class='pixelated' />
-<image id="imageFigure_5122" width="224" height="224" xlink:href="generated_images/f6a4ef676662c8.png" class='pixelated' />
-<image id="imageFigure_5123" width="224" height="224" xlink:href="generated_images/7444334e78eaa2.png" class='pixelated' />
-<image id="imageFigure_5124" width="224" height="224" xlink:href="generated_images/1a170c75e3d9a79.png" class='pixelated' />
-<image id="imageFigure_5125" width="224" height="224" xlink:href="generated_images/12dd6cd64d8d563.png" class='pixelated' />
-<image id="imageFigure_5126" width="224" height="224" xlink:href="generated_images/a79343cf5fb0dc.png" class='pixelated' />
-<image id="imageFigure_5127" width="224" height="224" xlink:href="generated_images/7ee1199e4e6f3c1.png" class='pixelated' />
-<image id="imageFigure_5128" width="224" height="224" xlink:href="generated_images/59d8bf928a879c.png" class='pixelated' />
+<image id="imageFigure_50" width="2410" height="328" xlink:href="generated_images/f259f1d7baaf07.png" class='pixelated' />
+<image id="imageFigure_51" width="224" height="224" xlink:href="generated_images/c00573fa69006d3.png" class='pixelated' />
+<image id="imageFigure_52" width="224" height="224" xlink:href="generated_images/1cc3f3644d84e35.png" class='pixelated' />
+<image id="imageFigure_53" width="224" height="224" xlink:href="generated_images/3fdb7e9d500e8f6.png" class='pixelated' />
+<image id="imageFigure_54" width="224" height="224" xlink:href="generated_images/0584b144279310.png" class='pixelated' />
+<image id="imageFigure_55" width="224" height="224" xlink:href="generated_images/aa41bc23524d26a.png" class='pixelated' />
+<image id="imageFigure_56" width="224" height="224" xlink:href="generated_images/2fc66137c80f90a.png" class='pixelated' />
+<image id="imageFigure_57" width="224" height="224" xlink:href="generated_images/4ffc5b9d21c50c4.png" class='pixelated' />
+<image id="imageFigure_58" width="224" height="224" xlink:href="generated_images/50a27fa05f1447.png" class='pixelated' />
+<image id="imageFigure_59" width="224" height="224" xlink:href="generated_images/4c27c3a252a1c18.png" class='pixelated' />
+<image id="imageFigure_510" width="224" height="224" xlink:href="generated_images/cda92d1f6bde38.png" class='pixelated' />
+<image id="imageFigure_511" width="224" height="224" xlink:href="generated_images/b9673a1273e3faa.png" class='pixelated' />
+<image id="imageFigure_512" width="224" height="224" xlink:href="generated_images/169246e76861c73.png" class='pixelated' />
+<image id="imageFigure_513" width="224" height="224" xlink:href="generated_images/8fead770bdf016.png" class='pixelated' />
+<image id="imageFigure_514" width="224" height="224" xlink:href="generated_images/771e5522f0bbedb.png" class='pixelated' />
+<image id="imageFigure_515" width="224" height="224" xlink:href="generated_images/a290e9d5a6f7d8.png" class='pixelated' />
+<image id="imageFigure_516" width="224" height="224" xlink:href="generated_images/306d2ead76905a7.png" class='pixelated' />
+<image id="imageFigure_517" width="224" height="224" xlink:href="generated_images/2f2b30dd4eacef.png" class='pixelated' />
+<image id="imageFigure_518" width="224" height="224" xlink:href="generated_images/068ca7a18b5abb8.png" class='pixelated' />
+<image id="imageFigure_519" width="224" height="224" xlink:href="generated_images/24c71f667ec77f.png" class='pixelated' />
+<image id="imageFigure_520" width="224" height="224" xlink:href="generated_images/498c873c43d3da.png" class='pixelated' />
+<image id="imageFigure_521" width="224" height="224" xlink:href="generated_images/ee99ede57f0da7.png" class='pixelated' />
+<image id="imageFigure_522" width="224" height="224" xlink:href="generated_images/1df65d78f51208c.png" class='pixelated' />
+<image id="imageFigure_523" width="224" height="224" xlink:href="generated_images/39b4e5cb03f0595.png" class='pixelated' />
+<image id="imageFigure_524" width="224" height="224" xlink:href="generated_images/b830495073c4079.png" class='pixelated' />
+<image id="imageFigure_525" width="224" height="224" xlink:href="generated_images/a22f2e5b266b77f.png" class='pixelated' />
+<image id="imageFigure_526" width="224" height="224" xlink:href="generated_images/21449802d14a4.png" class='pixelated' />
+<image id="imageFigure_527" width="224" height="224" xlink:href="generated_images/bb4e7711eddb65a.png" class='pixelated' />
+<image id="imageFigure_528" width="224" height="224" xlink:href="generated_images/75925a036734bbe.png" class='pixelated' />
+<image id="imageFigure_529" width="224" height="224" xlink:href="generated_images/80c02049224d50.png" class='pixelated' />
+<image id="imageFigure_530" width="224" height="224" xlink:href="generated_images/d75d1c400a4243.png" class='pixelated' />
+<image id="imageFigure_531" width="224" height="224" xlink:href="generated_images/036bb9e29a7c8e0.png" class='pixelated' />
+<image id="imageFigure_532" width="224" height="224" xlink:href="generated_images/24f097c3c7b4a3.png" class='pixelated' />
+<image id="imageFigure_533" width="224" height="224" xlink:href="generated_images/ae685b8b04eb37.png" class='pixelated' />
+<image id="imageFigure_534" width="224" height="224" xlink:href="generated_images/dd765b0ef2725f.png" class='pixelated' />
+<image id="imageFigure_535" width="224" height="224" xlink:href="generated_images/3bf2e214b2a19b8.png" class='pixelated' />
+<image id="imageFigure_536" width="224" height="224" xlink:href="generated_images/46f7a83ea63cc80.png" class='pixelated' />
+<image id="imageFigure_537" width="224" height="224" xlink:href="generated_images/d9353770d1785ec.png" class='pixelated' />
+<image id="imageFigure_538" width="224" height="224" xlink:href="generated_images/96bcc8791fa95b.png" class='pixelated' />
+<image id="imageFigure_539" width="224" height="224" xlink:href="generated_images/6cea55d79cd6998.png" class='pixelated' />
+<image id="imageFigure_540" width="224" height="224" xlink:href="generated_images/14263e3af9a556.png" class='pixelated' />
+<image id="imageFigure_541" width="224" height="224" xlink:href="generated_images/c5d5f9d538a7f3.png" class='pixelated' />
+<image id="imageFigure_542" width="224" height="224" xlink:href="generated_images/afd6adf21d645.png" class='pixelated' />
+<image id="imageFigure_543" width="224" height="224" xlink:href="generated_images/475061b681d1e86.png" class='pixelated' />
+<image id="imageFigure_544" width="224" height="224" xlink:href="generated_images/efda2924f097589.png" class='pixelated' />
+<image id="imageFigure_545" width="224" height="224" xlink:href="generated_images/66ee551b422b45b.png" class='pixelated' />
+<image id="imageFigure_546" width="224" height="224" xlink:href="generated_images/0855b0e0e7a08aa.png" class='pixelated' />
+<image id="imageFigure_547" width="224" height="224" xlink:href="generated_images/72c06cf4ae0462.png" class='pixelated' />
+<image id="imageFigure_548" width="224" height="224" xlink:href="generated_images/714b53fa338829.png" class='pixelated' />
+<image id="imageFigure_549" width="224" height="224" xlink:href="generated_images/cd60bc7681c6a1f.png" class='pixelated' />
+<image id="imageFigure_550" width="224" height="224" xlink:href="generated_images/6f66aca639c29db.png" class='pixelated' />
+<image id="imageFigure_551" width="224" height="224" xlink:href="generated_images/16b9ad6c89cc26.png" class='pixelated' />
+<image id="imageFigure_552" width="224" height="224" xlink:href="generated_images/a3c386158404915.png" class='pixelated' />
+<image id="imageFigure_553" width="224" height="224" xlink:href="generated_images/a0f793838cc864a.png" class='pixelated' />
+<image id="imageFigure_554" width="224" height="224" xlink:href="generated_images/80c4ed0bc8c6f8.png" class='pixelated' />
+<image id="imageFigure_555" width="224" height="224" xlink:href="generated_images/635495a6c811fe.png" class='pixelated' />
+<image id="imageFigure_556" width="224" height="224" xlink:href="generated_images/71de8f3cee3345.png" class='pixelated' />
+<image id="imageFigure_557" width="224" height="224" xlink:href="generated_images/aa10ac588d8f629.png" class='pixelated' />
+<image id="imageFigure_558" width="224" height="224" xlink:href="generated_images/06b45cabbc9ab9.png" class='pixelated' />
+<image id="imageFigure_559" width="224" height="224" xlink:href="generated_images/af1fcd6d010a66.png" class='pixelated' />
+<image id="imageFigure_560" width="224" height="224" xlink:href="generated_images/2ae3f2722e67f68.png" class='pixelated' />
+<image id="imageFigure_561" width="224" height="224" xlink:href="generated_images/fce9c38370f3a1.png" class='pixelated' />
+<image id="imageFigure_562" width="224" height="224" xlink:href="generated_images/f6872cf132aea1.png" class='pixelated' />
+<image id="imageFigure_563" width="224" height="224" xlink:href="generated_images/107aa9dc99dfd3d.png" class='pixelated' />
+<image id="imageFigure_564" width="224" height="224" xlink:href="generated_images/9fd9e8f2a9bd59f.png" class='pixelated' />
+<image id="imageFigure_565" width="224" height="224" xlink:href="generated_images/0b035999b01c36.png" class='pixelated' />
+<image id="imageFigure_566" width="224" height="224" xlink:href="generated_images/3ef832ad780e6b.png" class='pixelated' />
+<image id="imageFigure_567" width="224" height="224" xlink:href="generated_images/97e7c10520f2e79.png" class='pixelated' />
+<image id="imageFigure_568" width="224" height="224" xlink:href="generated_images/5ff86b1f01756d.png" class='pixelated' />
+<image id="imageFigure_569" width="224" height="224" xlink:href="generated_images/33d6b7bb3aa79bd.png" class='pixelated' />
+<image id="imageFigure_570" width="224" height="224" xlink:href="generated_images/abe4675e1a56f5.png" class='pixelated' />
+<image id="imageFigure_571" width="224" height="224" xlink:href="generated_images/bd34990c51c2d.png" class='pixelated' />
+<image id="imageFigure_572" width="224" height="224" xlink:href="generated_images/ba22712c64cd5d.png" class='pixelated' />
+<image id="imageFigure_573" width="224" height="224" xlink:href="generated_images/8c51b1b304b840.png" class='pixelated' />
+<image id="imageFigure_574" width="224" height="224" xlink:href="generated_images/6a70c39e5051f7b.png" class='pixelated' />
+<image id="imageFigure_575" width="224" height="224" xlink:href="generated_images/5cb9ffeb6fe9a2.png" class='pixelated' />
+<image id="imageFigure_576" width="224" height="224" xlink:href="generated_images/1034990501b988a.png" class='pixelated' />
+<image id="imageFigure_577" width="224" height="224" xlink:href="generated_images/46ab062281c9ee7.png" class='pixelated' />
+<image id="imageFigure_578" width="224" height="224" xlink:href="generated_images/87d6c92b416db0.png" class='pixelated' />
+<image id="imageFigure_579" width="224" height="224" xlink:href="generated_images/da4bf0bc6bade3.png" class='pixelated' />
+<image id="imageFigure_580" width="224" height="224" xlink:href="generated_images/f0a8805c12c78.png" class='pixelated' />
+<image id="imageFigure_581" width="224" height="224" xlink:href="generated_images/598f9c359c68c9.png" class='pixelated' />
+<image id="imageFigure_582" width="224" height="224" xlink:href="generated_images/d39a5efa8bdd51.png" class='pixelated' />
+<image id="imageFigure_583" width="224" height="224" xlink:href="generated_images/ead0bfd724ce0dc.png" class='pixelated' />
+<image id="imageFigure_584" width="224" height="224" xlink:href="generated_images/af85fb5a08f304.png" class='pixelated' />
+<image id="imageFigure_585" width="224" height="224" xlink:href="generated_images/9280746b67eef3.png" class='pixelated' />
+<image id="imageFigure_586" width="224" height="224" xlink:href="generated_images/bb0d3a060305cf4.png" class='pixelated' />
+<image id="imageFigure_587" width="224" height="224" xlink:href="generated_images/eda1291c647982.png" class='pixelated' />
+<image id="imageFigure_588" width="224" height="224" xlink:href="generated_images/17b2acb9519ba1d.png" class='pixelated' />
+<image id="imageFigure_589" width="224" height="224" xlink:href="generated_images/4f23fbcf74afc2b.png" class='pixelated' />
+<image id="imageFigure_590" width="224" height="224" xlink:href="generated_images/12c9cf236423db.png" class='pixelated' />
+<image id="imageFigure_591" width="224" height="224" xlink:href="generated_images/16c1f500fb8ba5.png" class='pixelated' />
+<image id="imageFigure_592" width="442" height="440" xlink:href="generated_images/4adbf37ba317713.png" class='pixelated' />
+<image id="imageFigure_593" width="224" height="224" xlink:href="generated_images/2ee35ac3518fdf.png" class='pixelated' />
+<image id="imageFigure_594" width="224" height="224" xlink:href="generated_images/f6697840fc4ea7e.png" class='pixelated' />
+<image id="imageFigure_595" width="224" height="224" xlink:href="generated_images/c01a9c54a588e.png" class='pixelated' />
+<image id="imageFigure_596" width="224" height="224" xlink:href="generated_images/8a9391b303913b.png" class='pixelated' />
+<image id="imageFigure_597" width="224" height="224" xlink:href="generated_images/805e708d7880e5d.png" class='pixelated' />
+<image id="imageFigure_598" width="224" height="224" xlink:href="generated_images/85d796d59920f8.png" class='pixelated' />
+<image id="imageFigure_599" width="224" height="224" xlink:href="generated_images/a05afcbe051d395.png" class='pixelated' />
+<image id="imageFigure_5100" width="224" height="224" xlink:href="generated_images/34612916940031.png" class='pixelated' />
+<image id="imageFigure_5101" width="224" height="224" xlink:href="generated_images/de1477b08a8bf5b.png" class='pixelated' />
+<image id="imageFigure_5102" width="224" height="224" xlink:href="generated_images/19f2787cf17814.png" class='pixelated' />
+<image id="imageFigure_5103" width="224" height="224" xlink:href="generated_images/e72785168371203.png" class='pixelated' />
+<image id="imageFigure_5104" width="224" height="224" xlink:href="generated_images/7622865f62092cd.png" class='pixelated' />
+<image id="imageFigure_5105" width="224" height="224" xlink:href="generated_images/76ba71f701aabd7.png" class='pixelated' />
+<image id="imageFigure_5106" width="224" height="224" xlink:href="generated_images/17a7e26399544.png" class='pixelated' />
+<image id="imageFigure_5107" width="224" height="224" xlink:href="generated_images/9e37a7d7168c375.png" class='pixelated' />
+<image id="imageFigure_5108" width="224" height="224" xlink:href="generated_images/1c48e0882232d37.png" class='pixelated' />
+<image id="imageFigure_5109" width="224" height="224" xlink:href="generated_images/97e271f67df7e9f.png" class='pixelated' />
+<image id="imageFigure_5110" width="224" height="224" xlink:href="generated_images/7762c8ef5c9f4b.png" class='pixelated' />
+<image id="imageFigure_5111" width="224" height="224" xlink:href="generated_images/e4aeec6bdaab29.png" class='pixelated' />
+<image id="imageFigure_5112" width="224" height="224" xlink:href="generated_images/0068ce5c06ee72.png" class='pixelated' />
+<image id="imageFigure_5113" width="224" height="224" xlink:href="generated_images/eb36ddfb8b2a143.png" class='pixelated' />
+<image id="imageFigure_5114" width="224" height="224" xlink:href="generated_images/696f56b092775a.png" class='pixelated' />
+<image id="imageFigure_5115" width="224" height="224" xlink:href="generated_images/e67414529f1503.png" class='pixelated' />
+<image id="imageFigure_5116" width="224" height="224" xlink:href="generated_images/e956e79fbbae6cc.png" class='pixelated' />
+<image id="imageFigure_5117" width="224" height="224" xlink:href="generated_images/14db54ea43671db.png" class='pixelated' />
+<image id="imageFigure_5118" width="224" height="224" xlink:href="generated_images/09294e7dc9fdb3.png" class='pixelated' />
+<image id="imageFigure_5119" width="224" height="224" xlink:href="generated_images/19197ce5b916a9a.png" class='pixelated' />
+<image id="imageFigure_5120" width="224" height="224" xlink:href="generated_images/65b77b72c5adb71.png" class='pixelated' />
+<image id="imageFigure_5121" width="224" height="224" xlink:href="generated_images/f65d422b6d02672.png" class='pixelated' />
+<image id="imageFigure_5122" width="224" height="224" xlink:href="generated_images/cbb3c5cc2789f5.png" class='pixelated' />
+<image id="imageFigure_5123" width="224" height="224" xlink:href="generated_images/23f3e3813e51ed.png" class='pixelated' />
+<image id="imageFigure_5124" width="224" height="224" xlink:href="generated_images/ea942a54eefce19.png" class='pixelated' />
+<image id="imageFigure_5125" width="224" height="224" xlink:href="generated_images/63e0030c91818d2.png" class='pixelated' />
+<image id="imageFigure_5126" width="224" height="224" xlink:href="generated_images/6c98768a476501a.png" class='pixelated' />
+<image id="imageFigure_5127" width="224" height="224" xlink:href="generated_images/e30b28dd8cac64.png" class='pixelated' />
+<image id="imageFigure_5128" width="224" height="224" xlink:href="generated_images/e11c23ff1a58c2.png" class='pixelated' />
 </defs>
 </svg>
 
@@ -1285,7 +1285,7 @@
       Sure enough, the singular vector (the largest factor of variation) of the first two convolutional layers of InceptionV1 is color.
     </p>
 
-    <figure id="figure-6">
+    <figure id="figure-6"  style="grid-column-start: page-start;">
       <svg width="1782" height="1552" viewBox="0 0 1782 1552" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"id="diagram-Figure_6"style='width: 100%; height: auto;'>
 <rect width="1782" height="1552" fill="white" class='pixelated' />
 <rect x="374" y="157" width="582" height="583" fill="url(#patternFigure_60)" class='pixelated' />
@@ -1297,7 +1297,7 @@
 <text fill="#676767" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="27.5" letter-spacing="0em"><tspan x="4" y="294.399">The first singular </tspan><tspan x="4" y="326.399">vector separates color </tspan><tspan x="4" y="358.399">and black and white, </tspan><tspan x="4" y="390.399">meaning that&#x2019;s the </tspan><tspan x="4" y="422.399">largest dimension of </tspan><tspan x="4" y="454.399">variation in which </tspan><tspan x="4" y="486.399">neurons connect to </tspan><tspan x="4" y="518.399">which in the next layer.</tspan></text>
 <text fill="#676767" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="27.5" letter-spacing="0em"><tspan x="722" y="367.399">Gabor filters and </tspan><tspan x="722" y="399.399">color features are far </tspan><tspan x="722" y="431.399">apart, meaning they </tspan><tspan x="722" y="463.399">tend to connect to </tspan><tspan x="722" y="495.399">different features in </tspan><tspan x="722" y="527.399">the next layer.</tspan></text>
 <path d="M373.141 160.933V767.312M373.141 160.933H380.651M373.141 160.933H365.632M373.141 767.312H380.651M373.141 767.312L365.632 767.312" stroke="#A7A7A7" class='pixelated' />
-<path d="M391.915 144.037L998.294 144.037M391.915 144.037L391.915 136.528M391.915 144.037L391.915 151.547M998.294 144.037L998.294 136.528M998.294 144.037L998.293 151.546" stroke="#A7A7A7" class='pixelated' />
+<path d="M391.915 144.037L998.293 144.037M391.915 144.037L391.915 136.528M391.915 144.037L391.915 151.547M998.293 144.037L998.293 136.528M998.293 144.037L998.293 151.547" stroke="#A7A7A7" class='pixelated' />
 <rect x="524" y="123" width="351" height="27" fill="white" class='pixelated' />
 <text fill="#878787" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="24" letter-spacing="0em"><tspan x="537" y="150.203">Singular Vector 1  (frequency?)</tspan></text>
 <rect x="362" y="304" width="26" height="309" fill="white" class='pixelated' />
@@ -1308,7 +1308,7 @@
 <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="27.5" font-weight="bold" letter-spacing="0em"><tspan x="4" y="885.399">InceptionV1 trained on </tspan><tspan x="4" y="917.399">Places365&#10;</tspan></text>
 <text fill="#676767" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="27.5" letter-spacing="0em"><tspan x="4" y="981.399">One more, the first </tspan><tspan x="4" y="1013.4">singular vector </tspan><tspan x="4" y="1045.4">separates color and </tspan><tspan x="4" y="1077.4">black and white, </tspan><tspan x="4" y="1109.4">meaning that&#x2019;s the </tspan><tspan x="4" y="1141.4">largest dimension of </tspan><tspan x="4" y="1173.4">variation in which </tspan><tspan x="4" y="1205.4">neurons connect to </tspan><tspan x="4" y="1237.4">which in the next layer.</tspan></text>
 <path d="M373.141 891.933V1498.31M373.141 891.933H380.651M373.141 891.933H365.632M373.141 1498.31H380.651M373.141 1498.31L365.632 1498.31" stroke="#A7A7A7" class='pixelated' />
-<path d="M391.915 875.037L998.294 875.037M391.915 875.037L391.915 867.528M391.915 875.037L391.915 882.547M998.294 875.037L998.294 867.528M998.294 875.037L998.293 882.547" stroke="#A7A7A7" class='pixelated' />
+<path d="M391.915 875.037L998.293 875.037M391.915 875.037L391.915 867.528M391.915 875.037L391.915 882.547M998.293 875.037L998.293 867.528M998.293 875.037L998.293 882.547" stroke="#A7A7A7" class='pixelated' />
 <rect x="524" y="854" width="351" height="27" fill="white" class='pixelated' />
 <text fill="#878787" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="24" letter-spacing="0em"><tspan x="537" y="881.203">Singular Vector 1  (frequency?)</tspan></text>
 <rect x="362" y="1035" width="26" height="309" fill="white" class='pixelated' />
@@ -1320,7 +1320,7 @@
 <rect x="1118" y="1040" width="26" height="309" fill="white" class='pixelated' />
 <text transform="translate(1116 1332) rotate(-90)" fill="#878787" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="24" letter-spacing="0em"><tspan x="0" y="22.2031">Singular Vector 0  (color?)</tspan></text>
 <path d="M1129.14 160.933V767.312M1129.14 160.933H1136.65M1129.14 160.933H1121.63M1129.14 767.312H1136.65M1129.14 767.312L1121.63 767.312" stroke="#A7A7A7" class='pixelated' />
-<path d="M1147.91 144.037L1754.29 144.037M1147.91 144.037L1147.91 136.528M1147.91 144.037L1147.91 151.547M1754.29 144.037L1754.29 136.528M1754.29 144.037L1754.29 151.546" stroke="#A7A7A7" class='pixelated' />
+<path d="M1147.91 144.037L1754.29 144.037M1147.91 144.037L1147.91 136.528M1147.91 144.037L1147.91 151.547M1754.29 144.037L1754.29 136.528M1754.29 144.037L1754.29 151.547" stroke="#A7A7A7" class='pixelated' />
 <rect x="1280" y="123" width="351" height="27" fill="white" class='pixelated' />
 <text fill="#878787" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="24" letter-spacing="0em"><tspan x="1293" y="150.203">Singular Vector 1  (frequency?)</tspan></text>
 <rect x="1118" y="304" width="26" height="309" fill="white" class='pixelated' />
@@ -1341,22 +1341,22 @@
 <pattern id="patternFigure_63" patternContentUnits="objectBoundingBox" width="1" height="1">
 <use xlink:href="#imageFigure_63" transform="scale(0.00171527)" class='pixelated' />
 </pattern>
-<image id="imageFigure_60" width="1418" height="1424" xlink:href="generated_images/cbf96594605aec.png" class='pixelated' />
-<image id="imageFigure_61" width="1422" height="1422" xlink:href="generated_images/6a624d158c0e770.png" class='pixelated' />
-<image id="imageFigure_62" width="580" height="585" xlink:href="generated_images/4cff16d0df7177.png" class='pixelated' />
-<image id="imageFigure_63" width="583" height="583" xlink:href="generated_images/aba7e2270afb326.png" class='pixelated' />
+<image id="imageFigure_60" width="1418" height="1424" xlink:href="generated_images/a99c42c36d3929.png" class='pixelated' />
+<image id="imageFigure_61" width="1422" height="1422" xlink:href="generated_images/17660d81ca5d6a.png" class='pixelated' />
+<image id="imageFigure_62" width="580" height="585" xlink:href="generated_images/cbc877da09f138.png" class='pixelated' />
+<image id="imageFigure_63" width="583" height="583" xlink:href="generated_images/2fa685db9ea658.png" class='pixelated' />
 </defs>
 </svg>
 
       <figcaption class="figcaption l-body">
         <p>
-          <a href="#figure-6" class="figure-number">6</a>. CAPTION.
+          <a href="#figure-6" class="figure-number">6</a>. Singular vectors for the first and second convolutional layers of InceptionV1, trained on ImageNet (above) or Places365 (below).
         </p>
       </figcaption>
     </figure>
 
     <p>
-      We also see that the second factor appears to be frequency. This suggests an interesting prediction: perhaps if we were to split the layer into more than two branches, we'd also observe spcialization in frequency in addition to color.
+      We also see that the second factor appears to be frequency. This suggests an interesting prediction: perhaps if we were to split the layer into more than two branches, we'd also observe specialization in frequency in addition to color.
     </p>
 
     <p>
@@ -1367,7 +1367,7 @@
       <img src="images/Figure_7.png" style="max-width: 100%; width: auto;" />
       <figcaption class="figcaption l-body">
         <p>
-          <a href="#figure-7" class="figure-number">7</a>. CAPTION.
+          <a href="#figure-7" class="figure-number">7</a>. [[TODO: What model is this from??]].
         </p>
       </figcaption>
     </figure>

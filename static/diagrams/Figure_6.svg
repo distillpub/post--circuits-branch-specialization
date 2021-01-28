@@ -9,7 +9,7 @@
 <text fill="#676767" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="27.5" letter-spacing="0em"><tspan x="4" y="294.399">The first singular </tspan><tspan x="4" y="326.399">vector separates color </tspan><tspan x="4" y="358.399">and black and white, </tspan><tspan x="4" y="390.399">meaning that&#x2019;s the </tspan><tspan x="4" y="422.399">largest dimension of </tspan><tspan x="4" y="454.399">variation in which </tspan><tspan x="4" y="486.399">neurons connect to </tspan><tspan x="4" y="518.399">which in the next layer.</tspan></text>
 <text fill="#676767" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="27.5" letter-spacing="0em"><tspan x="722" y="367.399">Gabor filters and </tspan><tspan x="722" y="399.399">color features are far </tspan><tspan x="722" y="431.399">apart, meaning they </tspan><tspan x="722" y="463.399">tend to connect to </tspan><tspan x="722" y="495.399">different features in </tspan><tspan x="722" y="527.399">the next layer.</tspan></text>
 <path d="M373.141 160.933V767.312M373.141 160.933H380.651M373.141 160.933H365.632M373.141 767.312H380.651M373.141 767.312L365.632 767.312" stroke="#A7A7A7"/>
-<path d="M391.915 144.037L998.294 144.037M391.915 144.037L391.915 136.528M391.915 144.037L391.915 151.547M998.294 144.037L998.294 136.528M998.294 144.037L998.293 151.546" stroke="#A7A7A7"/>
+<path d="M391.915 144.037L998.293 144.037M391.915 144.037L391.915 136.528M391.915 144.037L391.915 151.547M998.293 144.037L998.293 136.528M998.293 144.037L998.293 151.547" stroke="#A7A7A7"/>
 <rect x="524" y="123" width="351" height="27" fill="white"/>
 <text fill="#878787" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="24" letter-spacing="0em"><tspan x="537" y="150.203">Singular Vector 1  (frequency?)</tspan></text>
 <rect x="362" y="304" width="26" height="309" fill="white"/>
@@ -20,7 +20,7 @@
 <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="27.5" font-weight="bold" letter-spacing="0em"><tspan x="4" y="885.399">InceptionV1 trained on </tspan><tspan x="4" y="917.399">Places365&#10;</tspan></text>
 <text fill="#676767" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="27.5" letter-spacing="0em"><tspan x="4" y="981.399">One more, the first </tspan><tspan x="4" y="1013.4">singular vector </tspan><tspan x="4" y="1045.4">separates color and </tspan><tspan x="4" y="1077.4">black and white, </tspan><tspan x="4" y="1109.4">meaning that&#x2019;s the </tspan><tspan x="4" y="1141.4">largest dimension of </tspan><tspan x="4" y="1173.4">variation in which </tspan><tspan x="4" y="1205.4">neurons connect to </tspan><tspan x="4" y="1237.4">which in the next layer.</tspan></text>
 <path d="M373.141 891.933V1498.31M373.141 891.933H380.651M373.141 891.933H365.632M373.141 1498.31H380.651M373.141 1498.31L365.632 1498.31" stroke="#A7A7A7"/>
-<path d="M391.915 875.037L998.294 875.037M391.915 875.037L391.915 867.528M391.915 875.037L391.915 882.547M998.294 875.037L998.294 867.528M998.294 875.037L998.293 882.547" stroke="#A7A7A7"/>
+<path d="M391.915 875.037L998.293 875.037M391.915 875.037L391.915 867.528M391.915 875.037L391.915 882.547M998.293 875.037L998.293 867.528M998.293 875.037L998.293 882.547" stroke="#A7A7A7"/>
 <rect x="524" y="854" width="351" height="27" fill="white"/>
 <text fill="#878787" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="24" letter-spacing="0em"><tspan x="537" y="881.203">Singular Vector 1  (frequency?)</tspan></text>
 <rect x="362" y="1035" width="26" height="309" fill="white"/>
@@ -32,7 +32,7 @@
 <rect x="1118" y="1040" width="26" height="309" fill="white"/>
 <text transform="translate(1116 1332) rotate(-90)" fill="#878787" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="24" letter-spacing="0em"><tspan x="0" y="22.2031">Singular Vector 0  (color?)</tspan></text>
 <path d="M1129.14 160.933V767.312M1129.14 160.933H1136.65M1129.14 160.933H1121.63M1129.14 767.312H1136.65M1129.14 767.312L1121.63 767.312" stroke="#A7A7A7"/>
-<path d="M1147.91 144.037L1754.29 144.037M1147.91 144.037L1147.91 136.528M1147.91 144.037L1147.91 151.547M1754.29 144.037L1754.29 136.528M1754.29 144.037L1754.29 151.546" stroke="#A7A7A7"/>
+<path d="M1147.91 144.037L1754.29 144.037M1147.91 144.037L1147.91 136.528M1147.91 144.037L1147.91 151.547M1754.29 144.037L1754.29 136.528M1754.29 144.037L1754.29 151.547" stroke="#A7A7A7"/>
 <rect x="1280" y="123" width="351" height="27" fill="white"/>
 <text fill="#878787" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="24" letter-spacing="0em"><tspan x="1293" y="150.203">Singular Vector 1  (frequency?)</tspan></text>
 <rect x="1118" y="304" width="26" height="309" fill="white"/>

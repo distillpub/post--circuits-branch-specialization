@@ -105,17 +105,17 @@
       The first two layers of AlexNet are split into two branches which can't communicate until they rejoin after the second layer. This structure was used to maximize the efficiency of training the model on two GPUs, but authors noticed something very curious happened as a result. The neurons in the first layer organized themselves into two groups: black-and-white Gabor filters formed on one branch and low-frequency color detectors formed on the other branch.
     </p>
 
-    <figure id="figure-1">
+    <figure id="figure-1" style="grid-column-start: page-start; grid-column-end: page-end;">
       <img src="images/Figure_1.png" style="max-width: 100%; width: auto;" />
-      <figcaption class="figcaption l-body">
+    </figure>
+      <figcaption class="figcaption l-body" style="grid-column-start: 4; grid-column-end: 12; margin-bottom: 1em;">
         <p>
-          <a href="#figure-1" class="figure-number">1</a>. CAPTION.
+          <a href="#figure-1" class="figure-number">1</a>. Branch specialization in the first two layers of AlexNet.
         </p>
       </figcaption>
-    </figure>
 
     <p>
-      Although the first layer of AlexNet is the only example of branch specialization we're aware of in the literature, it seems to be quite common. We find that branch specialization happens in later hidden layers, not just the first layer. It occurs in both low-level and high-level features. It occurs in a wide range of models, including places you might not expect it &ndash; for example, residual blocks in resnets can functionally be branches and specialize. Finally, branch specialization appears to surface as a structural phenomenon even in vanilla convolutional nets, even without any particular structure causing it.
+      Although the first layer of AlexNet is the only example of branch specialization we're aware of in the literature, it seems to be quite common. We find that branch specialization happens in later hidden layers, not just the first layer. It occurs in both low-level and high-level features. It occurs in a wide range of models, including places you might not expect it &ndash; for example, residual blocks in resnets can functionally be branches and specialize. Finally, branch specialization appears to surface as a structural phenomenon even in plain convolutional nets, even without any particular structure causing it.
     </p>
 
     <p>
@@ -132,7 +132,7 @@
       {diagrams/Figure_2}
       <figcaption class="figcaption l-body">
         <p>
-          <a href="#figure-2" class="figure-number">2</a>. CAPTION.
+          <a href="#figure-2" class="figure-number">2</a>. Examples of branches in various types of neural network architectures.
         </p>
       </figcaption>
     </figure>
@@ -149,7 +149,7 @@
       {diagrams/Figure_3}
       <figcaption class="figcaption l-body">
         <p>
-          <a href="#figure-3" class="figure-number">3</a>. CAPTION.
+          <a href="#figure-3" class="figure-number">3</a>.
         </p>
       </figcaption>
     </figure>
@@ -176,7 +176,7 @@
       {diagrams/Figure_4}
       <figcaption class="figcaption l-body">
         <p>
-          <a href="#figure-4" class="figure-number">4</a>. CAPTION.
+          <a href="#figure-4" class="figure-number">4</a>.
         </p>
       </figcaption>
     </figure>
@@ -262,17 +262,17 @@
       Sure enough, the singular vector (the largest factor of variation) of the first two convolutional layers of InceptionV1 is color.
     </p>
 
-    <figure id="figure-6">
+    <figure id="figure-6"  style="grid-column-start: page-start;">
       {diagrams/Figure_6}
       <figcaption class="figcaption l-body">
         <p>
-          <a href="#figure-6" class="figure-number">6</a>. CAPTION.
+          <a href="#figure-6" class="figure-number">6</a>. Singular vectors for the first and second convolutional layers of InceptionV1, trained on ImageNet (above) or Places365 (below).
         </p>
       </figcaption>
     </figure>
 
     <p>
-      We also see that the second factor appears to be frequency. This suggests an interesting prediction: perhaps if we were to split the layer into more than two branches, we'd also observe spcialization in frequency in addition to color.
+      We also see that the second factor appears to be frequency. This suggests an interesting prediction: perhaps if we were to split the layer into more than two branches, we'd also observe specialization in frequency in addition to color.
     </p>
 
     <p>
@@ -283,7 +283,7 @@
       <img src="images/Figure_7.png" style="max-width: 100%; width: auto;" />
       <figcaption class="figcaption l-body">
         <p>
-          <a href="#figure-7" class="figure-number">7</a>. CAPTION.
+          <a href="#figure-7" class="figure-number">7</a>. [[TODO: What model is this from??]].
         </p>
       </figcaption>
     </figure>

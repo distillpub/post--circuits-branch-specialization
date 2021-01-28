@@ -39,7 +39,7 @@
 </g>
 </g>
 <g id="Group 77">
-<text id="... but we can also conceptualize them as, to some extent, being parallel branches due to the skip coonnections. This means that residual blocks can potentially specialize." fill="#676767" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="27.5" letter-spacing="0em"><tspan x="933" y="268.399">... but we can also conceptualize </tspan><tspan x="933" y="300.399">them as, to some extent, being </tspan><tspan x="933" y="332.399">parallel branches due to the skip </tspan><tspan x="933" y="364.399">coonnections. This means that </tspan><tspan x="933" y="396.399">residual blocks can potentially </tspan><tspan x="933" y="428.399">specialize.</tspan></text>
+<text id="... but we can also conceptualize them as, to some extent, being parallel branches due to the skip connections. This means that residual blocks can potentially specialize." fill="#676767" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="27.5" letter-spacing="0em"><tspan x="933" y="268.399">... but we can also conceptualize </tspan><tspan x="933" y="300.399">them as, to some extent, being </tspan><tspan x="933" y="332.399">parallel branches due to the skip </tspan><tspan x="933" y="364.399">connections. This means that </tspan><tspan x="933" y="396.399">residual blocks can potentially </tspan><tspan x="933" y="428.399">specialize.</tspan></text>
 <g id="Group 28">
 <path id="Vector 88_4" d="M16.3636 279C138.945 279 582.172 279 678.655 279C791.612 279 775.554 368.291 810.545 387" stroke="#B0B0B0" stroke-width="5"/>
 <path id="Vector 97" opacity="0.25" d="M219.273 281.182C241.133 281.182 249.267 296.454 271.636 296.454" stroke="#B0B0B0" stroke-width="5"/>
