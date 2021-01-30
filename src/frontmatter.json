@@ -1,17 +1,11 @@
 {
-	"title": "High/Low frequency detectors",
-	"description": "A family of early-vision filters reacting to contrasts between spatial gratings of different frequency",
-	"password": "weights",
+	"title": "Branch Specialization",
+	"description": "When a neural network layer is divided into multiple branches, neurons self-organize into coherent groupings.",
+	"password": "branchy",
 	"authors": [
 		{
-			"author": "Chris Olah",
-			"authorURL": "https://colah.github.io",
-			"affiliation": "OpenAI",
-			"affiliationURL": "https://openai.com"
-		},
-		{
-			"author": "Nick Cammarata",
-			"authorURL": "http://nickcammarata.com",
+			"author": "Chelsea Voss",
+			"authorURL": "https://csvoss.com",
 			"affiliation": "OpenAI",
 			"affiliationURL": "https://openai.com"
 		},
@@ -22,8 +16,8 @@
 			"affiliationURL": "https://openai.com"
 		},
 		{
-			"author": "Chelsea Voss",
-			"authorURL": "https://csvoss.com",
+			"author": "Nick Cammarata",
+			"authorURL": "http://nickcammarata.com",
 			"affiliation": "OpenAI",
 			"affiliationURL": "https://openai.com"
 		},
@@ -36,6 +30,10 @@
 		{
 			"author": "Ludwig Schubert",
 			"authorURL": "https://schubert.io"
+		},
+		{
+			"author": "Chris Olah",
+			"authorURL": "https://colah.github.io"
 		}
 	],
 	"katex": {

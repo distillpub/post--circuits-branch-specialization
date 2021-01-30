@@ -86,36 +86,34 @@
     <h2 style="display: none;">Introduction</h2>
 
     <p>
-      If we think of interpretability as a kind of “anatomy of neural networks”, most of the circuits thread has involved studying tiny little veins &ndash; looking at the small-scale, at individual neurons and how they connect. However, there are many natural questions that the small-scale approach doesn't address.
+      If we think of interpretability as a kind of “anatomy of neural networks,” most of the circuits thread has involved studying tiny little veins &ndash; looking at the small-scale, at individual neurons and how they connect. However, there are many natural questions that the small-scale approach doesn't address.
     </p>
 
     <p>
-      In contrast, biological anatomy also has abstractions for dealing with larger-scale structures: individual organs like the heart, or entire organ systems like the respiratory system. And so we wonder: is there a “respiratory system” or “heart” or “brain region” of an artificial neural network? Do neural networks have any emergent structures that we could study that are larger-scale than circuits?
+      In contrast, the most prominent abstractions in biological anatomy involve larger-scale structures: individual organs like the heart, or entire organ systems like the respiratory system. And so we wonder: is there a “respiratory system” or “heart” or “brain region” of an artificial neural network? Do neural networks have any emergent structures that we could study that are larger-scale than circuits?
     </p>
 
     <p>
-      This article describes <i>branch specialization</i>, one of three larger “structural phenomena” we’ve been able observe in neural networks. (The other two, equivariance and weight banding, have separate dedicated articles. Branch specialization occurs when neural network layers are split up into branches. The neurons and circuits tend to self-organize, clumping related functions into the each branch and forming larger functional units &ndash; a kind of “neural network brain region.” We find evidence that these structures implicitly exist in neural networks without branches, and that branches are simply reifying structures that otherwise exist.
+      This article describes <i>branch specialization</i>, one of three larger “structural phenomena” we’ve been able observe in neural networks. (The other two, <a href="https://distill.pub/2020/circuits/equivariance/">equivariance</a> and <a>weight banding</a>, have separate dedicated articles. Branch specialization occurs when neural network layers are split up into branches. The neurons and circuits tend to self-organize, clumping related functions into each branch and forming larger functional units &ndash; a kind of “neural network brain region.” We find evidence that these structures implicitly exist in neural networks without branches, and that branches are simply reifying structures that otherwise exist.
     </p>
 
     <p>
-      AlexNet[] is famous as a jump in computer vision, arguably starting the deep learning revolution. But buried in the details of the paper is a fascinating, rarely-discussed detail.
+      The earliest example of branch specialization that we're aware of comes from AlexNet<d-cite bibtex-key="krizhevsky2012imagenet"></d-cite>. AlexNet is famous as a jump in computer vision, arguably starting the deep learning revolution, but buried in the paper is a fascinating, rarely-discussed detail.
+
+      The first two layers of AlexNet are split into two branches which can't communicate until they rejoin after the second layer. This structure was used to maximize the efficiency of training the model on two GPUs, but the authors noticed something very curious happened as a result. The neurons in the first layer organized themselves into two groups: black-and-white Gabor filters formed on one branch and low-frequency color detectors formed on the other branch.
     </p>
 
-    <p>
-      The first two layers of AlexNet are split into two branches which can't communicate until they rejoin after the second layer. This structure was used to maximize the efficiency of training the model on two GPUs, but authors noticed something very curious happened as a result. The neurons in the first layer organized themselves into two groups: black-and-white Gabor filters formed on one branch and low-frequency color detectors formed on the other branch.
-    </p>
-
-    <figure id="figure-1" style="grid-column-start: page-start; grid-column-end: page-end;">
+    <figure id="figure-1">
       <img src="images/Figure_1.png" style="max-width: 100%; width: auto;" />
-    </figure>
-      <figcaption class="figcaption l-body" style="grid-column-start: 4; grid-column-end: 12; margin-bottom: 1em;">
+      <figcaption class="figcaption l-body">
         <p>
-          <a href="#figure-1" class="figure-number">1</a>. Branch specialization in the first two layers of AlexNet.
+          <a href="#figure-1" class="figure-number">1</a>. Branch specialization in the first two layers of AlexNet. Krizhevsky et al.<d-cite bibtex-key="krizhevsky2012imagenet"></d-cite> observed the phenomenon we call branch specialization in the first layer of AlexNet by visualizing their weights to RGB channels; here, we use <a href="https://distill.pub/2017/feature-visualization/">feature visualization</a><d-cite bibtex-key="erhan2009visualizing,simonyan2013deep,nguyen2016multifaceted,olah2017feature"></d-cite> to show how this phenomenon extends to the second layer of each branch.
         </p>
       </figcaption>
+    </figure>
 
     <p>
-      Although the first layer of AlexNet is the only example of branch specialization we're aware of in the literature, it seems to be quite common. We find that branch specialization happens in later hidden layers, not just the first layer. It occurs in both low-level and high-level features. It occurs in a wide range of models, including places you might not expect it &ndash; for example, residual blocks in resnets can functionally be branches and specialize. Finally, branch specialization appears to surface as a structural phenomenon even in plain convolutional nets, even without any particular structure causing it.
+      Although the first layer of AlexNet is the only example of branch specialization we're aware of in the literature, it seems to be a common phenomenon. We find that branch specialization happens in later hidden layers, not just the first layer. It occurs in both low-level and high-level features. It occurs in a wide range of models, including places you might not expect it &ndash; for example, residual blocks in resnets can functionally be branches and specialize. Finally, branch specialization appears to surface as a structural phenomenon in plain convolutional nets, even without any particular structure causing it.
     </p>
 
     <p>
@@ -125,7 +123,7 @@
     <h2>What is a branch?</h2>
 
     <p>
-      Many neural network architectures have <i>branches</i>, sequences of layers which temporarily don't have access to information which is still passed to later layers.
+      Many neural network architectures have <i>branches</i>, sequences of layers which temporarily don't have access to "parallel" information which is still passed to later layers.
     </p>
 
     <figure id="figure-2">
@@ -138,7 +136,7 @@
     </figure>
 
     <p>
-      In the past, models with explicitly-labeled branches were popular (such as AlexNet and the Inception family of networks). In more recent years, these have become less common, but residual networks &ndash; which can be seen as implicitly having branches in their residual blocks &ndash; have become very common. We also sometimes see branched architectures develop automatically in AutoML approaches, where the network architecture is learned.
+      In the past, models with explicitly-labeled branches were popular (such as AlexNet and the Inception family of networks<d-cite bibtex-key="szegedy2015going"></d-cite>). In more recent years, these have become less common, but residual networks &ndash; which can be seen as implicitly having branches in their residual blocks &ndash; have become very common. We also sometimes see branched architectures develop automatically in neural architecture search<d-cite bibtex-key="zoph2016neural"></d-cite>, an approach where the network architecture is learned.
     </p>
 
     <p>
@@ -149,17 +147,17 @@
       {diagrams/Figure_3}
       <figcaption class="figcaption l-body">
         <p>
-          <a href="#figure-3" class="figure-number">3</a>.
+          <a href="#figure-3" class="figure-number">3</a>. Residual blocks as branches in parallel.
         </p>
       </figcaption>
     </figure>
 
     <p>
-      We typically see residual blocks specialize in very deep residual networks (e.g. ResNet-52). One hypothesis for why is that, in these models, the exact depth of a layer doesn't matter and the branching aspect becomes more important than the sequential aspect.
+      We typically see residual blocks specialize in very deep residual networks (e.g. ResNet-152<!--CITE-->). One hypothesis for why is that, in these models, the exact depth of a layer doesn't matter and the branching aspect becomes more important than the sequential aspect.
     </p>
 
     <p>
-      One of the conceptual weaknesses of normal branching models is that although branches can save parameters, it still requires a lot of parameters to mix values between branches. However, if you buy the branch interpretation of residual networks, you can see them as a strategy to sidestep this: residual networks intermix branches (e.g. block sparse weights) with low-rank connections (projecting all the blocks into the same sum and then back up). This seems like a really elegant way to handle branching. More practically, it suggests that analysis of residual networks might be well-served by paying close attention to the units in the blocks, and might expect the residual stream to be unusally polysemantic.
+      One of the conceptual weaknesses of normal branching models is that although branches can save parameters, it still requires a lot of parameters to mix values between branches. However, if you buy the branch interpretation of residual networks, you can see them as a strategy to sidestep this: residual networks intermix branches (e.g. block sparse weights) with low-rank connections (projecting all the blocks into the same sum and then back up). This seems like a really elegant way to handle branching. More practically, it suggests that analysis of residual networks might be well-served by paying close attention to the units in the blocks, and that we might expect the residual stream to be unusally polysemantic.
     </p>
 
     <h2>Why does branch specialization occur?</h2>
@@ -176,7 +174,7 @@
       {diagrams/Figure_4}
       <figcaption class="figcaption l-body">
         <p>
-          <a href="#figure-4" class="figure-number">4</a>.
+          <a href="#figure-4" class="figure-number">4</a>. Hypothetical positive feedback loop of branch specialization during training.
         </p>
       </figcaption>
     </figure>
@@ -188,11 +186,11 @@
     <h2>Branch specialization beyond the first layer</h2>
 
     <p>
-      So far, the only concrete example we've shown of branch specialization is the first and second layer of AlexNet. What about later layers? AlexNet also splits its later layers into branches, after all. This seems to be unexplored, since studying features after the first few layers is much harder.
+      So far, the only concrete example we've shown of branch specialization is the first and second layer of AlexNet. What about later layers? AlexNet also splits its later layers into branches, after all. This seems to be unexplored, since studying features after the first layer is much harder.<d-footnote>For the first layer, one can visualize the RGB weights; for later layers, one needs to use feature visualization.</d-footnote>
     </p>
 
     <p>
-      Unfortunately, branch specialization in the later layers of AlexNet is very subtle. Instead of one overall split, it's more like there's dozens of small clusters of neurons, each cluster being assigned to a branch. It's hard to be confident that one isn't just seeing patterns in noise.
+      Unfortunately, branch specialization in the later layers of AlexNet is also very subtle. Instead of one overall split, it's more like there's dozens of small clusters of neurons, each cluster being assigned to a branch. It's hard to be confident that one isn't just seeing patterns in noise.
     </p>
 
     <p>
@@ -204,7 +202,7 @@
     </p>
 
 
-    <figure id="figure-5">
+    <figure id="figure-5" style="grid-column-start: page-start; grid-column-end: page-end;">
       {diagrams/Figure_5}
       <figcaption class="figcaption l-body">
         <p>
@@ -213,20 +211,11 @@
       </figcaption>
     </figure>
 
-    <ul>
-      <li>
-        <code>mixed3a_5x5</code>:
-        The 5x5 branch of mixed3a, a relatively early layer, is specialized on color detection. For example, all 9 of the black-and-white vs. color detectors are in this branch, despite it only being 32 of this layer's 256 neurons. The probability of that happening by chance is less than 1/10<sup>8</sup>.
-      </li>
-      <li>
-        <code>mixed3b_5x5</code>:
-        This branch contains all 30 of the curve-related features for this layer (all curves, double curves, circles, spirals, S-shaped features, and more), despite only being 96 of the 480 neurons in this layer. The probability of that happening by chance is less than 1/10<sup>20</sup>. Many of the other neurons in this branch are boundary detectors, which often partly rely on curves if they are detecting curve boundaries.
-      </li>
-      <li>
-        <code>mixed4a_5x5</code>:
-        This branch appears to be specialized in complex shapes and 3D geometry detectors. We don't have enough of a full taxonomy of this layer to allow for a quantitative assessment.
-      </li>
-    </ul>
+    <p>
+      This is exceptionally unlikely to have occurred by chance.
+
+      For example, all 9 of the black and white vs. color detectors in <code>mixed3a</code> are in <code>mixed3a_5x5</code>, despite it only being 32 out of the 256 neurons in the layer. The probability of that happening by chance is less than 1/10<sup>8</sup>. For a more extreme example, all 30 of the curve-related features in <code>mixed3b</code> are in <code>mixed3b_5x5</code>, despite it being only 96 out of the 480 neurons in the layer. The probability of that happening by chance is less than 1/10<sup>20</sup>.
+
 
     <p>
       It's worth noting one confounding factor which might be influencing the specialization. The 5x5 branches are the smallest branches, but also have larger convolutions (5x5 instead of 3x3 or 1x1) than their neighbors.<d-footnote>There is something which suggests that the branching plays an essential role: mixed3a and mixed3b are adjacent layers which contain relatively similar features and are at the same scale. If it was only about convolution size, why don't we see any curves in the <code>mixed3a_5x5</code> branch or color in the <code>mixed3b_5x5</code> branch?</d-footnote>
@@ -250,8 +239,12 @@
       One hypothesis seems very tempting. Notice that many of the same features seem to form in branched models as form in normal, non-branched models. For example, the first layer of both branched and non-branched models contain Gabor filters and color features. If the same features exist, presumably the same weights exist between them.
     </p>
 
+
+
     <p>
-      Could it be that branching is just surfacing a structure that already exists? Perhaps there's two different subgraphs between the weights of the first and second conv layer in a normal model, with relatively small weights between them, and that when you train a branched model these two subgraphs latch onto the branches.
+      Could it be that branching is just surfacing a structure that already exists? Perhaps there's two different subgraphs between the weights of the first and second conv layer in a normal model, with relatively small weights between them, and when you train a branched model these two subgraphs latch onto the branches.
+
+      (This would be directionally similar to work finding modular substructures<d-cite bibtex-key="filan2020neural,csordas2020neural"></d-cite> within neural networks.)
     </p>
 
     <p>
@@ -259,14 +252,15 @@
     </p>
 
     <p>
-      Sure enough, the singular vector (the largest factor of variation) of the first two convolutional layers of InceptionV1 is color.
+      Sure enough, the singular vector (the largest factor of variation) of the weights between the first two convolutional layers of InceptionV1 is color.
     </p>
 
     <figure id="figure-6"  style="grid-column-start: page-start;">
       {diagrams/Figure_6}
       <figcaption class="figcaption l-body">
         <p>
-          <a href="#figure-6" class="figure-number">6</a>. Singular vectors for the first and second convolutional layers of InceptionV1, trained on ImageNet (above) or Places365 (below).
+          <a href="#figure-6" class="figure-number">6</a>. Singular vectors for the first and second convolutional layers of InceptionV1, trained on ImageNet (above) or Places365 (below). One can think of neurons being plotted closer together in this diagram as meaning they likely tend to connect to similar neurons.
+
         </p>
       </figcaption>
     </figure>
@@ -283,7 +277,7 @@
       <img src="images/Figure_7.png" style="max-width: 100%; width: auto;" />
       <figcaption class="figcaption l-body">
         <p>
-          <a href="#figure-7" class="figure-number">7</a>. [[TODO: What model is this from??]].
+          <a href="#figure-7" class="figure-number">7</a>. We constructed a small ImageNet model with the first layer split into four branches. The rest of the model is roughly an InceptionV1 architecture.
         </p>
       </figcaption>
     </figure>
@@ -292,39 +286,31 @@
 
 
     <p>
-      We've shown that branch specialization is one example of a large-scale structure to how neural networks operate, an example of a structural phenomenon. It happens in a variety of situations and neural network architectures, and it happens with <i>consistency</i> &ndash; certain motifs of specialization, such as color, frequency, and curves, happen consistently across different architectures and tasks.
+      We've shown that branch specialization is one example of a structural phenomenon &mdash; a larger-scale structure in a neural network. It happens in a variety of situations and neural network architectures, and it happens with <i>consistency</i> &ndash; certain motifs of specialization, such as color, frequency, and curves, happen consistently across different architectures and tasks.
     </p>
 
     <p>
-      Harkening back to our comparison with anatomy, although we hesitate to claim explicit parallels to neuroscience, it's tempting to draw analogies between branch specialization and the existence of regions of the brain focused on particular tasks. The visual cortex, the auditory cortex, the anatomical homunculus[], Broca's area and Wernicke's area  – these are all examples of brain areas with such consistent specialization across wide populations of people that neuroscientists and psychologists have been able to characterize their function as well as to notice remarkably consistent symptoms, such as those of Wernicke's aphasia, when those areas are damaged.
+      Harkening back to our comparison with anatomy, although we hesitate to claim explicit parallels to neuroscience, it's tempting to draw analogies between branch specialization and the existence of regions of the brain focused on particular tasks. The visual cortex, the auditory cortex, Broca's area and Wernicke's area  – these are all examples of brain areas with such consistent specialization across wide populations of people that neuroscientists and psychologists have been able to characterize as having remarkably consistent functions.
+
+      Sensations in the human body map so consistently onto the parietal lobe that it is often characterized as a <a href="https://en.wikipedia.org/wiki/Cortical_homunculus">cortical homunculus</a>. There's significant interest in using artificial neural networks to advance neuroscience. We wonder if the automatic emergence of branch specialization could be a helpful model for
+
+      As researchers without expertise in neuroscience, we're uncertain how useful this connection is, but it may be worth considering whether branch specialization can be a useful model of how specialization might emerge in biological neural networks.
     </p>
   </d-article>
 
   <d-appendix>
     <h3>Author Contributions</h3>
 
-    <!-- <p>This article grew out of a document that Chris wrote in order to act as an explanation for our techniques for visualizing weights.</p>
+    <p>As with many scientific collaborations, the contributions are difficult to separate because it was a collaborative effort that we wrote together.</p>
 
-    <p>
-      <b>Research.</b> The necessity of visualizing weights is a problem we encounter frequently, and our techniques have been refined across many investigations of features and circuits, so it is difficult to fully separate out all contributions towards improving those techniques.
-    </p>
+    <p><b>Research.</b> The phenomenon of branch specialization was initially observed by Chris Olah. Chris also developed the weight PCA experiments suggesting that it implicitly occurs in non-branched models. This investigation was done in the context of and informed by collaborative research into circuits by Nick Cammarata, Gabe Goh, Chelsea Voss, Ludwig Schubert, and Chris. Chelsea and Nick contributed to framing this work in the importance of larger scale structures on top of circuits.</p>
 
-    <p>
-      Many people "test drove" these visualization methods, and a lot of our practical knowledge of using them to study circuits came from that.
+    <p><b>Infrastructure.</b> Branch specialization was only discovered because an early version of Microscope by Ludwig Schubert made it easy to browse the neurons that exist at certain layers. Michael Petrov, Ludwig and Nick built a variety of infrastructural tools which made our research possible.</p>
 
-      For example, the curve detector examples used in <i>Small Multiples</i> are due to Nick's work investigating curve detectors. Gabe performed experiments that moved <i>Visualizing Spatial Position Weights</i> forward. The high-low frequency detector example and NMF factors used in <i>Visualizing Weight Factors</i> are due to experiments performed by Ludwig, and the weight banding examples in <i>Aside: One Simple Trick</i> are due to experiments run by Michael.
-    </p>
+    <p><b>Writing and Diagrams.</b> An initial article was written and illustrated by Chris. It was greatly revised and improved by Chelsea.</p>
 
-    <p>
-      <b>Writing and Diagrams.</b> Chris wrote the article and developed the designs for its original figures. Chelsea ported the article to Distill, upgraded the diagrams for the new format, edited some text, and developed Figure 12, and Chris provided feedback on the ported article.
-    </p> -->
+    <!-- <h3>Acknowledgments</h3> -->
 
-    <h3>Acknowledgments</h3>
-
-    <!-- <p>
-      We are grateful to participants of #circuits in the Distill slack for their pre-draft comments and engagement with these concepts, including Kenneth Co, Humza Iqbal, and Vincent Tjeng. We are also grateful to Daniel Filan, Humza Iqbal, Stefan Sietzen, and Vincent Tjeng for remarks on a draft.
-    </p>
- -->
     <d-footnote-list></d-footnote-list>
     <d-citation-list></d-citation-list>
   </d-appendix>

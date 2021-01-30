@@ -86,36 +86,34 @@
     <h2 style="display: none;">Introduction</h2>
 
     <p>
-      If we think of interpretability as a kind of “anatomy of neural networks”, most of the circuits thread has involved studying tiny little veins &ndash; looking at the small-scale, at individual neurons and how they connect. However, there are many natural questions that the small-scale approach doesn't address.
+      If we think of interpretability as a kind of “anatomy of neural networks,” most of the circuits thread has involved studying tiny little veins &ndash; looking at the small-scale, at individual neurons and how they connect. However, there are many natural questions that the small-scale approach doesn't address.
     </p>
 
     <p>
-      In contrast, biological anatomy also has abstractions for dealing with larger-scale structures: individual organs like the heart, or entire organ systems like the respiratory system. And so we wonder: is there a “respiratory system” or “heart” or “brain region” of an artificial neural network? Do neural networks have any emergent structures that we could study that are larger-scale than circuits?
+      In contrast, the most prominent abstractions in biological anatomy involve larger-scale structures: individual organs like the heart, or entire organ systems like the respiratory system. And so we wonder: is there a “respiratory system” or “heart” or “brain region” of an artificial neural network? Do neural networks have any emergent structures that we could study that are larger-scale than circuits?
     </p>
 
     <p>
-      This article describes <i>branch specialization</i>, one of three larger “structural phenomena” we’ve been able observe in neural networks. (The other two, equivariance and weight banding, have separate dedicated articles. Branch specialization occurs when neural network layers are split up into branches. The neurons and circuits tend to self-organize, clumping related functions into the each branch and forming larger functional units &ndash; a kind of “neural network brain region.” We find evidence that these structures implicitly exist in neural networks without branches, and that branches are simply reifying structures that otherwise exist.
+      This article describes <i>branch specialization</i>, one of three larger “structural phenomena” we’ve been able observe in neural networks. (The other two, <a href="https://distill.pub/2020/circuits/equivariance/">equivariance</a> and <a>weight banding</a>, have separate dedicated articles. Branch specialization occurs when neural network layers are split up into branches. The neurons and circuits tend to self-organize, clumping related functions into each branch and forming larger functional units &ndash; a kind of “neural network brain region.” We find evidence that these structures implicitly exist in neural networks without branches, and that branches are simply reifying structures that otherwise exist.
     </p>
 
     <p>
-      AlexNet[] is famous as a jump in computer vision, arguably starting the deep learning revolution. But buried in the details of the paper is a fascinating, rarely-discussed detail.
+      The earliest example of branch specialization that we're aware of comes from AlexNet<d-cite bibtex-key="krizhevsky2012imagenet"></d-cite>. AlexNet is famous as a jump in computer vision, arguably starting the deep learning revolution, but buried in the paper is a fascinating, rarely-discussed detail.
+
+      The first two layers of AlexNet are split into two branches which can't communicate until they rejoin after the second layer. This structure was used to maximize the efficiency of training the model on two GPUs, but the authors noticed something very curious happened as a result. The neurons in the first layer organized themselves into two groups: black-and-white Gabor filters formed on one branch and low-frequency color detectors formed on the other branch.
     </p>
 
-    <p>
-      The first two layers of AlexNet are split into two branches which can't communicate until they rejoin after the second layer. This structure was used to maximize the efficiency of training the model on two GPUs, but authors noticed something very curious happened as a result. The neurons in the first layer organized themselves into two groups: black-and-white Gabor filters formed on one branch and low-frequency color detectors formed on the other branch.
-    </p>
-
-    <figure id="figure-1" style="grid-column-start: page-start; grid-column-end: page-end;">
+    <figure id="figure-1">
       <img src="images/Figure_1.png" style="max-width: 100%; width: auto;" />
-    </figure>
-      <figcaption class="figcaption l-body" style="grid-column-start: 4; grid-column-end: 12; margin-bottom: 1em;">
+      <figcaption class="figcaption l-body">
         <p>
-          <a href="#figure-1" class="figure-number">1</a>. Branch specialization in the first two layers of AlexNet.
+          <a href="#figure-1" class="figure-number">1</a>. Branch specialization in the first two layers of AlexNet. Krizhevsky et al.<d-cite bibtex-key="krizhevsky2012imagenet"></d-cite> observed the phenomenon we call branch specialization in the first layer of AlexNet by visualizing their weights to RGB channels; here, we use <a href="https://distill.pub/2017/feature-visualization/">feature visualization</a><d-cite bibtex-key="erhan2009visualizing,simonyan2013deep,nguyen2016multifaceted,olah2017feature"></d-cite> to show how this phenomenon extends to the second layer of each branch.
         </p>
       </figcaption>
+    </figure>
 
     <p>
-      Although the first layer of AlexNet is the only example of branch specialization we're aware of in the literature, it seems to be quite common. We find that branch specialization happens in later hidden layers, not just the first layer. It occurs in both low-level and high-level features. It occurs in a wide range of models, including places you might not expect it &ndash; for example, residual blocks in resnets can functionally be branches and specialize. Finally, branch specialization appears to surface as a structural phenomenon even in plain convolutional nets, even without any particular structure causing it.
+      Although the first layer of AlexNet is the only example of branch specialization we're aware of in the literature, it seems to be a common phenomenon. We find that branch specialization happens in later hidden layers, not just the first layer. It occurs in both low-level and high-level features. It occurs in a wide range of models, including places you might not expect it &ndash; for example, residual blocks in resnets can functionally be branches and specialize. Finally, branch specialization appears to surface as a structural phenomenon in plain convolutional nets, even without any particular structure causing it.
     </p>
 
     <p>
@@ -125,7 +123,7 @@
     <h2>What is a branch?</h2>
 
     <p>
-      Many neural network architectures have <i>branches</i>, sequences of layers which temporarily don't have access to information which is still passed to later layers.
+      Many neural network architectures have <i>branches</i>, sequences of layers which temporarily don't have access to "parallel" information which is still passed to later layers.
     </p>
 
     <figure id="figure-2">
@@ -393,7 +391,7 @@
 <clipPath id="clip0">
 <rect width="1377" height="788" fill="white" class='pixelated' />
 </clipPath>
-<image id="imageFigure_20" data-name="imageFigure_2.png" width="92" height="176" xlink:href="generated_images/a7387faedf643c5.png" class='pixelated' />
+<image id="imageFigure_20" data-name="imageFigure_2.png" width="92" height="176" xlink:href="generated_images/647a568812c1933.png" class='pixelated' />
 </defs>
 </svg>
 
@@ -405,7 +403,7 @@
     </figure>
 
     <p>
-      In the past, models with explicitly-labeled branches were popular (such as AlexNet and the Inception family of networks). In more recent years, these have become less common, but residual networks &ndash; which can be seen as implicitly having branches in their residual blocks &ndash; have become very common. We also sometimes see branched architectures develop automatically in AutoML approaches, where the network architecture is learned.
+      In the past, models with explicitly-labeled branches were popular (such as AlexNet and the Inception family of networks<d-cite bibtex-key="szegedy2015going"></d-cite>). In more recent years, these have become less common, but residual networks &ndash; which can be seen as implicitly having branches in their residual blocks &ndash; have become very common. We also sometimes see branched architectures develop automatically in neural architecture search<d-cite bibtex-key="zoph2016neural"></d-cite>, an approach where the network architecture is learned.
     </p>
 
     <p>
@@ -478,17 +476,17 @@
 
       <figcaption class="figcaption l-body">
         <p>
-          <a href="#figure-3" class="figure-number">3</a>.
+          <a href="#figure-3" class="figure-number">3</a>. Residual blocks as branches in parallel.
         </p>
       </figcaption>
     </figure>
 
     <p>
-      We typically see residual blocks specialize in very deep residual networks (e.g. ResNet-52). One hypothesis for why is that, in these models, the exact depth of a layer doesn't matter and the branching aspect becomes more important than the sequential aspect.
+      We typically see residual blocks specialize in very deep residual networks (e.g. ResNet-152<!--CITE-->). One hypothesis for why is that, in these models, the exact depth of a layer doesn't matter and the branching aspect becomes more important than the sequential aspect.
     </p>
 
     <p>
-      One of the conceptual weaknesses of normal branching models is that although branches can save parameters, it still requires a lot of parameters to mix values between branches. However, if you buy the branch interpretation of residual networks, you can see them as a strategy to sidestep this: residual networks intermix branches (e.g. block sparse weights) with low-rank connections (projecting all the blocks into the same sum and then back up). This seems like a really elegant way to handle branching. More practically, it suggests that analysis of residual networks might be well-served by paying close attention to the units in the blocks, and might expect the residual stream to be unusally polysemantic.
+      One of the conceptual weaknesses of normal branching models is that although branches can save parameters, it still requires a lot of parameters to mix values between branches. However, if you buy the branch interpretation of residual networks, you can see them as a strategy to sidestep this: residual networks intermix branches (e.g. block sparse weights) with low-rank connections (projecting all the blocks into the same sum and then back up). This seems like a really elegant way to handle branching. More practically, it suggests that analysis of residual networks might be well-served by paying close attention to the units in the blocks, and that we might expect the residual stream to be unusally polysemantic.
     </p>
 
     <h2>Why does branch specialization occur?</h2>
@@ -536,7 +534,7 @@
 
       <figcaption class="figcaption l-body">
         <p>
-          <a href="#figure-4" class="figure-number">4</a>.
+          <a href="#figure-4" class="figure-number">4</a>. Hypothetical positive feedback loop of branch specialization during training.
         </p>
       </figcaption>
     </figure>
@@ -548,11 +546,11 @@
     <h2>Branch specialization beyond the first layer</h2>
 
     <p>
-      So far, the only concrete example we've shown of branch specialization is the first and second layer of AlexNet. What about later layers? AlexNet also splits its later layers into branches, after all. This seems to be unexplored, since studying features after the first few layers is much harder.
+      So far, the only concrete example we've shown of branch specialization is the first and second layer of AlexNet. What about later layers? AlexNet also splits its later layers into branches, after all. This seems to be unexplored, since studying features after the first layer is much harder.<d-footnote>For the first layer, one can visualize the RGB weights; for later layers, one needs to use feature visualization.</d-footnote>
     </p>
 
     <p>
-      Unfortunately, branch specialization in the later layers of AlexNet is very subtle. Instead of one overall split, it's more like there's dozens of small clusters of neurons, each cluster being assigned to a branch. It's hard to be confident that one isn't just seeing patterns in noise.
+      Unfortunately, branch specialization in the later layers of AlexNet is also very subtle. Instead of one overall split, it's more like there's dozens of small clusters of neurons, each cluster being assigned to a branch. It's hard to be confident that one isn't just seeing patterns in noise.
     </p>
 
     <p>
@@ -564,419 +562,582 @@
     </p>
 
 
-    <figure id="figure-5">
-      <svg width="1782" height="1882" viewBox="0 0 1782 1882" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"id="diagram-Figure_5"style='width: 100%; height: auto;'>
+    <figure id="figure-5" style="grid-column-start: page-start; grid-column-end: page-end;">
+      <svg width="1782" height="1643" viewBox="0 0 1782 1643" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"id="diagram-Figure_5"style='width: 100%; height: auto;'>
 <g id="Figure_5">
-<rect width="1782" height="1882" fill="white" class='pixelated' />
+<rect width="1782" height="1643" fill="white" class='pixelated' />
 <rect id="imageFigure_5 38" width="1780" height="469.012" fill="url(#patternFigure_50)"/>
 <rect id="Rectangle 208" x="498.234" y="238.159" width="51.1384" height="87.6658" rx="6" fill="#B1068B"/>
 <path id="Vector 138" d="M523.073 325.825V528.917H70.1327" stroke="#B1068B" stroke-width="2"/>
+<path id="Vector 141" d="M523 326V529H570" stroke="#B1068B" stroke-width="2"/>
 <g id="Group 83">
-<rect id="Rectangle 209" x="1231.71" y="238.159" width="51.1384" height="87.6658" rx="6" fill="#3DB106"/>
-<path id="Vector 141" d="M1251.55 325.825V528.917H1705.1" stroke="#3DB106" stroke-width="2"/>
+<rect id="Rectangle 209" x="1231.71" y="238.159" width="56.2047" height="87.6658" rx="6" fill="#3DB106"/>
+<path id="Vector 141_2" d="M1253.52 325.825V528.917H1752" stroke="#3DB106" stroke-width="2"/>
 </g>
 <rect id="Rectangle 207" x="818.215" y="238.159" width="51.1384" height="87.6658" rx="6" fill="#0692B1"/>
-<path id="Vector 139" d="M843.053 325.825V528.917H1119.2" stroke="#0692B1" stroke-width="2"/>
+<path id="Vector 139" d="M843 326V529H1159" stroke="#0692B1" stroke-width="2"/>
 <path id="Vector 140" d="M843.053 325.825V528.917H666.26" stroke="#0692B1" stroke-width="2"/>
-<g id="Group 84">
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_210.html'>
-<rect class='unit' id="mixed3a_210" x="274.686" y="1211.2" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_51)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_214.html'>
-<rect class='unit' id="mixed3a_214" x="325.825" y="1211.2" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_52)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_196.html'>
-<rect class='unit' id="mixed3a_196" x="274.686" y="1276.95" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_53)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_193.html'>
-<rect class='unit' id="mixed3a_193" x="121.271" y="1276.95" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_54)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_217.html'>
-<rect class='unit' id="mixed3a_217" x="479" y="1328" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_55)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_209.html'>
-<rect class='unit' id="mixed3a_209" x="223.415" y="1328" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_56)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_205.html'>
-<rect class='unit' id="mixed3a_205" x="70" y="1328" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_57)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_222.html'>
-<rect class='unit' id="mixed3a_222" x="428.102" y="1211.2" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_58)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_197.html'>
-<rect class='unit' id="mixed3a_197" x="70.1327" y="1211.2" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_59)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_208.html'>
-<rect class='unit' id="mixed3a_208" x="223.548" y="1211.2" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_510)"/>
-</a>
+<g id="Group 91">
 <a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_198.html'>
-<rect class='unit' id="mixed3a_198" x="121" y="1445" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_511)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_194.html'>
-<rect class='unit' id="mixed3a_194" x="172.409" y="1276.95" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_512)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_223.html'>
-<rect class='unit' id="mixed3a_223" x="479.24" y="1211.2" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_513)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_211.html'>
-<rect class='unit' id="mixed3a_211" x="274.553" y="1328" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_514)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_206.html'>
-<rect class='unit' id="mixed3a_206" x="121.138" y="1328" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_515)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_199.html'>
-<rect class='unit' id="mixed3a_199" x="326" y="1277" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_516)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_212.html'>
-<rect class='unit' id="mixed3a_212" x="325.692" y="1328" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_517)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_218.html'>
-<rect class='unit' id="mixed3a_218" x="70" y="1379" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_518)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_200.html'>
-<rect class='unit' id="mixed3a_200" x="377.139" y="1277" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_519)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_213.html'>
-<rect class='unit' id="mixed3a_213" x="376.83" y="1328" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_520)"/>
+<rect class='unit' id="mixed3a_198" x="121" y="1125" width="44" height="44" rx="4" fill="url(#patternFigure_51)"/>
 </a>
 <a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_215.html'>
-<rect class='unit' id="mixed3a_215" x="70" y="1445" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_521)"/>
+<rect class='unit' id="mixed3a_215" x="70" y="1125" width="44" height="44" rx="4" fill="url(#patternFigure_52)"/>
 </a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_204.html'>
-<rect class='unit' id="mixed3a_204" x="172.409" y="1211.2" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_522)"/>
+</g>
+<g id="Group 92">
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_196.html'>
+<rect class='unit' id="mixed3a_196" x="121" y="1061" width="44" height="44" rx="4" fill="url(#patternFigure_53)"/>
 </a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_201.html'>
-<rect class='unit' id="mixed3a_201" x="121.271" y="1211.2" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_523)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_202.html'>
-<rect class='unit' id="mixed3a_202" x="428.277" y="1277" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_524)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_195.html'>
-<rect class='unit' id="mixed3a_195" x="223.548" y="1276.95" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_525)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_192.html'>
-<rect class='unit' id="mixed3a_192" x="70.1327" y="1276.95" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_526)"/>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_206.html'>
+<rect class='unit' id="mixed3a_206" x="70" y="1061" width="44" height="44" rx="4" fill="url(#patternFigure_54)"/>
 </a>
 <a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_216.html'>
-<rect class='unit' id="mixed3a_216" x="428" y="1328" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_527)"/>
+<rect class='unit' id="mixed3a_216" x="172" y="1061" width="44" height="44" rx="4" fill="url(#patternFigure_55)"/>
+</a>
+</g>
+<g id="Group 93">
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_193.html'>
+<rect class='unit' id="mixed3a_193" x="325" y="945" width="44" height="44" rx="4" fill="url(#patternFigure_56)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_217.html'>
+<rect class='unit' id="mixed3a_217" x="70" y="945" width="44" height="44" rx="4" fill="url(#patternFigure_57)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_209.html'>
+<rect class='unit' id="mixed3a_209" x="478" y="945" width="44" height="44" rx="4" fill="url(#patternFigure_58)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_205.html'>
+<rect class='unit' id="mixed3a_205" x="70" y="997" width="44" height="44" rx="4" fill="url(#patternFigure_59)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_194.html'>
+<rect class='unit' id="mixed3a_194" x="427" y="998" width="44" height="44" rx="4" fill="url(#patternFigure_510)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_211.html'>
+<rect class='unit' id="mixed3a_211" x="121" y="945" width="44" height="44" rx="4" fill="url(#patternFigure_511)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_199.html'>
+<rect class='unit' id="mixed3a_199" x="172" y="945" width="44" height="44" rx="4" fill="url(#patternFigure_512)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_212.html'>
+<rect class='unit' id="mixed3a_212" x="172" y="997" width="44" height="44" rx="4" fill="url(#patternFigure_513)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_218.html'>
+<rect class='unit' id="mixed3a_218" x="325" y="998" width="44" height="44" rx="4" fill="url(#patternFigure_514)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_200.html'>
+<rect class='unit' id="mixed3a_200" x="274" y="998" width="44" height="44" rx="4" fill="url(#patternFigure_515)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_213.html'>
+<rect class='unit' id="mixed3a_213" x="223" y="945" width="44" height="44" rx="4" fill="url(#patternFigure_516)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_202.html'>
+<rect class='unit' id="mixed3a_202" x="223" y="997" width="44" height="44" rx="4" fill="url(#patternFigure_517)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_195.html'>
+<rect class='unit' id="mixed3a_195" x="427" y="945" width="44" height="44" rx="4" fill="url(#patternFigure_518)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_192.html'>
+<rect class='unit' id="mixed3a_192" x="478" y="998" width="44" height="44" rx="4" fill="url(#patternFigure_519)"/>
 </a>
 <a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_219.html'>
-<rect class='unit' id="mixed3a_219" x="121" y="1379" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_528)"/>
+<rect class='unit' id="mixed3a_219" x="376" y="997" width="44" height="44" rx="4" fill="url(#patternFigure_520)"/>
 </a>
 <a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_221.html'>
-<rect class='unit' id="mixed3a_221" x="172" y="1379" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_529)"/>
+<rect class='unit' id="mixed3a_221" x="274" y="945" width="44" height="44" rx="4" fill="url(#patternFigure_521)"/>
 </a>
 <a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_207.html'>
-<rect class='unit' id="mixed3a_207" x="172.277" y="1328" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_530)"/>
+<rect class='unit' id="mixed3a_207" x="121" y="997" width="44" height="44" rx="4" fill="url(#patternFigure_522)"/>
 </a>
 <a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_203.html'>
-<rect class='unit' id="mixed3a_203" x="479" y="1277" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_531)"/>
+<rect class='unit' id="mixed3a_203" x="376" y="945" width="44" height="44" rx="4" fill="url(#patternFigure_523)"/>
+</a>
+</g>
+<g id="Group 94">
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_210.html'>
+<rect class='unit' id="mixed3a_210" x="274" y="881" width="44" height="44" rx="4" fill="url(#patternFigure_524)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_214.html'>
+<rect class='unit' id="mixed3a_214" x="325" y="881" width="44" height="44" rx="4" fill="url(#patternFigure_525)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_222.html'>
+<rect class='unit' id="mixed3a_222" x="427" y="881" width="44" height="44" rx="4" fill="url(#patternFigure_526)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_197.html'>
+<rect class='unit' id="mixed3a_197" x="70" y="881.201" width="44" height="44" rx="4" fill="url(#patternFigure_527)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_208.html'>
+<rect class='unit' id="mixed3a_208" x="223" y="881" width="44" height="44" rx="4" fill="url(#patternFigure_528)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_223.html'>
+<rect class='unit' id="mixed3a_223" x="478" y="881" width="44" height="44" rx="4" fill="url(#patternFigure_529)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_204.html'>
+<rect class='unit' id="mixed3a_204" x="172" y="881" width="44" height="44" rx="4" fill="url(#patternFigure_530)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_201.html'>
+<rect class='unit' id="mixed3a_201" x="121" y="881" width="44" height="44" rx="4" fill="url(#patternFigure_531)"/>
 </a>
 <a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3a_220.html'>
-<rect class='unit' id="mixed3a_220" x="376.963" y="1211.2" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_532)"/>
+<rect class='unit' id="mixed3a_220" x="376" y="881" width="44" height="44" rx="4" fill="url(#patternFigure_532)"/>
+</a>
+</g>
+<g id="Group 87">
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_330.html'>
+<rect class='unit' id="mixed3b_330" x="819" y="881" width="44" height="44" rx="4" fill="url(#patternFigure_533)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_324.html'>
+<rect class='unit' id="mixed3b_324" x="717" y="881" width="44" height="44" rx="4" fill="url(#patternFigure_534)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_348.html'>
+<rect class='unit' id="mixed3b_348" x="1074" y="983" width="44" height="44" rx="4" fill="url(#patternFigure_535)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_343.html'>
+<rect class='unit' id="mixed3b_343" x="666" y="932" width="44" height="44" rx="4" fill="url(#patternFigure_536)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_403.html'>
+<rect class='unit' id="mixed3b_403" x="1023" y="983" width="44" height="44" rx="4" fill="url(#patternFigure_537)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_380.html'>
+<rect class='unit' id="mixed3b_380" x="768" y="1034" width="44" height="44" rx="4" fill="url(#patternFigure_538)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_367.html'>
+<rect class='unit' id="mixed3b_367" x="717" y="983" width="44" height="44" rx="4" fill="url(#patternFigure_539)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_336.html'>
+<rect class='unit' id="mixed3b_336" x="972" y="983" width="44" height="44" rx="4" fill="url(#patternFigure_540)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_325.html'>
+<rect class='unit' id="mixed3b_325" x="819" y="932" width="44" height="44" rx="4" fill="url(#patternFigure_541)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_349.html'>
+<rect class='unit' id="mixed3b_349" x="870" y="881" width="44" height="44" rx="4" fill="url(#patternFigure_542)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_346.html'>
+<rect class='unit' id="mixed3b_346" x="1023" y="932" width="44" height="44" rx="4" fill="url(#patternFigure_543)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_406.html'>
+<rect class='unit' id="mixed3b_406" x="1074" y="881" width="44" height="44" rx="4" fill="url(#patternFigure_544)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_382.html'>
+<rect class='unit' id="mixed3b_382" x="717" y="1430" width="44" height="44" rx="4" fill="url(#patternFigure_545)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_337.html'>
+<rect class='unit' id="mixed3b_337" x="666" y="1034" width="44" height="44" rx="4" fill="url(#patternFigure_546)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_353.html'>
+<rect class='unit' id="mixed3b_353" x="921" y="983" width="44" height="44" rx="4" fill="url(#patternFigure_547)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_384.html'>
+<rect class='unit' id="mixed3b_384" x="921" y="932" width="44" height="44" rx="4" fill="url(#patternFigure_548)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_338.html'>
+<rect class='unit' id="mixed3b_338" x="870" y="932" width="44" height="44" rx="4" fill="url(#patternFigure_549)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_355.html'>
+<rect class='unit' id="mixed3b_355" x="870" y="983" width="44" height="44" rx="4" fill="url(#patternFigure_550)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_385.html'>
+<rect class='unit' id="mixed3b_385" x="921" y="881" width="44" height="44" rx="4" fill="url(#patternFigure_551)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_340.html'>
+<rect class='unit' id="mixed3b_340" x="972" y="881" width="44" height="44" rx="4" fill="url(#patternFigure_552)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_327.html'>
+<rect class='unit' id="mixed3b_327" x="768" y="932" width="44" height="44" rx="4" fill="url(#patternFigure_553)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_323.html'>
+<rect class='unit' id="mixed3b_323" x="972" y="932" width="44" height="44" rx="4" fill="url(#patternFigure_554)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_359.html'>
+<rect class='unit' id="mixed3b_359" x="717" y="1034" width="44" height="44" rx="4" fill="url(#patternFigure_555)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_347.html'>
+<rect class='unit' id="mixed3b_347" x="717" y="932" width="44" height="44" rx="4" fill="url(#patternFigure_556)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_342.html'>
+<rect class='unit' id="mixed3b_342" x="1023" y="881" width="44" height="44" rx="4" fill="url(#patternFigure_557)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_389.html'>
+<rect class='unit' id="mixed3b_389" x="1074" y="932" width="44" height="44" rx="4" fill="url(#patternFigure_558)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_388.html'>
+<rect class='unit' id="mixed3b_388" x="768" y="881" width="44" height="44" rx="4" fill="url(#patternFigure_559)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_379.html'>
+<rect class='unit' id="mixed3b_379" x="666" y="881" width="44" height="44" rx="4" fill="url(#patternFigure_560)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_365.html'>
+<rect class='unit' id="mixed3b_365" x="666" y="983" width="44" height="44" rx="4" fill="url(#patternFigure_561)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_407.html'>
+<rect class='unit' id="mixed3b_407" x="819" y="983" width="44" height="44" rx="4" fill="url(#patternFigure_562)"/>
+</a>
+</g>
+<g id="Group 88">
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_335.html'>
+<rect class='unit' id="mixed3b_335" x="870" y="1149" width="44" height="44" rx="4" fill="url(#patternFigure_563)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_378.html'>
+<rect class='unit' id="mixed3b_378" x="1023" y="1098" width="44" height="44" rx="4" fill="url(#patternFigure_564)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_322.html'>
+<rect class='unit' id="mixed3b_322" x="666" y="1149" width="44" height="44" rx="4" fill="url(#patternFigure_565)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_387.html'>
+<rect class='unit' id="mixed3b_387" x="921" y="1149" width="44" height="44" rx="4" fill="url(#patternFigure_566)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_381.html'>
+<rect class='unit' id="mixed3b_381" x="1074" y="1098" width="44" height="44" rx="4" fill="url(#patternFigure_567)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_362.html'>
+<rect class='unit' id="mixed3b_362" x="819" y="1098" width="44" height="44" rx="4" fill="url(#patternFigure_568)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_375.html'>
+<rect class='unit' id="mixed3b_375" x="921" y="1098" width="44" height="44" rx="4" fill="url(#patternFigure_569)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_363.html'>
+<rect class='unit' id="mixed3b_363" x="768" y="1149" width="44" height="44" rx="4" fill="url(#patternFigure_570)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_352.html'>
+<rect class='unit' id="mixed3b_352" x="717" y="1149" width="44" height="44" rx="4" fill="url(#patternFigure_571)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_334.html'>
+<rect class='unit' id="mixed3b_334" x="666" y="1098" width="44" height="44" rx="4" fill="url(#patternFigure_572)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_370.html'>
+<rect class='unit' id="mixed3b_370" x="870" y="1098" width="44" height="44" rx="4" fill="url(#patternFigure_573)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_333.html'>
+<rect class='unit' id="mixed3b_333" x="819" y="1149" width="44" height="44" rx="4" fill="url(#patternFigure_574)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_404.html'>
+<rect class='unit' id="mixed3b_404" x="717" y="1098" width="44" height="44" rx="4" fill="url(#patternFigure_575)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_398.html'>
+<rect class='unit' id="mixed3b_398" x="1023" y="1264" width="44" height="44" rx="4" fill="url(#patternFigure_576)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_411.html'>
+<rect class='unit' id="mixed3b_411" x="972" y="1098" width="44" height="44" rx="4" fill="url(#patternFigure_577)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_396.html'>
+<rect class='unit' id="mixed3b_396" x="972" y="1264" width="44" height="44" rx="4" fill="url(#patternFigure_578)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_413.html'>
+<rect class='unit' id="mixed3b_413" x="768" y="1098" width="44" height="44" rx="4" fill="url(#patternFigure_579)"/>
+</a>
+</g>
+<g id="Group 90">
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_344.html'>
+<rect class='unit' id="mixed3b_344" x="921" y="1430" width="44" height="44" rx="4" fill="url(#patternFigure_580)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_371.html'>
+<rect class='unit' id="mixed3b_371" x="870" y="1379" width="44" height="44" rx="4" fill="url(#patternFigure_581)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_328.html'>
+<rect class='unit' id="mixed3b_328" x="768" y="1264" width="44" height="44" rx="4" fill="url(#patternFigure_582)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_321.html'>
+<rect class='unit' id="mixed3b_321" x="717" y="1328" width="44" height="44" rx="4" fill="url(#patternFigure_583)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_386.html'>
+<rect class='unit' id="mixed3b_386" x="870" y="1430" width="44" height="44" rx="4" fill="url(#patternFigure_584)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_339.html'>
+<rect class='unit' id="mixed3b_339" x="870" y="1328" width="44" height="44" rx="4" fill="url(#patternFigure_585)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_372.html'>
+<rect class='unit' id="mixed3b_372" x="921" y="1379" width="44" height="44" rx="4" fill="url(#patternFigure_586)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_369.html'>
+<rect class='unit' id="mixed3b_369" x="768.277" y="1379" width="44" height="44" rx="4" fill="url(#patternFigure_587)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_373.html'>
+<rect class='unit' id="mixed3b_373" x="768" y="983" width="44" height="44" rx="4" fill="url(#patternFigure_588)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_361.html'>
+<rect class='unit' id="mixed3b_361" x="921" y="1328" width="44" height="44" rx="4" fill="url(#patternFigure_589)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_357.html'>
+<rect class='unit' id="mixed3b_357" x="768.277" y="1328" width="44" height="44" rx="4" fill="url(#patternFigure_590)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_350.html'>
+<rect class='unit' id="mixed3b_350" x="1074" y="1328" width="44" height="44" rx="4" fill="url(#patternFigure_591)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_374.html'>
+<rect class='unit' id="mixed3b_374" x="972" y="1379" width="44" height="44" rx="4" fill="url(#patternFigure_592)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_331.html'>
+<rect class='unit' id="mixed3b_331" x="972" y="1328" width="44" height="44" rx="4" fill="url(#patternFigure_593)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_390.html'>
+<rect class='unit' id="mixed3b_390" x="972" y="1430" width="44" height="44" rx="4" fill="url(#patternFigure_594)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_351.html'>
+<rect class='unit' id="mixed3b_351" x="819" y="1379" width="44" height="44" rx="4" fill="url(#patternFigure_595)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_332.html'>
+<rect class='unit' id="mixed3b_332" x="1023" y="1328" width="44" height="44" rx="4" fill="url(#patternFigure_596)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_391.html'>
+<rect class='unit' id="mixed3b_391" x="1023" y="1430" width="44" height="44" rx="4" fill="url(#patternFigure_597)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_341.html'>
+<rect class='unit' id="mixed3b_341" x="819" y="1481" width="44" height="44" rx="4" fill="url(#patternFigure_598)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_366.html'>
+<rect class='unit' id="mixed3b_366" x="921" y="1264" width="44" height="44" rx="4" fill="url(#patternFigure_599)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_392.html'>
+<rect class='unit' id="mixed3b_392" x="1074" y="1430" width="44" height="44" rx="4" fill="url(#patternFigure_5100)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_326.html'>
+<rect class='unit' id="mixed3b_326" x="768" y="1430" width="44" height="44" rx="4" fill="url(#patternFigure_5101)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_358.html'>
+<rect class='unit' id="mixed3b_358" x="819" y="1328" width="44" height="44" rx="4" fill="url(#patternFigure_5102)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_354.html'>
+<rect class='unit' id="mixed3b_354" x="666" y="1328" width="44" height="44" rx="4" fill="url(#patternFigure_5103)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_383.html'>
+<rect class='unit' id="mixed3b_383" x="819" y="1264" width="44" height="44" rx="4" fill="url(#patternFigure_5104)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_377.html'>
+<rect class='unit' id="mixed3b_377" x="666" y="1430" width="44" height="44" rx="4" fill="url(#patternFigure_5105)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_397.html'>
+<rect class='unit' id="mixed3b_397" x="870" y="1481" width="44" height="44" rx="4" fill="url(#patternFigure_5106)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_394.html'>
+<rect class='unit' id="mixed3b_394" x="717.138" y="1481" width="44" height="44" rx="4" fill="url(#patternFigure_5107)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_409.html'>
+<rect class='unit' id="mixed3b_409" x="666" y="1379" width="44" height="44" rx="4" fill="url(#patternFigure_5108)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_395.html'>
+<rect class='unit' id="mixed3b_395" x="768.277" y="1481" width="44" height="44" rx="4" fill="url(#patternFigure_5109)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_410.html'>
+<rect class='unit' id="mixed3b_410" x="819" y="1430" width="44" height="44" rx="4" fill="url(#patternFigure_5110)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_399.html'>
+<rect class='unit' id="mixed3b_399" x="972" y="1481" width="44" height="44" rx="4" fill="url(#patternFigure_5111)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_414.html'>
+<rect class='unit' id="mixed3b_414" x="870" y="1264" width="44" height="44" rx="4" fill="url(#patternFigure_5112)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_415.html'>
+<rect class='unit' id="mixed3b_415" x="717" y="1379" width="44" height="44" rx="4" fill="url(#patternFigure_5113)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_412.html'>
+<rect class='unit' id="mixed3b_412" x="1023" y="1379" width="44" height="44" rx="4" fill="url(#patternFigure_5114)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_401.html'>
+<rect class='unit' id="mixed3b_401" x="1074" y="1379" width="44" height="44" rx="4" fill="url(#patternFigure_5115)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_393.html'>
+<rect class='unit' id="mixed3b_393" x="666" y="1481" width="44" height="44" rx="4" fill="url(#patternFigure_5116)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_408.html'>
+<rect class='unit' id="mixed3b_408" x="921" y="1481" width="44" height="44" rx="4" fill="url(#patternFigure_5117)"/>
+</a>
+</g>
+<g id="Group 89">
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_368.html'>
+<rect class='unit' id="mixed3b_368" x="972" y="1213" width="44" height="44" rx="4" fill="url(#patternFigure_5118)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_360.html'>
+<rect class='unit' id="mixed3b_360" x="768" y="1213" width="44" height="44" rx="4" fill="url(#patternFigure_5119)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_356.html'>
+<rect class='unit' id="mixed3b_356" x="666" y="1213" width="44" height="44" rx="4" fill="url(#patternFigure_5120)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_345.html'>
+<rect class='unit' id="mixed3b_345" x="819" y="1213" width="44" height="44" rx="4" fill="url(#patternFigure_5121)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_329.html'>
+<rect class='unit' id="mixed3b_329" x="666" y="1264" width="44" height="44" rx="4" fill="url(#patternFigure_5122)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_376.html'>
+<rect class='unit' id="mixed3b_376" x="870" y="1213" width="44" height="44" rx="4" fill="url(#patternFigure_5123)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_364.html'>
+<rect class='unit' id="mixed3b_364" x="921" y="1213" width="44" height="44" rx="4" fill="url(#patternFigure_5124)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_320.html'>
+<rect class='unit' id="mixed3b_320" x="717" y="1213" width="44" height="44" rx="4" fill="url(#patternFigure_5125)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_405.html'>
+<rect class='unit' id="mixed3b_405" x="1023" y="1213" width="44" height="44" rx="4" fill="url(#patternFigure_5126)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_400.html'>
+<rect class='unit' id="mixed3b_400" x="1074" y="1213" width="44" height="44" rx="4" fill="url(#patternFigure_5127)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_402.html'>
+<rect class='unit' id="mixed3b_402" x="717" y="1264" width="44" height="44" rx="4" fill="url(#patternFigure_5128)"/>
+</a>
+</g>
+<g id="Group 86">
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_430.html'>
+<rect class='unit' id="mixed4a_430" x="1356" y="881" width="44" height="44" rx="4" fill="url(#patternFigure_5129)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_425.html'>
+<rect class='unit' id="mixed4a_425" x="1407" y="881" width="44" height="44" rx="4" fill="url(#patternFigure_5130)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_428.html'>
+<rect class='unit' id="mixed4a_428" x="1611" y="881" width="44" height="44" rx="4" fill="url(#patternFigure_5131)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_411.html'>
+<rect class='unit' id="mixed4a_411" x="1458" y="881" width="44" height="44" rx="4" fill="url(#patternFigure_5132)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_441.html'>
+<rect class='unit' id="mixed4a_441" x="1662" y="881" width="44" height="44" rx="4" fill="url(#patternFigure_5133)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_432.html'>
+<rect class='unit' id="mixed4a_432" x="1560" y="881" width="44" height="44" rx="4" fill="url(#patternFigure_5134)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_438.html'>
+<rect class='unit' id="mixed4a_438" x="1254" y="881" width="44" height="44" rx="4" fill="url(#patternFigure_5135)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_421.html'>
+<rect class='unit' id="mixed4a_421" x="1509" y="881" width="44" height="44" rx="4" fill="url(#patternFigure_5136)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_429.html'>
+<rect class='unit' id="mixed4a_429" x="1305" y="881" width="44" height="44" rx="4" fill="url(#patternFigure_5137)"/>
 </a>
 </g>
 <g id="Group 85">
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_330.html'>
-<rect class='unit' id="mixed3b_330" x="874.554" y="1212" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_533)"/>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_406.html'>
+<rect class='unit' id="mixed4a_406" x="1662" y="945" width="44" height="44" rx="4" fill="url(#patternFigure_5138)"/>
 </a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_324.html'>
-<rect class='unit' id="mixed3b_324" x="721.138" y="1212" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_534)"/>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_424.html'>
+<rect class='unit' id="mixed4a_424" x="1407" y="945" width="44" height="44" rx="4" fill="url(#patternFigure_5139)"/>
 </a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_348.html'>
-<rect class='unit' id="mixed3b_348" x="874.554" y="1263.14" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_535)"/>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_436.html'>
+<rect class='unit' id="mixed4a_436" x="1254" y="945" width="44" height="44" rx="4" fill="url(#patternFigure_5140)"/>
 </a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_343.html'>
-<rect class='unit' id="mixed3b_343" x="721.138" y="1263.14" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_536)"/>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_417.html'>
+<rect class='unit' id="mixed4a_417" x="1458" y="945" width="44" height="44" rx="4" fill="url(#patternFigure_5141)"/>
 </a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_403.html'>
-<rect class='unit' id="mixed3b_403" x="721.138" y="1365.42" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_537)"/>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_415.html'>
+<rect class='unit' id="mixed4a_415" x="1560" y="945" width="44" height="44" rx="4" fill="url(#patternFigure_5142)"/>
 </a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_344.html'>
-<rect class='unit' id="mixed3b_344" x="874.554" y="1482.3" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_538)"/>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_398.html'>
+<rect class='unit' id="mixed4a_398" x="1254" y="996" width="44" height="44" rx="4" fill="url(#patternFigure_5143)"/>
 </a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_335.html'>
-<rect class='unit' id="mixed3b_335" x="721.138" y="1482.3" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_539)"/>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_407.html'>
+<rect class='unit' id="mixed4a_407" x="1611" y="945" width="44" height="44" rx="4" fill="url(#patternFigure_5144)"/>
 </a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_371.html'>
-<rect class='unit' id="mixed3b_371" x="874.554" y="1584.58" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_540)"/>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_437.html'>
+<rect class='unit' id="mixed4a_437" x="1305" y="945" width="44" height="44" rx="4" fill="url(#patternFigure_5145)"/>
 </a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_368.html'>
-<rect class='unit' id="mixed3b_368" x="721.138" y="1584.58" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_541)"/>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_402.html'>
+<rect class='unit' id="mixed4a_402" x="1356" y="996" width="44" height="44" rx="4" fill="url(#patternFigure_5146)"/>
 </a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_380.html'>
-<rect class='unit' id="mixed3b_380" x="823.878" y="1314.43" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_542)"/>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_403.html'>
+<rect class='unit' id="mixed4a_403" x="1509" y="945" width="44" height="44" rx="4" fill="url(#patternFigure_5147)"/>
 </a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_367.html'>
-<rect class='unit' id="mixed3b_367" x="721.138" y="1314.28" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_543)"/>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_434.html'>
+<rect class='unit' id="mixed4a_434" x="1305" y="996" width="44" height="44" rx="4" fill="url(#patternFigure_5148)"/>
 </a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_328.html'>
-<rect class='unit' id="mixed3b_328" x="874.554" y="1431.17" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_544)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_321.html'>
-<rect class='unit' id="mixed3b_321" x="721.138" y="1431.17" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_545)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_360.html'>
-<rect class='unit' id="mixed3b_360" x="874.554" y="1533.44" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_546)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_356.html'>
-<rect class='unit' id="mixed3b_356" x="721.138" y="1533.44" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_547)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_386.html'>
-<rect class='unit' id="mixed3b_386" x="874.554" y="1635.72" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_548)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_378.html'>
-<rect class='unit' id="mixed3b_378" x="721.138" y="1635.72" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_549)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_336.html'>
-<rect class='unit' id="mixed3b_336" x="925.692" y="1212" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_550)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_325.html'>
-<rect class='unit' id="mixed3b_325" x="772.277" y="1212" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_551)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_349.html'>
-<rect class='unit' id="mixed3b_349" x="925.692" y="1263.14" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_552)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_346.html'>
-<rect class='unit' id="mixed3b_346" x="772.277" y="1263.14" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_553)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_406.html'>
-<rect class='unit' id="mixed3b_406" x="772.74" y="1365.43" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_554)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_345.html'>
-<rect class='unit' id="mixed3b_345" x="925.692" y="1482.3" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_555)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_339.html'>
-<rect class='unit' id="mixed3b_339" x="772.277" y="1482.3" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_556)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_372.html'>
-<rect class='unit' id="mixed3b_372" x="925.692" y="1584.58" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_557)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_369.html'>
-<rect class='unit' id="mixed3b_369" x="772.277" y="1584.58" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_558)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_382.html'>
-<rect class='unit' id="mixed3b_382" x="875.016" y="1314.43" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_559)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_373.html'>
-<rect class='unit' id="mixed3b_373" x="772.74" y="1789.43" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_560)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_329.html'>
-<rect class='unit' id="mixed3b_329" x="925.692" y="1431.17" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_561)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_322.html'>
-<rect class='unit' id="mixed3b_322" x="772.277" y="1431.17" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_562)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_361.html'>
-<rect class='unit' id="mixed3b_361" x="925.692" y="1533.44" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_563)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_357.html'>
-<rect class='unit' id="mixed3b_357" x="772.277" y="1533.44" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_564)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_387.html'>
-<rect class='unit' id="mixed3b_387" x="925.692" y="1635.72" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_565)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_381.html'>
-<rect class='unit' id="mixed3b_381" x="772.277" y="1635.72" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_566)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_337.html'>
-<rect class='unit' id="mixed3b_337" x="976.83" y="1212" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_567)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_353.html'>
-<rect class='unit' id="mixed3b_353" x="976.83" y="1263.14" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_568)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_350.html'>
-<rect class='unit' id="mixed3b_350" x="976.83" y="1482.3" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_569)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_374.html'>
-<rect class='unit' id="mixed3b_374" x="976.83" y="1584.58" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_570)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_384.html'>
-<rect class='unit' id="mixed3b_384" x="926.155" y="1314.43" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_571)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_331.html'>
-<rect class='unit' id="mixed3b_331" x="976.83" y="1431.17" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_572)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_362.html'>
-<rect class='unit' id="mixed3b_362" x="976.83" y="1533.44" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_573)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_390.html'>
-<rect class='unit' id="mixed3b_390" x="976.83" y="1635.72" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_574)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_338.html'>
-<rect class='unit' id="mixed3b_338" x="1027.97" y="1212" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_575)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_355.html'>
-<rect class='unit' id="mixed3b_355" x="1027.97" y="1263.14" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_576)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_351.html'>
-<rect class='unit' id="mixed3b_351" x="1027.97" y="1482.3" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_577)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_375.html'>
-<rect class='unit' id="mixed3b_375" x="1027.97" y="1584.58" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_578)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_385.html'>
-<rect class='unit' id="mixed3b_385" x="977.293" y="1314.43" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_579)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_332.html'>
-<rect class='unit' id="mixed3b_332" x="1027.97" y="1431.17" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_580)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_363.html'>
-<rect class='unit' id="mixed3b_363" x="1027.97" y="1533.44" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_581)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_391.html'>
-<rect class='unit' id="mixed3b_391" x="1027.97" y="1635.72" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_582)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_340.html'>
-<rect class='unit' id="mixed3b_340" x="1079.11" y="1212" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_583)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_327.html'>
-<rect class='unit' id="mixed3b_327" x="823.415" y="1212" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_584)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_323.html'>
-<rect class='unit' id="mixed3b_323" x="670" y="1212" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_585)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_359.html'>
-<rect class='unit' id="mixed3b_359" x="1079.11" y="1263.14" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_586)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_352.html'>
-<rect class='unit' id="mixed3b_352" x="1079.11" y="1482.3" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_587)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_376.html'>
-<rect class='unit' id="mixed3b_376" x="1079.11" y="1584.58" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_588)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_347.html'>
-<rect class='unit' id="mixed3b_347" x="823.415" y="1263.14" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_589)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_342.html'>
-<rect class='unit' id="mixed3b_342" x="670" y="1263.14" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_590)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_389.html'>
-<rect class='unit' id="mixed3b_389" x="670" y="1365.42" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_591)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_341.html'>
-<rect class='unit' id="mixed3b_341" x="823.415" y="1482.3" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_592)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_334.html'>
-<rect class='unit' id="mixed3b_334" x="670" y="1482.3" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_593)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_370.html'>
-<rect class='unit' id="mixed3b_370" x="823.415" y="1584.58" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_594)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_366.html'>
-<rect class='unit' id="mixed3b_366" x="670" y="1584.58" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_595)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_388.html'>
-<rect class='unit' id="mixed3b_388" x="1028.43" y="1314.43" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_596)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_333.html'>
-<rect class='unit' id="mixed3b_333" x="1079.11" y="1431.17" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_597)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_364.html'>
-<rect class='unit' id="mixed3b_364" x="1079.11" y="1533.44" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_598)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_392.html'>
-<rect class='unit' id="mixed3b_392" x="1079.11" y="1635.72" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_599)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_379.html'>
-<rect class='unit' id="mixed3b_379" x="772.74" y="1314.43" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5100)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_365.html'>
-<rect class='unit' id="mixed3b_365" x="670" y="1314.28" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5101)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_326.html'>
-<rect class='unit' id="mixed3b_326" x="823.415" y="1431.17" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5102)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_320.html'>
-<rect class='unit' id="mixed3b_320" x="670" y="1431.17" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5103)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_358.html'>
-<rect class='unit' id="mixed3b_358" x="823.415" y="1533.44" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5104)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_354.html'>
-<rect class='unit' id="mixed3b_354" x="670" y="1533.44" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5105)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_383.html'>
-<rect class='unit' id="mixed3b_383" x="823.415" y="1635.72" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5106)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_377.html'>
-<rect class='unit' id="mixed3b_377" x="670" y="1635.72" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5107)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_397.html'>
-<rect class='unit' id="mixed3b_397" x="874.554" y="1686.86" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5108)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_394.html'>
-<rect class='unit' id="mixed3b_394" x="721.138" y="1686.86" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5109)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_409.html'>
-<rect class='unit' id="mixed3b_409" x="874.554" y="1738" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5110)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_404.html'>
-<rect class='unit' id="mixed3b_404" x="721.138" y="1738" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5111)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_398.html'>
-<rect class='unit' id="mixed3b_398" x="925.692" y="1686.86" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5112)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_395.html'>
-<rect class='unit' id="mixed3b_395" x="772.277" y="1686.86" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5113)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_410.html'>
-<rect class='unit' id="mixed3b_410" x="925.692" y="1738" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5114)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_405.html'>
-<rect class='unit' id="mixed3b_405" x="772.277" y="1738" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5115)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_399.html'>
-<rect class='unit' id="mixed3b_399" x="976.83" y="1686.86" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5116)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_411.html'>
-<rect class='unit' id="mixed3b_411" x="976.83" y="1738" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5117)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_414.html'>
-<rect class='unit' id="mixed3b_414" x="670" y="1789.13" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5118)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_415.html'>
-<rect class='unit' id="mixed3b_415" x="721.138" y="1789.13" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5119)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_407.html'>
-<rect class='unit' id="mixed3b_407" x="824" y="1365" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5120)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_400.html'>
-<rect class='unit' id="mixed3b_400" x="1027.97" y="1686.86" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5121)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_412.html'>
-<rect class='unit' id="mixed3b_412" x="1027.97" y="1738" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5122)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_401.html'>
-<rect class='unit' id="mixed3b_401" x="1079.11" y="1686.86" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5123)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_396.html'>
-<rect class='unit' id="mixed3b_396" x="823.415" y="1686.86" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5124)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_393.html'>
-<rect class='unit' id="mixed3b_393" x="670" y="1686.86" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5125)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_413.html'>
-<rect class='unit' id="mixed3b_413" x="1079.11" y="1738" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5126)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_408.html'>
-<rect class='unit' id="mixed3b_408" x="823.415" y="1738" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5127)"/>
-</a>
-<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed3b_402.html'>
-<rect class='unit' id="mixed3b_402" x="670" y="1738" width="43.8329" height="43.8329" rx="4" fill="url(#patternFigure_5128)"/>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_426.html'>
+<rect class='unit' id="mixed4a_426" x="1356" y="945" width="44" height="44" rx="4" fill="url(#patternFigure_5149)"/>
 </a>
 </g>
-<g id="mixed3a_5x5:The 5x5 branch of mixed3a, a relatively early layer, is specialized on color detection. For example, all 9 of the black and white vs color detectors are in this branch, despite it only being 32 of this layer&#39;s 256 neurons. The probability of that happening by chance is less than 1/10^8. More broadly, 30 of the 32 neurons in this layer seem to be color detectors of some kind, although other additional detectors also exist in other branches.">
-<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="32" letter-spacing="0em"><tspan x="269.406" y="580.938">The 5x5 branch of </tspan><tspan x="70" y="618.938">mixed3a, a relatively early layer, is </tspan><tspan x="70" y="656.938">specialized on color detection. For </tspan><tspan x="70" y="694.938">example, all 9 of the black and </tspan><tspan x="70" y="732.938">white vs color detectors are in this </tspan><tspan x="70" y="770.938">branch, despite it only being 32 of </tspan><tspan x="70" y="808.938">this layer&#39;s 256 neurons.&#10;</tspan><tspan x="70" y="846.938">&#10;</tspan><tspan x="70" y="884.938">The probability of that happening </tspan><tspan x="70" y="922.938">by chance is less than 1/10^8.&#10;</tspan><tspan x="70" y="960.938">&#10;</tspan><tspan x="70" y="998.938">More broadly, 30 of the 32 neurons </tspan><tspan x="70" y="1036.94">in this layer seem to be color </tspan><tspan x="70" y="1074.94">detectors of some kind, although </tspan><tspan x="70" y="1112.94">other additional detectors also </tspan><tspan x="70" y="1150.94">exist in other branches.</tspan></text>
-<text fill="#B1068B" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="32" font-weight="bold" letter-spacing="0em"><tspan x="70" y="580.938">mixed3a_5x5:</tspan></text>
+<g id="Group 84">
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_400.html'>
+<rect class='unit' id="mixed4a_400" x="1458" y="1111" width="44" height="44" rx="4" fill="url(#patternFigure_5150)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_397.html'>
+<rect class='unit' id="mixed4a_397" x="1305" y="1111" width="44" height="44" rx="4" fill="url(#patternFigure_5151)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_409.html'>
+<rect class='unit' id="mixed4a_409" x="1458" y="1162" width="44" height="44" rx="4" fill="url(#patternFigure_5152)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_439.html'>
+<rect class='unit' id="mixed4a_439" x="1305" y="1060" width="44" height="44" rx="4" fill="url(#patternFigure_5153)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_427.html'>
+<rect class='unit' id="mixed4a_427" x="1611" y="1060" width="44" height="44" rx="4" fill="url(#patternFigure_5154)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_401.html'>
+<rect class='unit' id="mixed4a_401" x="1509" y="1111" width="44" height="44" rx="4" fill="url(#patternFigure_5155)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_410.html'>
+<rect class='unit' id="mixed4a_410" x="1662" y="1060" width="44" height="44" rx="4" fill="url(#patternFigure_5156)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_440.html'>
+<rect class='unit' id="mixed4a_440" x="1356" y="1060" width="44" height="44" rx="4" fill="url(#patternFigure_5157)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_418.html'>
+<rect class='unit' id="mixed4a_418" x="1305" y="1162" width="44" height="44" rx="4" fill="url(#patternFigure_5158)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_431.html'>
+<rect class='unit' id="mixed4a_431" x="1407" y="1060" width="44" height="44" rx="4" fill="url(#patternFigure_5159)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_419.html'>
+<rect class='unit' id="mixed4a_419" x="1509" y="1162" width="44" height="44" rx="4" fill="url(#patternFigure_5160)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_412.html'>
+<rect class='unit' id="mixed4a_412" x="1611" y="1111" width="44" height="44" rx="4" fill="url(#patternFigure_5161)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_442.html'>
+<rect class='unit' id="mixed4a_442" x="1458" y="1060" width="44" height="44" rx="4" fill="url(#patternFigure_5162)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_420.html'>
+<rect class='unit' id="mixed4a_420" x="1560" y="1162" width="44" height="44" rx="4" fill="url(#patternFigure_5163)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_433.html'>
+<rect class='unit' id="mixed4a_433" x="1560" y="1060" width="44" height="44" rx="4" fill="url(#patternFigure_5164)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_404.html'>
+<rect class='unit' id="mixed4a_404" x="1662" y="1111" width="44" height="44" rx="4" fill="url(#patternFigure_5165)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_399.html'>
+<rect class='unit' id="mixed4a_399" x="1407" y="1111" width="44" height="44" rx="4" fill="url(#patternFigure_5166)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_396.html'>
+<rect class='unit' id="mixed4a_396" x="1254" y="1111" width="44" height="44" rx="4" fill="url(#patternFigure_5167)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_413.html'>
+<rect class='unit' id="mixed4a_413" x="1662" y="1162" width="44" height="44" rx="4" fill="url(#patternFigure_5168)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_443.html'>
+<rect class='unit' id="mixed4a_443" x="1509" y="1060" width="44" height="44" rx="4" fill="url(#patternFigure_5169)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_408.html'>
+<rect class='unit' id="mixed4a_408" x="1407" y="1162" width="44" height="44" rx="4" fill="url(#patternFigure_5170)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_405.html'>
+<rect class='unit' id="mixed4a_405" x="1254" y="1162" width="44" height="44" rx="4" fill="url(#patternFigure_5171)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_423.html'>
+<rect class='unit' id="mixed4a_423" x="1356" y="1111" width="44" height="44" rx="4" fill="url(#patternFigure_5172)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_435.html'>
+<rect class='unit' id="mixed4a_435" x="1254" y="1060" width="44" height="44" rx="4" fill="url(#patternFigure_5173)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_416.html'>
+<rect class='unit' id="mixed4a_416" x="1356" y="1162" width="44" height="44" rx="4" fill="url(#patternFigure_5174)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_414.html'>
+<rect class='unit' id="mixed4a_414" x="1560" y="1111" width="44" height="44" rx="4" fill="url(#patternFigure_5175)"/>
+</a>
+<a href='https://storage.googleapis.com/distill-circuits/inceptionv1-weight-explorer/mixed4a_422.html'>
+<rect class='unit' id="mixed4a_422" x="1611" y="1162" width="44" height="44" rx="4" fill="url(#patternFigure_5176)"/>
+</a>
 </g>
-<g id="mixed3b_5x5:This branch contains all 30 of the curve-related features for this layer (all curves, double curves, circles, spirals, S-shape and more features, etc) despite only being 96 of the 480 neurons in this layer.&#226;&#128;&#168;&#226;&#128;&#168;The probability of that happening by chance is less than 1/10^20. Many of the other neurons in this branch are boundary detectors, which often partly rely on curves if they are detecting curve boundaries.">
-<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="32" letter-spacing="0em"><tspan x="866.281" y="580.938">This branch contains </tspan><tspan x="666" y="618.938">all 30 of the curve-related features </tspan><tspan x="666" y="656.938">for this layer (all curves, double </tspan><tspan x="666" y="694.938">curves, circles, spirals, S-shape and </tspan><tspan x="666" y="732.938">more features, etc) despite only </tspan><tspan x="666" y="770.938">being 96 of the 480 neurons in this </tspan><tspan x="666" y="808.938">layer.&#x2028;</tspan><tspan x="666" y="846.938">&#x2028;</tspan><tspan x="666" y="884.938">The probability of that happening </tspan><tspan x="666" y="922.938">by chance is less than 1/10^20.&#10;</tspan><tspan x="666" y="960.938">&#10;</tspan><tspan x="666" y="998.938">Many of the other neurons in this </tspan><tspan x="666" y="1036.94">branch are boundary detectors, </tspan><tspan x="666" y="1074.94">which often partly rely on curves if </tspan><tspan x="666" y="1112.94">they are detecting curve </tspan><tspan x="666" y="1150.94">boundaries.</tspan></text>
-<text fill="#0692B1" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="32" font-weight="bold" letter-spacing="0em"><tspan x="666" y="580.938">mixed3b_5x5:</tspan></text>
+<g id="mixed3a_5x5: The 5x5 branch of mixed3a, a relatively early layer, is specialized on color detection, and especially black-and-white vs. color detection. More broadly, 30 of the 32 neurons in this layer seem to be color detectors of some kind, although other additional detectors also exist in other branches.">
+<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="26.5" letter-spacing="0em"><tspan x="248.332" y="575.558">The 5x5 branch of mixed3a, </tspan><tspan x="70" y="606.558">a relatively early layer, is specialized on </tspan><tspan x="70" y="637.558">color detection, and especially </tspan><tspan x="70" y="668.558">black-and-white vs. color detection.&#10;</tspan><tspan x="70" y="699.558">&#10;</tspan><tspan x="70" y="730.558">More broadly, 30 of the 32 neurons in this </tspan><tspan x="70" y="761.558">layer seem to be color detectors of some </tspan><tspan x="70" y="792.558">kind, although other additional detectors </tspan><tspan x="70" y="823.558">also exist in other branches.</tspan></text>
+<text fill="#B1068B" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="26.5" font-weight="bold" letter-spacing="0em"><tspan x="70" y="575.558">mixed3a_5x5:  </tspan></text>
 </g>
-<g id="mixed4a_5x5:This branch appears to be specialized in complex shapes and 3D geometry detectors. We don&#226;&#128;&#153;t have a full taxonomy of this layer to allow for a quantitative assessment.">
-<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="32" letter-spacing="0em"><tspan x="1451.41" y="580.938">This branch appears </tspan><tspan x="1252" y="618.938">to be specialized in complex </tspan><tspan x="1252" y="656.938">shapes and 3D geometry </tspan><tspan x="1252" y="694.938">detectors. We don&#x2019;t have a full </tspan><tspan x="1252" y="732.938">taxonomy of this layer to allow for </tspan><tspan x="1252" y="770.938">a quantitative assessment.</tspan></text>
-<text fill="#3DB106" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="32" font-weight="bold" letter-spacing="0em"><tspan x="1252" y="580.938">mixed4a_5x5:</tspan></text>
+<g id="mixed3b_5x5: This branch contains all 30 of the curve-related features for this layer (all curves, double curves, circles, spirals, S-shape and more features, etc). Many of the other neurons in this branch are boundary detectors, which often partly rely on curves if they are detecting curve boundaries.">
+<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="26.5" letter-spacing="0em"><tspan x="845.056" y="575.558">This branch contains all 30 </tspan><tspan x="666" y="606.558">of the curve-related features for this layer </tspan><tspan x="666" y="637.558">(all curves, double curves, circles, spirals, </tspan><tspan x="666" y="668.558">S-shape and more features, etc).&#10;</tspan><tspan x="666" y="699.558">&#10;</tspan><tspan x="666" y="730.558">Many of the other neurons in this branch </tspan><tspan x="666" y="761.558">are boundary detectors, which often partly </tspan><tspan x="666" y="792.558">rely on curves if they are detecting curve </tspan><tspan x="666" y="823.558">boundaries.</tspan></text>
+<text fill="#0692B1" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="26.5" font-weight="bold" letter-spacing="0em"><tspan x="666" y="575.558">mixed3b_5x5:  </tspan></text>
+</g>
+<g id="mixed4a_5x5: This branch appears to be specialized in complex shapes and 3D geometry detectors. We don&#226;&#128;&#153;t have a full taxonomy of this layer to allow for a quantitative assessment.">
+<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="26.5" letter-spacing="0em"><tspan x="1430.33" y="575.558">This branch appears to be </tspan><tspan x="1252" y="606.558">specialized in complex shapes and 3D </tspan><tspan x="1252" y="637.558">geometry detectors. We don&#x2019;t have a full </tspan><tspan x="1252" y="668.558">taxonomy of this layer to allow for a </tspan><tspan x="1252" y="699.558">quantitative assessment.</tspan></text>
+<text fill="#3DB106" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="26.5" font-weight="bold" letter-spacing="0em"><tspan x="1252" y="575.558">mixed4a_5x5:  </tspan></text>
 </g>
 </g>
 <defs>
@@ -1367,135 +1528,327 @@
 <pattern id="patternFigure_5128" patternContentUnits="objectBoundingBox" width="1" height="1">
 <use xlink:href="#imageFigure_5128" transform="scale(0.0166667)" class='pixelated' />
 </pattern>
-<image id="imageFigure_50" data-name="imageFigure_5.png" width="2410" height="328" xlink:href="generated_images/1027d8b797deedf.png" class='pixelated' />
-<image id="imageFigure_51" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/e94edc9671bb0f3.png" class='pixelated' />
-<image id="imageFigure_52" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/d406cd0e4976df.png" class='pixelated' />
-<image id="imageFigure_53" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/0b6b337e3215a4.png" class='pixelated' />
-<image id="imageFigure_54" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/f8264d7f4bd469.png" class='pixelated' />
-<image id="imageFigure_55" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/3f195997e0f3c53.png" class='pixelated' />
-<image id="imageFigure_56" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/65bd049c85c222.png" class='pixelated' />
-<image id="imageFigure_57" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/514f3abe1c8de.png" class='pixelated' />
-<image id="imageFigure_58" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/e0ce6a928b605f.png" class='pixelated' />
-<image id="imageFigure_59" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/0d0bd18c9b409a.png" class='pixelated' />
-<image id="imageFigure_510" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/4ff43931082061b.png" class='pixelated' />
-<image id="imageFigure_511" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/68fa281db8f8c4.png" class='pixelated' />
-<image id="imageFigure_512" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/695dedd42cb0b0.png" class='pixelated' />
-<image id="imageFigure_513" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/786588a483c3cff.png" class='pixelated' />
-<image id="imageFigure_514" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/cf6ba484a691b69.png" class='pixelated' />
-<image id="imageFigure_515" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/86635e0aa2c561.png" class='pixelated' />
-<image id="imageFigure_516" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/1577dcf4e0f855d.png" class='pixelated' />
-<image id="imageFigure_517" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/200d1f2e84f9369.png" class='pixelated' />
-<image id="imageFigure_518" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/9e95c19c4d8631.png" class='pixelated' />
-<image id="imageFigure_519" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/01afef795e3ce04.png" class='pixelated' />
-<image id="imageFigure_520" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/addbf35a41c1fe.png" class='pixelated' />
-<image id="imageFigure_521" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/dbcdbbaadeccbf.png" class='pixelated' />
-<image id="imageFigure_522" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/fa8a3a5bf1c14a.png" class='pixelated' />
-<image id="imageFigure_523" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/c286ad723b4916.png" class='pixelated' />
-<image id="imageFigure_524" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/596fd45de2395a7.png" class='pixelated' />
-<image id="imageFigure_525" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/18d44346506a8c.png" class='pixelated' />
-<image id="imageFigure_526" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/f4888ba20f6ed6.png" class='pixelated' />
-<image id="imageFigure_527" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/75df0aa9c8d1.png" class='pixelated' />
-<image id="imageFigure_528" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/91fe87e5fc9ef9.png" class='pixelated' />
-<image id="imageFigure_529" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/1fff9aad3f0b2c.png" class='pixelated' />
-<image id="imageFigure_530" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/ab5d23e430ce91.png" class='pixelated' />
-<image id="imageFigure_531" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/91177a59510b04.png" class='pixelated' />
-<image id="imageFigure_532" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/cfe76e666ef52f4.png" class='pixelated' />
-<image id="imageFigure_533" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/b871705edce4dd.png" class='pixelated' />
-<image id="imageFigure_534" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/4626a9a151fcb10.png" class='pixelated' />
-<image id="imageFigure_535" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/b2fd0a42ae9d96.png" class='pixelated' />
-<image id="imageFigure_536" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/c0a24d2db8dec0.png" class='pixelated' />
-<image id="imageFigure_537" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/e2961fd6ff464fa.png" class='pixelated' />
-<image id="imageFigure_538" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/0fe45992895a983.png" class='pixelated' />
-<image id="imageFigure_539" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/551a1e4e8f49af.png" class='pixelated' />
-<image id="imageFigure_540" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/ece4dcaae219042.png" class='pixelated' />
-<image id="imageFigure_541" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/daca6d34adf1a62.png" class='pixelated' />
-<image id="imageFigure_542" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/2347b21b43822d3.png" class='pixelated' />
-<image id="imageFigure_543" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/8fb4efc9c581df.png" class='pixelated' />
-<image id="imageFigure_544" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/5f4a90ec287bc2.png" class='pixelated' />
-<image id="imageFigure_545" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/454d59918008916.png" class='pixelated' />
-<image id="imageFigure_546" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/33ade4366d8ce9.png" class='pixelated' />
-<image id="imageFigure_547" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/2aa66ffd5dbb93.png" class='pixelated' />
-<image id="imageFigure_548" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/20d395de2fdfb0.png" class='pixelated' />
-<image id="imageFigure_549" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/663ce61e87b867d.png" class='pixelated' />
-<image id="imageFigure_550" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/24b77380d70e0e6.png" class='pixelated' />
-<image id="imageFigure_551" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/c1bdfa78f47e55.png" class='pixelated' />
-<image id="imageFigure_552" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/3be5755007e48f2.png" class='pixelated' />
-<image id="imageFigure_553" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/783ad3e078779b.png" class='pixelated' />
-<image id="imageFigure_554" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/11c4036a5be859b.png" class='pixelated' />
-<image id="imageFigure_555" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/fe7b6cc6b52881.png" class='pixelated' />
-<image id="imageFigure_556" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/4e6e2c94024de0.png" class='pixelated' />
-<image id="imageFigure_557" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/da42ad9353cbcb1.png" class='pixelated' />
-<image id="imageFigure_558" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/71201f5b857491e.png" class='pixelated' />
-<image id="imageFigure_559" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/48a5a557a68ae3.png" class='pixelated' />
-<image id="imageFigure_560" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/b0d07f5494943d.png" class='pixelated' />
-<image id="imageFigure_561" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/033fb3d706ded8.png" class='pixelated' />
-<image id="imageFigure_562" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/8c1207de94bd97.png" class='pixelated' />
-<image id="imageFigure_563" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/8c50c22f2ba067.png" class='pixelated' />
-<image id="imageFigure_564" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/056257d35211c97.png" class='pixelated' />
-<image id="imageFigure_565" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/8701e2c08453a.png" class='pixelated' />
-<image id="imageFigure_566" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/44081298b08e50.png" class='pixelated' />
-<image id="imageFigure_567" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/06455db2838739.png" class='pixelated' />
-<image id="imageFigure_568" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/20c9507985327e3.png" class='pixelated' />
-<image id="imageFigure_569" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/96c5c4c46e49e9.png" class='pixelated' />
-<image id="imageFigure_570" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/38a53c1df6b188.png" class='pixelated' />
-<image id="imageFigure_571" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/bf52f136f80d6bf.png" class='pixelated' />
-<image id="imageFigure_572" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/61cfa872aaa015.png" class='pixelated' />
-<image id="imageFigure_573" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/2c77a75472ea723.png" class='pixelated' />
-<image id="imageFigure_574" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/85a5a8cfdd887b4.png" class='pixelated' />
-<image id="imageFigure_575" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/bc3931e6fbda4c.png" class='pixelated' />
-<image id="imageFigure_576" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/787387e1fb2a95.png" class='pixelated' />
-<image id="imageFigure_577" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/f276658791aab6.png" class='pixelated' />
-<image id="imageFigure_578" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/be5dbc6715e774.png" class='pixelated' />
-<image id="imageFigure_579" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/5f96b49f020276.png" class='pixelated' />
-<image id="imageFigure_580" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/4d976aaca2aaf8.png" class='pixelated' />
-<image id="imageFigure_581" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/16e09fce91e94f.png" class='pixelated' />
-<image id="imageFigure_582" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/09de6eb4d4eaa2.png" class='pixelated' />
-<image id="imageFigure_583" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/51c44214432045b.png" class='pixelated' />
-<image id="imageFigure_584" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/2dc14bc0aeff331.png" class='pixelated' />
-<image id="imageFigure_585" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/2a27d34b94605a5.png" class='pixelated' />
-<image id="imageFigure_586" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/7540fc7e3fb128e.png" class='pixelated' />
-<image id="imageFigure_587" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/b9e451f14b0802.png" class='pixelated' />
-<image id="imageFigure_588" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/0c13150f23ee94d.png" class='pixelated' />
-<image id="imageFigure_589" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/d95ffabbfc2e621.png" class='pixelated' />
-<image id="imageFigure_590" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/cf1ba107258b4f2.png" class='pixelated' />
-<image id="imageFigure_591" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/d4e348a6fb69b8.png" class='pixelated' />
-<image id="imageFigure_592" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/8392465f2486dec.png" class='pixelated' />
-<image id="imageFigure_593" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/2d6bebb0caa56f2.png" class='pixelated' />
-<image id="imageFigure_594" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/248c3002201900b.png" class='pixelated' />
-<image id="imageFigure_595" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/62511ae2601dfd.png" class='pixelated' />
-<image id="imageFigure_596" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/46046261f681634.png" class='pixelated' />
-<image id="imageFigure_597" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/c58b75e75d738a9.png" class='pixelated' />
-<image id="imageFigure_598" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/ae002e12c3af930.png" class='pixelated' />
-<image id="imageFigure_599" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/51e0598690755cf.png" class='pixelated' />
-<image id="imageFigure_5100" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/984e53e22546169.png" class='pixelated' />
-<image id="imageFigure_5101" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/8b9a008d9b82c9d.png" class='pixelated' />
-<image id="imageFigure_5102" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/e0f925e0c1bb57.png" class='pixelated' />
-<image id="imageFigure_5103" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/85530c50a89cd8.png" class='pixelated' />
-<image id="imageFigure_5104" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/47662a479a8e6b.png" class='pixelated' />
-<image id="imageFigure_5105" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/1bc53c01b242614.png" class='pixelated' />
-<image id="imageFigure_5106" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/de861351b79f92d.png" class='pixelated' />
-<image id="imageFigure_5107" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/dd6afd135d32846.png" class='pixelated' />
-<image id="imageFigure_5108" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/3d874e79054981a.png" class='pixelated' />
-<image id="imageFigure_5109" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/7632483a2e5efe.png" class='pixelated' />
-<image id="imageFigure_5110" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/8a51371df049f.png" class='pixelated' />
-<image id="imageFigure_5111" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/11b3ed52c02024.png" class='pixelated' />
-<image id="imageFigure_5112" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/134c25abe6ea0a.png" class='pixelated' />
-<image id="imageFigure_5113" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/4a9f097acd0dc1.png" class='pixelated' />
-<image id="imageFigure_5114" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/b6f36f2402ab1dc.png" class='pixelated' />
-<image id="imageFigure_5115" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/1711d3400bda71.png" class='pixelated' />
-<image id="imageFigure_5116" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/3eea792f70c24c.png" class='pixelated' />
-<image id="imageFigure_5117" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/faaa861a4c2ca24.png" class='pixelated' />
-<image id="imageFigure_5118" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/0e6ebbcdb4bf56.png" class='pixelated' />
-<image id="imageFigure_5119" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/2589446f7cacb0.png" class='pixelated' />
-<image id="imageFigure_5120" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/90688d7b3b2440.png" class='pixelated' />
-<image id="imageFigure_5121" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/048ec8bf975ff6.png" class='pixelated' />
-<image id="imageFigure_5122" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/2365aeff1216732.png" class='pixelated' />
-<image id="imageFigure_5123" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/fd592e2f1e88288.png" class='pixelated' />
-<image id="imageFigure_5124" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/8f02efbf1c85d99.png" class='pixelated' />
-<image id="imageFigure_5125" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/30e86635c5ac5bb.png" class='pixelated' />
-<image id="imageFigure_5126" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/407e772f28be072.png" class='pixelated' />
-<image id="imageFigure_5127" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/56cfb408276ee53.png" class='pixelated' />
-<image id="imageFigure_5128" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/c5f58728827465.png" class='pixelated' />
+<pattern id="patternFigure_5129" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5129" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5130" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5130" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5131" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5131" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5132" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5132" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5133" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5133" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5134" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5134" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5135" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5135" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5136" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5136" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5137" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5137" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5138" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5138" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5139" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5139" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5140" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5140" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5141" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5141" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5142" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5142" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5143" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5143" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5144" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5144" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5145" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5145" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5146" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5146" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5147" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5147" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5148" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5148" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5149" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5149" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5150" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5150" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5151" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5151" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5152" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5152" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5153" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5153" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5154" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5154" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5155" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5155" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5156" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5156" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5157" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5157" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5158" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5158" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5159" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5159" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5160" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5160" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5161" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5161" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5162" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5162" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5163" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5163" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5164" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5164" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5165" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5165" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5166" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5166" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5167" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5167" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5168" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5168" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5169" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5169" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5170" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5170" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5171" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5171" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5172" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5172" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5173" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5173" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5174" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5174" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5175" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5175" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<pattern id="patternFigure_5176" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageFigure_5176" transform="scale(0.01)" class='pixelated' />
+</pattern>
+<image id="imageFigure_50" data-name="imageFigure_5.png" width="2410" height="328" xlink:href="generated_images/fd2e0ce833c09.png" class='pixelated' />
+<image id="imageFigure_51" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/a54db9ff707a707.png" class='pixelated' />
+<image id="imageFigure_52" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/c4a20341d6581d.png" class='pixelated' />
+<image id="imageFigure_53" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/eaddb6823f9924.png" class='pixelated' />
+<image id="imageFigure_54" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/5f5d1ed68ecc48.png" class='pixelated' />
+<image id="imageFigure_55" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/4eaa10ddc7ddd19.png" class='pixelated' />
+<image id="imageFigure_56" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/47e88d0437a48f.png" class='pixelated' />
+<image id="imageFigure_57" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/b7731028d4afa71.png" class='pixelated' />
+<image id="imageFigure_58" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/dda84048b2dd97.png" class='pixelated' />
+<image id="imageFigure_59" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/f112aed701bc02.png" class='pixelated' />
+<image id="imageFigure_510" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/b9f37b128caa51.png" class='pixelated' />
+<image id="imageFigure_511" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/89ec7c1feafcc0.png" class='pixelated' />
+<image id="imageFigure_512" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/7e5e6f2fd60875.png" class='pixelated' />
+<image id="imageFigure_513" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/35365c2e5b86eba.png" class='pixelated' />
+<image id="imageFigure_514" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/f9b08a93f38eae9.png" class='pixelated' />
+<image id="imageFigure_515" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/5bf3c3fe286368.png" class='pixelated' />
+<image id="imageFigure_516" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/360945eed3700c.png" class='pixelated' />
+<image id="imageFigure_517" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/99fd87ba926109.png" class='pixelated' />
+<image id="imageFigure_518" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/9484d364a0a154.png" class='pixelated' />
+<image id="imageFigure_519" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/e3b0349ae5da4b.png" class='pixelated' />
+<image id="imageFigure_520" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/9a5a95c4f718ef8.png" class='pixelated' />
+<image id="imageFigure_521" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/e6dc84082ff9f1b.png" class='pixelated' />
+<image id="imageFigure_522" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/77275cc8a45b2a.png" class='pixelated' />
+<image id="imageFigure_523" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/be9709d7a9356c.png" class='pixelated' />
+<image id="imageFigure_524" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/ab11900e7d05eb7.png" class='pixelated' />
+<image id="imageFigure_525" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/7840db8f493758.png" class='pixelated' />
+<image id="imageFigure_526" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/68d6977d3fe5de.png" class='pixelated' />
+<image id="imageFigure_527" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/c871932f3dbcbf.png" class='pixelated' />
+<image id="imageFigure_528" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/796ae3113360ff.png" class='pixelated' />
+<image id="imageFigure_529" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/18634a067054c3.png" class='pixelated' />
+<image id="imageFigure_530" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/b3e4f110506202.png" class='pixelated' />
+<image id="imageFigure_531" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/7b984d290aa653.png" class='pixelated' />
+<image id="imageFigure_532" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/b23a09e103586d.png" class='pixelated' />
+<image id="imageFigure_533" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/e24d0dcba1593c1.png" class='pixelated' />
+<image id="imageFigure_534" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/5d2406993d291e.png" class='pixelated' />
+<image id="imageFigure_535" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/9ac9c7611b4bea.png" class='pixelated' />
+<image id="imageFigure_536" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/5e03fd1e2f16ce.png" class='pixelated' />
+<image id="imageFigure_537" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/36c09be62a02950.png" class='pixelated' />
+<image id="imageFigure_538" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/0f229ff6c3f08f.png" class='pixelated' />
+<image id="imageFigure_539" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/4aefa7be137017.png" class='pixelated' />
+<image id="imageFigure_540" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/af33d8e578c518c.png" class='pixelated' />
+<image id="imageFigure_541" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/3437204ec20c8c5.png" class='pixelated' />
+<image id="imageFigure_542" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/017fb66a3d071a.png" class='pixelated' />
+<image id="imageFigure_543" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/5433acc3ecf4fd5.png" class='pixelated' />
+<image id="imageFigure_544" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/94d0dfa18c41a.png" class='pixelated' />
+<image id="imageFigure_545" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/440b90954b49a1.png" class='pixelated' />
+<image id="imageFigure_546" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/b2bdaedd83b7e4.png" class='pixelated' />
+<image id="imageFigure_547" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/d6435f52aee11b7.png" class='pixelated' />
+<image id="imageFigure_548" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/13a0d93babc451.png" class='pixelated' />
+<image id="imageFigure_549" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/d8c3d2c10393fc.png" class='pixelated' />
+<image id="imageFigure_550" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/b66269b3d0f609.png" class='pixelated' />
+<image id="imageFigure_551" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/8d970b4786547dc.png" class='pixelated' />
+<image id="imageFigure_552" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/bd0b1d5eb106d4.png" class='pixelated' />
+<image id="imageFigure_553" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/4b310b3333ce95.png" class='pixelated' />
+<image id="imageFigure_554" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/639436eb5b556de.png" class='pixelated' />
+<image id="imageFigure_555" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/640be8cf65a69ac.png" class='pixelated' />
+<image id="imageFigure_556" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/9ed80b0deba3060.png" class='pixelated' />
+<image id="imageFigure_557" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/c6aa009813c5ac.png" class='pixelated' />
+<image id="imageFigure_558" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/d700470c4a3aaee.png" class='pixelated' />
+<image id="imageFigure_559" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/5dfe2365e9958f.png" class='pixelated' />
+<image id="imageFigure_560" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/141fdf97c91a07.png" class='pixelated' />
+<image id="imageFigure_561" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/e5854567707e6.png" class='pixelated' />
+<image id="imageFigure_562" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/add59ed2045b256.png" class='pixelated' />
+<image id="imageFigure_563" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/39216826eb08630.png" class='pixelated' />
+<image id="imageFigure_564" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/cb6542670ce4a5.png" class='pixelated' />
+<image id="imageFigure_565" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/ecec175cb7d8de2.png" class='pixelated' />
+<image id="imageFigure_566" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/86c223d7c68f54.png" class='pixelated' />
+<image id="imageFigure_567" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/e37596b9fd5c0c.png" class='pixelated' />
+<image id="imageFigure_568" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/0cc7765acd3c88.png" class='pixelated' />
+<image id="imageFigure_569" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/2c5ecbea3c6ef6.png" class='pixelated' />
+<image id="imageFigure_570" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/ff3e4696ca3f2d.png" class='pixelated' />
+<image id="imageFigure_571" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/7b99eccf17123d.png" class='pixelated' />
+<image id="imageFigure_572" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/d53e753ce4d07a.png" class='pixelated' />
+<image id="imageFigure_573" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/96014d4a10cbc5d.png" class='pixelated' />
+<image id="imageFigure_574" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/c012a1b4688b919.png" class='pixelated' />
+<image id="imageFigure_575" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/c6f001bccb4a069.png" class='pixelated' />
+<image id="imageFigure_576" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/368c196e12c9136.png" class='pixelated' />
+<image id="imageFigure_577" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/a3c67cb89259419.png" class='pixelated' />
+<image id="imageFigure_578" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/3e9665750926347.png" class='pixelated' />
+<image id="imageFigure_579" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/9e2fa25f6cb7576.png" class='pixelated' />
+<image id="imageFigure_580" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/547f4ac20f2aa4.png" class='pixelated' />
+<image id="imageFigure_581" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/3be4ae8fdb1403.png" class='pixelated' />
+<image id="imageFigure_582" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/b7584fe1cfc2877.png" class='pixelated' />
+<image id="imageFigure_583" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/f4da4781932cc6.png" class='pixelated' />
+<image id="imageFigure_584" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/786709c6cafb24.png" class='pixelated' />
+<image id="imageFigure_585" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/aade47fc773418.png" class='pixelated' />
+<image id="imageFigure_586" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/63a7bbbd3e09a63.png" class='pixelated' />
+<image id="imageFigure_587" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/eface106e75066.png" class='pixelated' />
+<image id="imageFigure_588" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/11e69cd7aef52d.png" class='pixelated' />
+<image id="imageFigure_589" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/599c6d8c497cd0.png" class='pixelated' />
+<image id="imageFigure_590" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/55bc1634d3bf5b.png" class='pixelated' />
+<image id="imageFigure_591" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/0543ebf875c3c5.png" class='pixelated' />
+<image id="imageFigure_592" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/3ad8529fa8e7c08.png" class='pixelated' />
+<image id="imageFigure_593" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/17e92d3c6d769cf.png" class='pixelated' />
+<image id="imageFigure_594" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/36f7f9220ff03e.png" class='pixelated' />
+<image id="imageFigure_595" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/febc36ef650d0da.png" class='pixelated' />
+<image id="imageFigure_596" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/47e141a5647459.png" class='pixelated' />
+<image id="imageFigure_597" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/2d49d5bed2cb20.png" class='pixelated' />
+<image id="imageFigure_598" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/7f160b0518931d7.png" class='pixelated' />
+<image id="imageFigure_599" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/3e79fab0f87cedf.png" class='pixelated' />
+<image id="imageFigure_5100" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/bf389174a8a54d9.png" class='pixelated' />
+<image id="imageFigure_5101" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/899c47e8f5f6ca9.png" class='pixelated' />
+<image id="imageFigure_5102" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/858a141d48d121.png" class='pixelated' />
+<image id="imageFigure_5103" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/4151c9a34f8023c.png" class='pixelated' />
+<image id="imageFigure_5104" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/32e9cb2b5b861bf.png" class='pixelated' />
+<image id="imageFigure_5105" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/e6c3f04c01ee32.png" class='pixelated' />
+<image id="imageFigure_5106" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/abb077d19b6d88.png" class='pixelated' />
+<image id="imageFigure_5107" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/a5b3a7a9f3cada9.png" class='pixelated' />
+<image id="imageFigure_5108" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/090385ebab5b5c.png" class='pixelated' />
+<image id="imageFigure_5109" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/b3ffda8054d41e.png" class='pixelated' />
+<image id="imageFigure_5110" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/02967ab8b78871.png" class='pixelated' />
+<image id="imageFigure_5111" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/67449702c7451fa.png" class='pixelated' />
+<image id="imageFigure_5112" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/d247ef7ff9f614.png" class='pixelated' />
+<image id="imageFigure_5113" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/b837002f3361860.png" class='pixelated' />
+<image id="imageFigure_5114" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/2b3799cbb1e561.png" class='pixelated' />
+<image id="imageFigure_5115" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/a89b3d9ce00cd1.png" class='pixelated' />
+<image id="imageFigure_5116" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/e066e069fe21d3.png" class='pixelated' />
+<image id="imageFigure_5117" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/e34e13d87c627d.png" class='pixelated' />
+<image id="imageFigure_5118" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/34a601c52754c8.png" class='pixelated' />
+<image id="imageFigure_5119" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/6deafc2856f1383.png" class='pixelated' />
+<image id="imageFigure_5120" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/70573971c9230a9.png" class='pixelated' />
+<image id="imageFigure_5121" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/28f70d1b8d11053.png" class='pixelated' />
+<image id="imageFigure_5122" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/b884b974dec6277.png" class='pixelated' />
+<image id="imageFigure_5123" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/da135c10dd01fd.png" class='pixelated' />
+<image id="imageFigure_5124" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/7c9e798665be55.png" class='pixelated' />
+<image id="imageFigure_5125" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/2b416a3d5faca6d.png" class='pixelated' />
+<image id="imageFigure_5126" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/1dcc26d2291e4e9.png" class='pixelated' />
+<image id="imageFigure_5127" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/8a0197220c05d8.png" class='pixelated' />
+<image id="imageFigure_5128" data-name="imageFigure_5.png" width="60" height="60" xlink:href="generated_images/015ed3f452c1fa.png" class='pixelated' />
+<image id="imageFigure_5129" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/2289eff36da0099.png" class='pixelated' />
+<image id="imageFigure_5130" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/2ab39f608edc142.png" class='pixelated' />
+<image id="imageFigure_5131" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/03d1fd23b07300.png" class='pixelated' />
+<image id="imageFigure_5132" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/91e3281c0ff04f.png" class='pixelated' />
+<image id="imageFigure_5133" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/ed8d197454ca7.png" class='pixelated' />
+<image id="imageFigure_5134" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/23eb24ba1438984.png" class='pixelated' />
+<image id="imageFigure_5135" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/c123216832cfdd4.png" class='pixelated' />
+<image id="imageFigure_5136" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/082c927d0c698a1.png" class='pixelated' />
+<image id="imageFigure_5137" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/0dcc6e11132945e.png" class='pixelated' />
+<image id="imageFigure_5138" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/7f89ec62651ffb.png" class='pixelated' />
+<image id="imageFigure_5139" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/40380d2d1cc5646.png" class='pixelated' />
+<image id="imageFigure_5140" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/4c0e5df333cebed.png" class='pixelated' />
+<image id="imageFigure_5141" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/ea09e6e6cb4f7f.png" class='pixelated' />
+<image id="imageFigure_5142" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/52876577153b01.png" class='pixelated' />
+<image id="imageFigure_5143" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/972cd44473e729e.png" class='pixelated' />
+<image id="imageFigure_5144" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/31a3998fc647d9.png" class='pixelated' />
+<image id="imageFigure_5145" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/9e77d5a7d8b84a.png" class='pixelated' />
+<image id="imageFigure_5146" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/4d8bc9d0dd569b.png" class='pixelated' />
+<image id="imageFigure_5147" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/b3bd16fcf60d23f.png" class='pixelated' />
+<image id="imageFigure_5148" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/e90e45cbc9ec97.png" class='pixelated' />
+<image id="imageFigure_5149" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/8cd8f48ee0cc3d.png" class='pixelated' />
+<image id="imageFigure_5150" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/31fd315ce950951.png" class='pixelated' />
+<image id="imageFigure_5151" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/bcbbf3c29c6728d.png" class='pixelated' />
+<image id="imageFigure_5152" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/d0eb252c230e34.png" class='pixelated' />
+<image id="imageFigure_5153" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/cd93be93cb7763.png" class='pixelated' />
+<image id="imageFigure_5154" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/fe76d4d0bc7aad7.png" class='pixelated' />
+<image id="imageFigure_5155" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/b037968570d572.png" class='pixelated' />
+<image id="imageFigure_5156" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/30af8b41867f3ad.png" class='pixelated' />
+<image id="imageFigure_5157" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/6ec5990abfbd8d4.png" class='pixelated' />
+<image id="imageFigure_5158" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/4a3aaf24d71eac3.png" class='pixelated' />
+<image id="imageFigure_5159" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/25148bee766203.png" class='pixelated' />
+<image id="imageFigure_5160" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/8578ab7a507a6.png" class='pixelated' />
+<image id="imageFigure_5161" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/d834f5b816e0f1.png" class='pixelated' />
+<image id="imageFigure_5162" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/fd18e43af7e6a2a.png" class='pixelated' />
+<image id="imageFigure_5163" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/920d0f712a147e0.png" class='pixelated' />
+<image id="imageFigure_5164" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/99814d0404f82.png" class='pixelated' />
+<image id="imageFigure_5165" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/f9b8c9e650c90a8.png" class='pixelated' />
+<image id="imageFigure_5166" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/4b733776c0afe5.png" class='pixelated' />
+<image id="imageFigure_5167" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/d18b948822dd43.png" class='pixelated' />
+<image id="imageFigure_5168" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/ccf3963361013b4.png" class='pixelated' />
+<image id="imageFigure_5169" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/4955a97e258182.png" class='pixelated' />
+<image id="imageFigure_5170" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/af433b718111ab.png" class='pixelated' />
+<image id="imageFigure_5171" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/c4fadfd57e24ac0.png" class='pixelated' />
+<image id="imageFigure_5172" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/8fcc157923c4035.png" class='pixelated' />
+<image id="imageFigure_5173" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/020bcca850c25.png" class='pixelated' />
+<image id="imageFigure_5174" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/d202d00b6b324e.png" class='pixelated' />
+<image id="imageFigure_5175" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/aa8e02aacf88932.png" class='pixelated' />
+<image id="imageFigure_5176" data-name="imageFigure_5.png" width="100" height="100" xlink:href="generated_images/22e02199c8776ec.png" class='pixelated' />
 </defs>
 </svg>
 
@@ -1506,20 +1859,11 @@
       </figcaption>
     </figure>
 
-    <ul>
-      <li>
-        <code>mixed3a_5x5</code>:
-        The 5x5 branch of mixed3a, a relatively early layer, is specialized on color detection. For example, all 9 of the black-and-white vs. color detectors are in this branch, despite it only being 32 of this layer's 256 neurons. The probability of that happening by chance is less than 1/10<sup>8</sup>.
-      </li>
-      <li>
-        <code>mixed3b_5x5</code>:
-        This branch contains all 30 of the curve-related features for this layer (all curves, double curves, circles, spirals, S-shaped features, and more), despite only being 96 of the 480 neurons in this layer. The probability of that happening by chance is less than 1/10<sup>20</sup>. Many of the other neurons in this branch are boundary detectors, which often partly rely on curves if they are detecting curve boundaries.
-      </li>
-      <li>
-        <code>mixed4a_5x5</code>:
-        This branch appears to be specialized in complex shapes and 3D geometry detectors. We don't have enough of a full taxonomy of this layer to allow for a quantitative assessment.
-      </li>
-    </ul>
+    <p>
+      This is exceptionally unlikely to have occurred by chance.
+
+      For example, all 9 of the black and white vs. color detectors in <code>mixed3a</code> are in <code>mixed3a_5x5</code>, despite it only being 32 out of the 256 neurons in the layer. The probability of that happening by chance is less than 1/10<sup>8</sup>. For a more extreme example, all 30 of the curve-related features in <code>mixed3b</code> are in <code>mixed3b_5x5</code>, despite it being only 96 out of the 480 neurons in the layer. The probability of that happening by chance is less than 1/10<sup>20</sup>.
+
 
     <p>
       It's worth noting one confounding factor which might be influencing the specialization. The 5x5 branches are the smallest branches, but also have larger convolutions (5x5 instead of 3x3 or 1x1) than their neighbors.<d-footnote>There is something which suggests that the branching plays an essential role: mixed3a and mixed3b are adjacent layers which contain relatively similar features and are at the same scale. If it was only about convolution size, why don't we see any curves in the <code>mixed3a_5x5</code> branch or color in the <code>mixed3b_5x5</code> branch?</d-footnote>
@@ -1543,8 +1887,12 @@
       One hypothesis seems very tempting. Notice that many of the same features seem to form in branched models as form in normal, non-branched models. For example, the first layer of both branched and non-branched models contain Gabor filters and color features. If the same features exist, presumably the same weights exist between them.
     </p>
 
+
+
     <p>
-      Could it be that branching is just surfacing a structure that already exists? Perhaps there's two different subgraphs between the weights of the first and second conv layer in a normal model, with relatively small weights between them, and that when you train a branched model these two subgraphs latch onto the branches.
+      Could it be that branching is just surfacing a structure that already exists? Perhaps there's two different subgraphs between the weights of the first and second conv layer in a normal model, with relatively small weights between them, and when you train a branched model these two subgraphs latch onto the branches.
+
+      (This would be directionally similar to work finding modular substructures<d-cite bibtex-key="filan2020neural,csordas2020neural"></d-cite> within neural networks.)
     </p>
 
     <p>
@@ -1552,7 +1900,7 @@
     </p>
 
     <p>
-      Sure enough, the singular vector (the largest factor of variation) of the first two convolutional layers of InceptionV1 is color.
+      Sure enough, the singular vector (the largest factor of variation) of the weights between the first two convolutional layers of InceptionV1 is color.
     </p>
 
     <figure id="figure-6"  style="grid-column-start: page-start;">
@@ -1611,16 +1959,17 @@
 <pattern id="patternFigure_63" patternContentUnits="objectBoundingBox" width="1" height="1">
 <use xlink:href="#imageFigure_63" transform="scale(0.00171527)" class='pixelated' />
 </pattern>
-<image id="imageFigure_60" width="1418" height="1424" xlink:href="generated_images/808011ef2c97e9.png" class='pixelated' />
-<image id="imageFigure_61" width="1422" height="1422" xlink:href="generated_images/40e1811a64067f.png" class='pixelated' />
-<image id="imageFigure_62" width="580" height="585" xlink:href="generated_images/22e465a974202b.png" class='pixelated' />
-<image id="imageFigure_63" width="583" height="583" xlink:href="generated_images/23969ed7e3b7f6d.png" class='pixelated' />
+<image id="imageFigure_60" width="1418" height="1424" xlink:href="generated_images/012716d976b4a.png" class='pixelated' />
+<image id="imageFigure_61" width="1422" height="1422" xlink:href="generated_images/ae2faaf2ed7a9ca.png" class='pixelated' />
+<image id="imageFigure_62" width="580" height="585" xlink:href="generated_images/a27d536abe94b5.png" class='pixelated' />
+<image id="imageFigure_63" width="583" height="583" xlink:href="generated_images/995814090c386b5.png" class='pixelated' />
 </defs>
 </svg>
 
       <figcaption class="figcaption l-body">
         <p>
-          <a href="#figure-6" class="figure-number">6</a>. Singular vectors for the first and second convolutional layers of InceptionV1, trained on ImageNet (above) or Places365 (below).
+          <a href="#figure-6" class="figure-number">6</a>. Singular vectors for the first and second convolutional layers of InceptionV1, trained on ImageNet (above) or Places365 (below). One can think of neurons being plotted closer together in this diagram as meaning they likely tend to connect to similar neurons.
+
         </p>
       </figcaption>
     </figure>
@@ -1637,7 +1986,7 @@
       <img src="images/Figure_7.png" style="max-width: 100%; width: auto;" />
       <figcaption class="figcaption l-body">
         <p>
-          <a href="#figure-7" class="figure-number">7</a>. [[TODO: What model is this from??]].
+          <a href="#figure-7" class="figure-number">7</a>. We constructed a small ImageNet model with the first layer split into four branches. The rest of the model is roughly an InceptionV1 architecture.
         </p>
       </figcaption>
     </figure>
@@ -1646,11 +1995,15 @@
 
 
     <p>
-      We've shown that branch specialization is one example of a large-scale structure to how neural networks operate, an example of a structural phenomenon. It happens in a variety of situations and neural network architectures, and it happens with <i>consistency</i> &ndash; certain motifs of specialization, such as color, frequency, and curves, happen consistently across different architectures and tasks.
+      We've shown that branch specialization is one example of a structural phenomenon &mdash; a larger-scale structure in a neural network. It happens in a variety of situations and neural network architectures, and it happens with <i>consistency</i> &ndash; certain motifs of specialization, such as color, frequency, and curves, happen consistently across different architectures and tasks.
     </p>
 
     <p>
-      Harkening back to our comparison with anatomy, although we hesitate to claim explicit parallels to neuroscience, it's tempting to draw analogies between branch specialization and the existence of regions of the brain focused on particular tasks. The visual cortex, the auditory cortex, the anatomical homunculus[], Broca's area and Wernicke's area  – these are all examples of brain areas with such consistent specialization across wide populations of people that neuroscientists and psychologists have been able to characterize their function as well as to notice remarkably consistent symptoms, such as those of Wernicke's aphasia, when those areas are damaged.
+      Harkening back to our comparison with anatomy, although we hesitate to claim explicit parallels to neuroscience, it's tempting to draw analogies between branch specialization and the existence of regions of the brain focused on particular tasks. The visual cortex, the auditory cortex, Broca's area and Wernicke's area  – these are all examples of brain areas with such consistent specialization across wide populations of people that neuroscientists and psychologists have been able to characterize as having remarkably consistent functions.
+
+      Sensations in the human body map so consistently onto the parietal lobe that it is often characterized as a <a href="https://en.wikipedia.org/wiki/Cortical_homunculus">cortical homunculus</a>. There's significant interest in using artificial neural networks to advance neuroscience. We wonder if the automatic emergence of branch specialization could be a helpful model for
+
+      As researchers without expertise in neuroscience, we're uncertain how useful this connection is, but it may be worth considering whether branch specialization can be a useful model of how specialization might emerge in biological neural networks.
     </p>
   </d-article>
 
